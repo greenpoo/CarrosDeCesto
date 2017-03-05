@@ -1,5 +1,5 @@
 #Greenfoot properties
-#Sun Mar 05 16:37:55 GMT 2017
+#Sun Mar 05 17:15:05 GMT 2017
 target24.type=ClassTarget
 target16.name=Player1
 class.ArrowL.superclass=CarSelect
@@ -130,7 +130,7 @@ dependency50.type=UsesDependency
 target13.type=ClassTarget
 dependency41.to=PimpMyCesto
 target27.typeParameters=
-world.lastInstantiated=MainMenu
+world.lastInstantiated=WinnerLoserScreen
 target23.y=0
 target23.x=0
 target32.name=RaceMode
@@ -215,6 +215,7 @@ class.Player1.superclass=CarrosCesto
 dependency60.to=MuteButton
 target26.y=0
 target26.x=0
+class.Return.superclass=MainMenuItems
 dependency10.from=GameModeMenu
 class.MainMenu.image=main_menu.png
 target4.type=ClassTarget
@@ -457,6 +458,7 @@ dependency6.to=CarrosCesto
 dependency41.from=PlayButton
 target24.typeParameters=
 target4.width=120
+class.Return.image=RETURNBUTTON.png
 target38.showInterface=false
 target2.name=ExitButton
 dependency7.type=UsesDependency

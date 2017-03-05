@@ -13,8 +13,8 @@ public class MainMenu extends World
     public void prepare()
     {
         bailinhoMuted = false;
-        addObject(new PlayButton(),300,215);
-        addObject(new ExitButton(),300,335);
+        addObject(new PlayButton(),300,175);
+        addObject(new ExitButton(),300,300);
         addObject(MuteButton,35,365);
         //okfsfsjadfkasjflkasf
     }
