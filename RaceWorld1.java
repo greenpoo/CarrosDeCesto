@@ -6,6 +6,7 @@ public class RaceWorld1 extends World
     {    
         super(600, 400, 1);
         prepare();
+        setPaintOrder(Player1.class,Player2.class,Wall.class,FinishLine.class);
     }
     public void act()
     {
