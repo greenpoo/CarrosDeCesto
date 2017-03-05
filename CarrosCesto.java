@@ -3,21 +3,18 @@ import java.time.Instant;
 import java.time.Duration;
 public class CarrosCesto extends Actor
 {
+    public static GreenfootSound crash = new GreenfootSound("crash.mp3");
     private Instant past = Instant.now();
     private float x = 0;
     private float y = 0;
-    
     public void physicsAct(long delta) 
     {        
     }
-    
     public final void act() {
         Instant now = Instant.now();
-        physicsAct(Duration.between(past, now).getSeconds());
+        physicsAct(Duration.between(past, now).toMillis());
         past = now;
     }
-    
-    public static GreenfootSound crash = new GreenfootSound("crash.mp3");
     /**
      * FALTA:
      * - DISPARAR BOLOS DE MEL (+DAMAGE,-RATEOFFIRE)
@@ -36,26 +33,23 @@ public class CarrosCesto extends Actor
         else
             return CarBoost;
     }
+    
     public int turnAtEdge(int CarHealth,double CarBoost)
     {
         if(isAtEdge())
         {
            crash.play();
-           if(Greenfoot.getRandomNumber(2) == 1)
-                turn(110-Greenfoot.getRandomNumber(40));
-           else
-                turn(Greenfoot.getRandomNumber(40)-110);
-            
            if(CarBoost > 0)
            {
-                move(10);
+                move(-10);
                 return CarHealth - 6;
            }
            else
            {
-                move(5);
+                move(-5);
                 return CarHealth - 2;
            }
+           
         }
         else
             return CarHealth;
@@ -84,19 +78,19 @@ public class CarrosCesto extends Actor
         CarrosCesto carro = (CarrosCesto) getOneIntersectingObject(CarrosCesto.class);
         if(carro != null)
         {
-            crash.play();
-            if(Greenfoot.getRandomNumber(2) == 1)
+           crash.play();
+           if(Greenfoot.getRandomNumber(2) == 1)
                 turn(10-Greenfoot.getRandomNumber(5));
-            else
+           else
                 turn(Greenfoot.getRandomNumber(5)-10);
-            if(CarBoost > 0)
+           if(CarBoost > 0)
            {
-                move(15);
+                move(-15);
                 return CarHealth - 12;
            }
            else
            {
-                move(5);
+                move(-5);
                 return CarHealth - 4;
            }
         }
