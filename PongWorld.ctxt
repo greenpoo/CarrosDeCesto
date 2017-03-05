@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=PongWorld
+comment1.params=
+comment1.target=PongWorld()
+comment2.params=
+comment2.target=void\ act()
+comment3.params=
+comment3.target=void\ prepare()
+comment4.params=
+comment4.target=void\ criarBola()
+comment5.params=
+comment5.target=void\ playBGM()
+numComments=6

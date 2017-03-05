@@ -1,0 +1,39 @@
+import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+
+/**
+ * Write a description of class Player1 here.
+ * 
+ * @author (your name) 
+ * @version (a version number or a date)
+ */
+public class Player1 extends CarrosCesto
+{
+    /**
+     * Act - do whatever the Player1 wants to do. This method is called whenever
+     * the 'Act' or 'Run' button gets pressed in the environment.
+     */
+    public void act() 
+    {
+        movePlayer();
+        rotatePlayer();
+        
+        CarBoost = regulateCarSpeed(CarBoost);
+        CarBoost = pickBoost(CarBoost);
+        CarHealth = turnAtEdge(CarHealth,CarBoost);
+        CarHealth = touchBarrel(CarHealth);
+        CarHealth = checkCarCollision(CarHealth,CarBoost);
+    }
+    public void movePlayer()
+    {
+        if(Greenfoot.isKeyDown("w"))
+            move(CarBoost/40 + 5);
+    }
+    public void rotatePlayer()
+    {
+        if(Greenfoot.isKeyDown("a"))
+            turn(-5);
+        else
+            if(Greenfoot.isKeyDown("d"))
+                turn(5);
+    }
+}

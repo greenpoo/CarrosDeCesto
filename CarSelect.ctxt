@@ -1,0 +1,5 @@
+#BlueJ class context
+comment0.target=CarSelect
+comment1.params=CurrentImage
+comment1.target=void\ replaceImage(int)
+numComments=2
