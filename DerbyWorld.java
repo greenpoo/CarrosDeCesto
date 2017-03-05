@@ -13,7 +13,7 @@ public class DerbyWorld extends World
     }    
     public void act()
     {
-        playBGM();
+       // playBGM();
         generateBarrels(); 
         generateBoostPickups();     
         checkPlayer1Health();

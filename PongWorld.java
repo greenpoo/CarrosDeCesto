@@ -9,6 +9,7 @@ public class PongWorld extends World
     {   
         super(600, 400, 1);
         prepare();
+       
         criarBola();
     }
     public void act()
@@ -16,6 +17,7 @@ public class PongWorld extends World
        // playBGM();
     }
     public void prepare()
+   
     {
         player1=new PongPlayer1();
         player2=new PongPlayer2();
@@ -29,11 +31,13 @@ public class PongWorld extends World
     public void criarBola(){
         Bola bola=new Bola();
         addObject(bola,getWidth()/2,300-Greenfoot.getRandomNumber(200));
+        bola.initWorldSize(this);
+        /*
         if(Greenfoot.getRandomNumber(2)==0)
             bola.setRotation(91+Greenfoot.getRandomNumber(180));
         else 
             bola.setRotation(89-Greenfoot.getRandomNumber(180));
-        
+        */
             
     }
     private void playBGM()
