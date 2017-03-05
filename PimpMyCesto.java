@@ -35,4 +35,5 @@ public class PimpMyCesto extends World
     {
         Greenfoot.setWorld(new GameModeMenu());
     }
+    // public void chooseImage() 
 }
