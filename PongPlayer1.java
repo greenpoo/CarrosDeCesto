@@ -8,10 +8,10 @@ public class PongPlayer1 extends PongMode
     private void movePongPlayer1()
     {
         if(Greenfoot.isKeyDown("w"))
-            setLocation(getX(),getY()-10);
+            setLocation(getX(),getY()-8);
         else
             if(Greenfoot.isKeyDown("s"))
-                setLocation(getX(),getY()+10);
+                setLocation(getX(),getY()+8);
         return;
     }
 }

@@ -2,6 +2,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 public class Bola extends PongMode
 {
+    
+    private double speed=3;
+    private int xTocar = 0;
     public void act() 
     {
         mexe();
@@ -9,10 +12,12 @@ public class Bola extends PongMode
         isAtCesto();
         isGoal();
     }    
+    
     private void mexe()
     {
-        move(10);
+        move((int)speed);
     }
+    
     private void limiteMundo(){
         if(getY()==getWorld().getHeight()-1||getY()==0)
         {
@@ -33,7 +38,11 @@ public class Bola extends PongMode
                 if(getRotation() > 270 || (getRotation() > 90 && getRotation() < 180))
                     turn(-80-Greenfoot.getRandomNumber(20));
             }
-           move(10);
+          
+            if(speed<=6)
+                speed=1.1*speed;
+             
+            xTocar++;
         }
         
     }
@@ -46,4 +55,9 @@ public class Bola extends PongMode
            getWorld().removeObject(this);
         }
     }
+    
+    private void score(){
+    
+    }
+    
 }
