@@ -1,9 +1,0 @@
-#BlueJ class context
-comment0.target=Player2
-comment1.params=delta
-comment1.target=void\ physicsAct(long)
-comment2.params=
-comment2.target=void\ movePlayer2()
-comment3.params=
-comment3.target=void\ rotatePlayer2()
-numComments=4
