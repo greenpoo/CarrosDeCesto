@@ -30,13 +30,11 @@ public class PhysicsActor extends Actor {
 		Vector2D v = _p.scale( 1.0  / _mass ),
 						 dr = v.scale(dt);
 
-		dr = collideWithWalls(dr, v);
-
-		_r = _r.add(dr);
+		collideWithWalls(dr, v);
 	}
 
 	// returns new dr
-	private final Vector2D collideWithWalls(Vector2D dr, Vector2D v) {
+	private final void collideWithWalls(Vector2D dr, Vector2D v, double dt) {
 		double rx = _r.getX(),
 					 ry = _r.getY(),
 					 vx = v.getX(),
@@ -47,30 +45,33 @@ public class PhysicsActor extends Actor {
 					 hdy = _hd.getY();
 
 		double tup = (hdy - ry) * ivy;
-		if (tup > 0) {
+		if (tup > 0 && tup <= dt) {
 			vy = -vy;
 			y = hdy + vy * (dt - tup);
 		} else {
 			double ay = PhysicsWorld.MAP_HEIGHT - hdy;
 			double tdown = (ay - ry) * ivy;
-			if (tdown > 0) {
+			if (tdown > 0 && tdown <= dt) {
 				vy = -vy;
 				y = ay + vy * (dt - tdown);
-			}
+			} else y = _r.getY();
 		}
 
 		double tleft = (hdx - rx) * ivx;
-		if (tleft > 0) {
+		if (tleft > 0 && tleft <= dt) {
 			vx = -vx;
 			x = hdx + vx * (dt - tleft);
 		} else {
-			double ax = PhysicsWorld.MapWidth - hdx;
+			double ax = PhysicsWorld.MAP_WIDTH - hdx;
 			double tright = (ax - rx) * ivx;
-			if (tright > 0) {
+			if (tright > 0 && tright <= dt) {
 				vx = -vx;
 				x = ax + vx * (dt - tright);
-			}
+			} else x = _r.getX();
 		}
+
+		_r = new Vector2D(x, y);
+		_p = (new Vector2D(vx, vy)).scale(_mass);
 	}
 
 	protected final void drawInto(GreenfootImage i) {
