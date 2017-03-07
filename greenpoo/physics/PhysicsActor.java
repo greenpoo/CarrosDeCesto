@@ -22,7 +22,10 @@ public class PhysicsActor extends Actor {
 		_r = r;
 	}
 
-	public Vector2D physicsAct() {}
+	// please override / implementation TODO
+	public Vector2D physicsAct() {
+		return Vector2D.NULL;
+	}
 
 	protected final void physicsUpdate(double dt) {
 		_p = _p.add(physicsAct().scale(dt));
@@ -53,7 +56,7 @@ public class PhysicsActor extends Actor {
 			}
 		}
 
-		protected Boolean getVS() {
+		protected int getVS() {
 			return _vs;
 		}
 
@@ -72,7 +75,7 @@ public class PhysicsActor extends Actor {
 		CollisionResult tb = new CollisionResult(hdy, PhysicsWorld.MAP_HEIGHT - hdy, vy, _r.getY(), dt),
 										lr = new CollisionResult(hdx, PhysicsWorld.MAP_WIDTH - hdx, vx, _r.getX(), dt);
 
-		Vector2D v = new Vector2D(lr.getVS * vx, tb.getVS * vy);
+		v = new Vector2D(lr.getVS() * vx, tb.getVS() * vy);
 
 		_p = v.scale(_mass);
 		_r = new Vector2D(lr.getR(), tb.getR());

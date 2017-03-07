@@ -13,11 +13,10 @@ import java.time.Instant;
 import java.time.Duration;
 
 public class PhysicsWorld extends World {
+	protected static final int MAP_WIDTH = 600, MAP_HEIGHT = 400;
 
 	private static final double NEW_FPS_WEIGHT = 0.1,
 					OLD_FPS_WEIGHT = 1.0 - NEW_FPS_WEIGHT;
-
-	private static final int MAP_WIDTH = 600, MAP_HEIGHT = 400;
 
 	private Map<Integer, PhysicsActor> _actors = new TreeMap<Integer, PhysicsActor>();
 	private int _actorIds = 0;
