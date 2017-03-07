@@ -13,11 +13,12 @@ public class PongPlayer extends PhysicsActor {
 		_downkey = downkey;
 	}
 
-	public void physicsAct(double dt) {
-		double absForce = 10.0 * dt;
-		if (Greenfoot.isKeyDown(_downkey))
-			addForce(new Vector2D(0.0, absForce));
-		if (Greenfoot.isKeyDown(_upkey))
-			addForce(new Vector2D(0.0, -absForce));
+	public Vector2D physicsAct() {
+		double fy = 0;
+
+		if (Greenfoot.isKeyDown(_downkey)) fy = 10;
+		if (Greenfoot.isKeyDown(_upkey)) fy -= 10;
+
+		return new Vector2D(0.0, fy);
 	}
 }
