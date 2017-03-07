@@ -50,7 +50,6 @@ public class PhysicsWorld extends World {
 			PhysicsActor actor = entry.getValue();
 
 			actor.physicsUpdate(dt);
-
 			actor.drawInto(background);
 		}
 

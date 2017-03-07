@@ -26,52 +26,56 @@ public class PhysicsActor extends Actor {
 
 	protected final void physicsUpdate(double dt) {
 		_p = _p.add(physicsAct().scale(dt));
+		collideWithWalls(_p.scale( 1.0 / _mass ), dt);
+	}
 
-		Vector2D v = _p.scale( 1.0  / _mass ),
-						 dr = v.scale(dt);
+	private class CollisionResult {
+		private int _vs;
+		private double _x;
 
-		collideWithWalls(dr, v);
+		CollisionResult(double floor, double ceil, double v, double x, double dt) {
+			_vs = -1;
+
+			double iv = 1.0 / v,
+						 tf = (floor - x) * iv;
+
+			if (tf > 0 && tf <= dt)
+				_x = floor + v * (dt - tf);
+			else {
+				double tc = (ceil - x) * iv;
+
+				if (tc > 0 && tc <= dt)
+					_x = ceil + v * (dt - tc);
+				else {
+					_x = x + v * dt;
+					_vs = 1;
+				}
+			}
+		}
+
+		protected Boolean getVS() {
+			return _vs;
+		}
+
+		protected double getR() {
+			return _x;
+		}
 	}
 
 	// returns new dr
-	private final void collideWithWalls(Vector2D dr, Vector2D v, double dt) {
-		double rx = _r.getX(),
-					 ry = _r.getY(),
-					 vx = v.getX(),
+	private final void collideWithWalls(Vector2D v, double dt) {
+		double vx = v.getX(),
 					 vy = v.getY(),
-					 ivx = 1.0 / vx,
-					 ivy = 1.0 / vy,
 					 hdx = _hd.getX(),
 					 hdy = _hd.getY();
 
-		double tup = (hdy - ry) * ivy;
-		if (tup > 0 && tup <= dt) {
-			vy = -vy;
-			y = hdy + vy * (dt - tup);
-		} else {
-			double ay = PhysicsWorld.MAP_HEIGHT - hdy;
-			double tdown = (ay - ry) * ivy;
-			if (tdown > 0 && tdown <= dt) {
-				vy = -vy;
-				y = ay + vy * (dt - tdown);
-			} else y = _r.getY();
-		}
+		CollisionResult tb = new CollisionResult(hdy, PhysicsWorld.MAP_HEIGHT - hdy, vy, _r.getY(), dt),
+										lr = new CollisionResult(hdx, PhysicsWorld.MAP_WIDTH - hdx, vx, _r.getX(), dt);
 
-		double tleft = (hdx - rx) * ivx;
-		if (tleft > 0 && tleft <= dt) {
-			vx = -vx;
-			x = hdx + vx * (dt - tleft);
-		} else {
-			double ax = PhysicsWorld.MAP_WIDTH - hdx;
-			double tright = (ax - rx) * ivx;
-			if (tright > 0 && tright <= dt) {
-				vx = -vx;
-				x = ax + vx * (dt - tright);
-			} else x = _r.getX();
-		}
+		Vector2D v = new Vector2D(lr.getVS * vx, tb.getVS * vy);
 
-		_r = new Vector2D(x, y);
-		_p = (new Vector2D(vx, vy)).scale(_mass);
+		_p = v.scale(_mass);
+		_r = new Vector2D(lr.getR(), tb.getR());
 	}
 
 	protected final void drawInto(GreenfootImage i) {
