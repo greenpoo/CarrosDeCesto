@@ -16,8 +16,8 @@ public class PhysicsActor extends Actor {
 		setImage(_image);
 
 		_hd = new Vector2D(
-				- ((double) _image.getWidth() * 0.5),
-				- ((double) _image.getHeight() * 0.5));
+				((double) _image.getWidth() * 0.5),
+				((double) _image.getHeight() * 0.5));
 
 		_r = r;
 	}
@@ -36,8 +36,25 @@ public class PhysicsActor extends Actor {
 	}
 
 	// returns new dr
-	private final Vector2D collideWithWalls(Vector2D dr) {
+	private final Vector2D collideWithWalls(Vector2D dr, Vector2D v) {
+		double rx = _r.getX(),
+					 ry = _r.getY(),
+					 ivy = 1.0 / v.getY(),
+					 ivx = 1.0 / v.getX(),
+					 hdx = _hd.getX(),
+					 hdy = _hd.getY();
 
+		double tup = (hdy - ry) * ivy;
+		if (tup > 0) {
+		} else {
+			double tdown = (PhysicsWorld.MAP_HEIGHT - hdy - ry) * ivy;
+		}
+
+		double tleft = (hdx - rx) * ivx;
+		if (tleft > 0) {
+		} else {
+			double tright = (PhysicsWorld.MAP_WIDTH - hdx - rx) * ivx;
+		}
 	}
 
 	protected final void drawInto(GreenfootImage i) {
