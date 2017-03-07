@@ -30,7 +30,7 @@ public class PhysicsActor extends Actor {
 		Vector2D v = _p.scale( 1.0  / _mass ),
 						 dr = v.scale(dt);
 
-		dr = collideWithWalls(dr);
+		dr = collideWithWalls(dr, v);
 
 		_r = _r.add(dr);
 	}
@@ -39,21 +39,37 @@ public class PhysicsActor extends Actor {
 	private final Vector2D collideWithWalls(Vector2D dr, Vector2D v) {
 		double rx = _r.getX(),
 					 ry = _r.getY(),
-					 ivy = 1.0 / v.getY(),
-					 ivx = 1.0 / v.getX(),
+					 vx = v.getX(),
+					 vy = v.getY(),
+					 ivx = 1.0 / vx,
+					 ivy = 1.0 / vy,
 					 hdx = _hd.getX(),
 					 hdy = _hd.getY();
 
 		double tup = (hdy - ry) * ivy;
 		if (tup > 0) {
+			vy = -vy;
+			y = hdy + vy * (dt - tup);
 		} else {
-			double tdown = (PhysicsWorld.MAP_HEIGHT - hdy - ry) * ivy;
+			double ay = PhysicsWorld.MAP_HEIGHT - hdy;
+			double tdown = (ay - ry) * ivy;
+			if (tdown > 0) {
+				vy = -vy;
+				y = ay + vy * (dt - tdown);
+			}
 		}
 
 		double tleft = (hdx - rx) * ivx;
 		if (tleft > 0) {
+			vx = -vx;
+			x = hdx + vx * (dt - tleft);
 		} else {
-			double tright = (PhysicsWorld.MAP_WIDTH - hdx - rx) * ivx;
+			double ax = PhysicsWorld.MapWidth - hdx;
+			double tright = (ax - rx) * ivx;
+			if (tright > 0) {
+				vx = -vx;
+				x = ax + vx * (dt - tright);
+			}
 		}
 	}
 
