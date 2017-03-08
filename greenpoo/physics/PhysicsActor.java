@@ -43,20 +43,27 @@ public class PhysicsActor extends Actor {
 	// devolve o tempo em que a colisao ocorre
 	// ou falha no caso de nao haver colisao
 	private double timeOfCollision(double r, double w, double v, double a, double dt) throws NoCollisionException {
-		double dr = r - w;
-		double aux1 = -v / a,
-					 aux2 = Math.sqrt(v*v - 2*a*(r - w)) / a,
-					 
-					 t = aux1 - aux2;
+		if (a == 0) {
+			double t = (w - r) / v;
 
-		if (t > 0) {
-			if (t <= dt) return t;
+			if (t >= 0 && t < dt) return t;
+			throw new NoCollisionException();
+
+		} else {
+			double aux1 = -v / a,
+						 aux2 = Math.sqrt(v*v - 2*a*(r - w)) / a,
+
+						 t = aux1 - aux2;
+
+			if (t >= 0) {
+				if (t <= dt) return t;
+				throw new NoCollisionException();
+			}
+
+			t = aux1 + aux2;
+			if (t >= 0 && t <= dt) return t;
 			throw new NoCollisionException();
 		}
-		
-		t = aux1 + aux2;
-		if (t >= 0 && t <= dt) return t;
-		throw new NoCollisionException();
 	}
 
 	// devolve a posicao linear apos colisao
@@ -83,20 +90,21 @@ public class PhysicsActor extends Actor {
 	// devolve um array de doubles,
 	// 	o primeiro representa a posicao apos verificao de colisao (linear),
 	// 	o segundo o momento
-	private double[] maybeLinearCollision(double r, double floor, double ceil, double p, double f, double dt) {
-		p += f*dt;
+	private double[] maybeLinearCollision(double r, double floor, double ceil, double pi, double f, double dt) {
+		double dp = f*dt,
+					 pf = pi + dp;
 
-		double v = p / _mass,
+		double v = pi / _mass,
 					 a = f / _mass;
 
 		try {
 			r = linearCollision(r, floor, ceil, v, a, dt);
-			p = -p;
+			pf = dp - pi;
 		} catch (NoCollisionException e) {
 			r += v*dt - dt*dt*a/2;
 		}
 
-		double[] res = { r, p };
+		double[] res = { r, pf };
 		return res;
 	}
 
