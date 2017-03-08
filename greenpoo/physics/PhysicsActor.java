@@ -60,13 +60,9 @@ public class PhysicsActor extends Actor {
 
 						 t = aux1 - aux2;
 
-			// System.out.println("v: " + v + " a: " + a + " t: " + t + " dt: " + dt + " aux1: " + aux1 + " aux2: " + aux2 + " r: " + r + " w: " + w);
+			System.out.println("v: " + v + " a: " + a + " t: " + t + " dt: " + dt + " aux1: " + aux1 + " aux2: " + aux2 + " r: " + r + " w: " + w);
 
 			if (t >= 0 && t <= dt) return t;
-			// if (t >= 0) {
-			// 	if (t <= dt) return t;
-			// 	throw new NoCollisionException();
-			// }
 
 			t = aux1 + aux2;
 			if (t >= 0 && t <= dt) return t;
