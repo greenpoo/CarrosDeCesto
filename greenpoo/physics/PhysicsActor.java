@@ -12,6 +12,7 @@ public class PhysicsActor extends Actor {
 	public PhysicsActor(String filename, double mass, Vector2D r) {
 		super();
 
+		_mass = mass;
 		_image = ImageGallery.request(filename);
 		setImage(_image);
 
@@ -29,7 +30,8 @@ public class PhysicsActor extends Actor {
 
 	protected final void physicsUpdate(double dt) {
 		_p = _p.add(physicsAct().scale(dt));
-		collideWithWalls(_p.scale( 1.0 / _mass ), dt);
+		Vector2D v = _p.scale( 1.0 / _mass );
+		collideWithWalls(v, dt);
 	}
 
 	private class CollisionResult {
@@ -43,7 +45,7 @@ public class PhysicsActor extends Actor {
 			if (tf > 0 && tf <= dt) {
 				_x = floor + v * (dt - tf);
 				_vs = -1;
-					return;
+				return;
 			}
 
 			double tc = (ceil - x) * iv;
@@ -68,7 +70,10 @@ public class PhysicsActor extends Actor {
 	}
 
 	// returns new dr
-	private final void collideWithWalls(Vector2D v, double dt) {
+	private final void collideWithWalls(Vector2D v, double dt) throws ArithmeticException {
+		// double dr = _p.scale(dt / _mass);
+
+
 		double vx = v.getX(),
 					 vy = v.getY(),
 					 hdx = _hd.getX(),
@@ -78,7 +83,6 @@ public class PhysicsActor extends Actor {
 										lr = new CollisionResult(hdx, PhysicsWorld.MAP_WIDTH - hdx, vx, _r.getX(), dt);
 
 		v = new Vector2D(lr.getVS() * vx, tb.getVS() * vy);
-
 		_p = v.scale(_mass);
 		_r = new Vector2D(lr.getR(), tb.getR());
 	}

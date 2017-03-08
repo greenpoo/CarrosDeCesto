@@ -33,4 +33,8 @@ public class Vector2D {
 	public static Vector2D random() {
 		return new Vector2D(rand.nextDouble(), rand.nextDouble());
 	}
+
+	public String toString() {
+		return "(" + _x + ", " + _y + ")";
+	}
 }
