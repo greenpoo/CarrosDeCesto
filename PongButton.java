@@ -1,4 +1,7 @@
+import pong.PongWorld;
+
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+
 public class PongButton extends GameModeSelect
 {
     public void act() 
