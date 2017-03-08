@@ -26,6 +26,10 @@ public class Vector2D {
 		return new Vector2D(_x * s, _y * s);
 	}
 
+	public Vector2D subtract(Vector2D dr) {
+		return add(dr.scale(-1));
+	}
+
 	public Vector2D scale2D(Vector2D other) {
 		return new Vector2D(_x * other.getX(), _y * other.getY());
 	}

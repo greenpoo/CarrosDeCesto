@@ -7,12 +7,14 @@ import greenfoot.GreenfootImage;
 public class PhysicsActor extends Actor {
 	private GreenfootImage _image;
 	private Vector2D _r, _p = Vector2D.NULL, _hd;
-	private double _mass;
+	private double _mass, _imass;
 
 	public PhysicsActor(String filename, double mass, Vector2D r) {
 		super();
 
 		_mass = mass;
+		_imass = 1 / mass;
+
 		_image = ImageGallery.request(filename);
 		setImage(_image);
 
@@ -29,66 +31,79 @@ public class PhysicsActor extends Actor {
 	}
 
 	protected final void physicsUpdate(double dt) {
-		_p = _p.add(physicsAct().scale(dt));
-		Vector2D v = _p.scale( 1.0 / _mass );
-		collideWithWalls(v, dt);
+		collideWithWalls(physicsAct(), dt);
 	}
 
-	private class CollisionResult {
-		private int _vs;
-		private double _x;
+	private class NoCollisionException extends Exception {
+		NoCollisionException() {
+			super("no collison");
+		}
+	}
 
-		CollisionResult(double floor, double ceil, double v, double x, double dt) {
-			double iv = 1.0 / v,
-						 tf = (floor - x) * iv;
+	private double firstColTime(double r, double w, double v, double a, double dt) throws NoCollisionException {
+		double dr2 = 2 * (w - r),
+					 aux1 = -v / dr2,
+					 aux2 = Math.sqrt(v*v - dr2*a) / dr2,
+					 
+					 t = aux1 - aux2;
 
-			if (tf > 0 && tf <= dt) {
-				_x = floor + v * (dt - tf);
-				_vs = -1;
-				return;
+		if (t >= 0) {
+			if (t <= dt) return t;
+			throw new NoCollisionException();
+		}
+		
+		t = aux1 + aux2;
+		if (t >= 0 && t <= dt) return t;
+		throw new NoCollisionException();
+	}
+
+	private double linearCollision(double r, double floor, double ceil, double v, double a, double dt) throws NoCollisionException {
+		double ct, cr;
+
+		try {
+			ct = firstColTime(r, floor, v, a, dt);
+			cr = floor;
+		} catch (NoCollisionException e) {
+			try {
+				ct = firstColTime(r, ceil, v, a, dt);
+				cr = ceil;
+			} catch (NoCollisionException e2) {
+				throw e2;
 			}
-
-			double tc = (ceil - x) * iv;
-
-			if (tc > 0 && tc <= dt) {
-				_x = ceil + v * (dt - tc);
-				_vs = -1;
-				return;
-			}
-			 
-			_x = x + v * dt;
-			_vs = 1;
 		}
 
-		protected int getVS() {
-			return _vs;
+		return cr - v*ct - a*ct*ct/2;
+	}
+
+	private double[] maybeLinearCollision(double r, double floor, double ceil, double p, double f, double dt) {
+		p += f*dt;
+
+		double v = p / _mass,
+					 a = f / (2*_mass);
+
+		try {
+			r = linearCollision(r, floor, ceil, v, a, dt);
+			p = -p;
+		} catch (NoCollisionException e) {
+			r += v*dt + dt*dt*a/2;
 		}
 
-		protected double getR() {
-			return _x;
-		}
+		double[] res = { r, p };
+		return res;
 	}
 
 	// returns new dr
-	private final void collideWithWalls(Vector2D v, double dt) {
-		double dr = _p.scale(_mass / dt);
+	private final void collideWithWalls(Vector2D f, double dt) {
+		double hdx = _hd.getX(), hdy = _hd.getY();
+		double[] colx = maybeLinearCollision(_r.getX(), hdx, PhysicsWorld.MAP_WIDTH - hdx, _p.getX(), f.getX(), dt),
+			coly = maybeLinearCollision(_r.getY(), hdy, PhysicsWorld.MAP_HEIGHT - hdy, _p.getY(), f.getY(), dt);
 
-		double vx = v.getX(),
-					 vy = v.getY(),
-					 hdx = _hd.getX(),
-					 hdy = _hd.getY();
-
-		CollisionResult tb = new CollisionResult(hdy, PhysicsWorld.MAP_HEIGHT - hdy, vy, _r.getY(), dt),
-										lr = new CollisionResult(hdx, PhysicsWorld.MAP_WIDTH - hdx, vx, _r.getX(), dt);
-
-		v = new Vector2D(lr.getVS() * vx, tb.getVS() * vy);
-		_p = v.scale(_mass);
-		_r = new Vector2D(lr.getR(), tb.getR());
+		_r = new Vector2D(colx[0], coly[0]);
+		_p = new Vector2D(colx[1], coly[1]);
 	}
 
 	protected final void drawInto(GreenfootImage i) {
 		Vector2D c = _r.add(_hd.scale(-1));
 		i.drawImage(_image, (int) c.getX(), (int) c.getY());
 	}
-
 }
