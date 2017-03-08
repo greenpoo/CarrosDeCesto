@@ -37,23 +37,25 @@ public class PhysicsActor extends Actor {
 		private double _x;
 
 		CollisionResult(double floor, double ceil, double v, double x, double dt) {
-			_vs = -1;
-
 			double iv = 1.0 / v,
 						 tf = (floor - x) * iv;
 
-			if (tf > 0 && tf <= dt)
+			if (tf > 0 && tf <= dt) {
 				_x = floor + v * (dt - tf);
-			else {
-				double tc = (ceil - x) * iv;
-
-				if (tc > 0 && tc <= dt)
-					_x = ceil + v * (dt - tc);
-				else {
-					_x = x + v * dt;
-					_vs = 1;
-				}
+				_vs = -1;
+					return;
 			}
+
+			double tc = (ceil - x) * iv;
+
+			if (tc > 0 && tc <= dt) {
+				_x = ceil + v * (dt - tc);
+				_vs = -1;
+				return;
+			}
+			 
+			_x = x + v * dt;
+			_vs = 1;
 		}
 
 		protected int getVS() {
@@ -82,7 +84,7 @@ public class PhysicsActor extends Actor {
 	}
 
 	protected final void drawInto(GreenfootImage i) {
-		Vector2D c = _r.add(_hd);
+		Vector2D c = _r.add(_hd.scale(-1));
 		i.drawImage(_image, (int) c.getX(), (int) c.getY());
 	}
 
