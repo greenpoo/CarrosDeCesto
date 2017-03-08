@@ -5,7 +5,7 @@ public class DerbyWorld extends World
     public static double CarBoostP1 = 0;
     public static int CarHealthP2 = 100;
     public static double CarBoostP2 = 0;
-    private GreenfootSound derby = new GreenfootSound("derby.mp3");
+    private GreenfootSound derby = new GreenfootSound("sounds/bgm/derby.mp3");
     public DerbyWorld()
     {   
         super(600, 400, 1);

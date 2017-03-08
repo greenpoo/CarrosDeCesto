@@ -1,8 +1,8 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class MainMenu extends World
 {
-    public static GreenfootSound click = new GreenfootSound("click.mp3");
-    public static GreenfootSound bailinho = new GreenfootSound("bailinho.mp3");
+    public static GreenfootSound click = new GreenfootSound("sounds/se/click.mp3");
+    public static GreenfootSound bailinho = new GreenfootSound("sounds/bgm/bailinho.mp3");
     public static boolean bailinhoMuted;
     public static MuteButton MuteButton = new MuteButton();
     public MainMenu()
@@ -16,6 +16,5 @@ public class MainMenu extends World
         addObject(new PlayButton(),300,175);
         addObject(new ExitButton(),300,300);
         addObject(MuteButton,35,365);
-        //okfsfsjadfkasjflkasf
     }
 }
