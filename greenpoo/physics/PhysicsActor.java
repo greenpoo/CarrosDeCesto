@@ -70,9 +70,8 @@ public class PhysicsActor extends Actor {
 	}
 
 	// returns new dr
-	private final void collideWithWalls(Vector2D v, double dt) throws ArithmeticException {
-		// double dr = _p.scale(dt / _mass);
-
+	private final void collideWithWalls(Vector2D v, double dt) {
+		double dr = _p.scale(_mass / dt);
 
 		double vx = v.getX(),
 					 vy = v.getY(),
