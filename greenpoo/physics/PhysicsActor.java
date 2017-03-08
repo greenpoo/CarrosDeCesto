@@ -40,7 +40,9 @@ public class PhysicsActor extends Actor {
 		}
 	}
 
-	private double firstColTime(double r, double w, double v, double a, double dt) throws NoCollisionException {
+	// devolve o tempo em que a colisao ocorre
+	// ou falha no caso de nao haver colisao
+	private double timeOfCollision(double r, double w, double v, double a, double dt) throws NoCollisionException {
 		double dr2 = 2 * (w - r),
 					 aux1 = -v / dr2,
 					 aux2 = Math.sqrt(v*v - dr2*a) / dr2,
@@ -57,29 +59,35 @@ public class PhysicsActor extends Actor {
 		throw new NoCollisionException();
 	}
 
+	// devolve a posicao linear apos colisao
+	// ou falha no caso de nao haver colisao
 	private double linearCollision(double r, double floor, double ceil, double v, double a, double dt) throws NoCollisionException {
 		double ct, cr;
 
 		try {
-			ct = firstColTime(r, floor, v, a, dt);
+			ct = timeOfCollision(r, floor, v, a, dt);
 			cr = floor;
 		} catch (NoCollisionException e) {
 			try {
-				ct = firstColTime(r, ceil, v, a, dt);
+				ct = timeOfCollision(r, ceil, v, a, dt);
 				cr = ceil;
 			} catch (NoCollisionException e2) {
 				throw e2;
 			}
 		}
 
-		return cr - v*ct - a*ct*ct/2;
+		ct = dt - ct;
+		return cr - v*ct + a*ct*ct/2;
 	}
 
+	// devolve um array de doubles,
+	// 	o primeiro representa a posicao apos verificao de colisao (linear),
+	// 	o segundo o momento
 	private double[] maybeLinearCollision(double r, double floor, double ceil, double p, double f, double dt) {
 		p += f*dt;
 
 		double v = p / _mass,
-					 a = f / (2*_mass);
+					 a = f / _mass;
 
 		try {
 			r = linearCollision(r, floor, ceil, v, a, dt);
@@ -92,7 +100,7 @@ public class PhysicsActor extends Actor {
 		return res;
 	}
 
-	// returns new dr
+	// calcula a nova posicao e momento (grandezas vectoriais)
 	private final void collideWithWalls(Vector2D f, double dt) {
 		double hdx = _hd.getX(), hdy = _hd.getY();
 		double[] colx = maybeLinearCollision(_r.getX(), hdx, PhysicsWorld.MAP_WIDTH - hdx, _p.getX(), f.getX(), dt),
