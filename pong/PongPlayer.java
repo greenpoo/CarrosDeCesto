@@ -16,8 +16,8 @@ public class PongPlayer extends PhysicsActor {
 	public Vector2D physicsAct() {
 		double fy = 0;
 
-		if (Greenfoot.isKeyDown(_downkey)) fy = 30;
-		if (Greenfoot.isKeyDown(_upkey)) fy -= 30;
+		if (Greenfoot.isKeyDown(_downkey)) fy = 70;
+		if (Greenfoot.isKeyDown(_upkey)) fy -= 70;
 
 		return new Vector2D(0.0, fy);
 	}

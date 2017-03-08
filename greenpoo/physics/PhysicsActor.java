@@ -49,7 +49,7 @@ public class PhysicsActor extends Actor {
 					 
 					 t = aux1 - aux2;
 
-		if (t > 0) {
+		if (t >= 0) {
 			if (t <= dt) return t;
 			throw new NoCollisionException();
 		}
