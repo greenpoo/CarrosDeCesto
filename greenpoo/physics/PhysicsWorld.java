@@ -31,6 +31,15 @@ public class PhysicsWorld extends World {
 		setBackground(_backgroundImage);
 	}
 
+	public void started() {
+		_before = Instant.now();
+	}
+
+	// public void stopped() {
+		
+		
+	// }
+
 	public void act() {
 		Instant now = Instant.now();
 

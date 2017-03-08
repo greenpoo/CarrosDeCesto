@@ -56,17 +56,15 @@ public class PhysicsActor extends Actor {
 			throw new NoCollisionException();
 		} else {
 			double aux1 = -v / a,
-						 aux2 = Math.sqrt(v*v - 2*a*(r - w)) / a,
+						 aux3 = v*v - 2*a*(r - w);
 
+			if (aux3 < 0) // sem solução
+				throw new NoCollisionException();
+					
+			double aux2 = Math.sqrt(aux3) / a,
 						 t = aux1 - aux2;
 
-			// System.out.println("v: " + v + " a: " + a + " t: " + t + " dt: " + dt + " aux1: " + aux1 + " aux2: " + aux2 + " r: " + r + " w: " + w);
-
 			if (t >= 0 && t <= dt) return t;
-			// if (t >= 0) {
-			// 	if (t <= dt) return t;
-			// 	throw new NoCollisionException();
-			// }
 
 			t = aux1 + aux2;
 			if (t >= 0 && t <= dt) return t;
