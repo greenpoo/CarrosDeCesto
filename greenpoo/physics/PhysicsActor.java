@@ -10,6 +10,10 @@ public class PhysicsActor extends Actor {
 	private double _mass, _imass;
 
 	public PhysicsActor(String filename, double mass, Vector2D r) {
+		this(filename, mass, r, Vector2D.NULL);
+	}
+
+	public PhysicsActor(String filename, double mass, Vector2D r, Vector2D p) {
 		super();
 
 		_mass = mass;
@@ -23,7 +27,9 @@ public class PhysicsActor extends Actor {
 				((double) _image.getHeight() * 0.5));
 
 		_r = r;
+		_p = p;
 	}
+
 
 	// please override / implementation TODO
 	public Vector2D physicsAct() {
@@ -48,17 +54,19 @@ public class PhysicsActor extends Actor {
 
 			if (t >= 0 && t < dt) return t;
 			throw new NoCollisionException();
-
 		} else {
 			double aux1 = -v / a,
 						 aux2 = Math.sqrt(v*v - 2*a*(r - w)) / a,
 
 						 t = aux1 - aux2;
 
-			if (t >= 0) {
-				if (t <= dt) return t;
-				throw new NoCollisionException();
-			}
+			// System.out.println("v: " + v + " a: " + a + " t: " + t + " dt: " + dt + " aux1: " + aux1 + " aux2: " + aux2 + " r: " + r + " w: " + w);
+
+			if (t >= 0 && t <= dt) return t;
+			// if (t >= 0) {
+			// 	if (t <= dt) return t;
+			// 	throw new NoCollisionException();
+			// }
 
 			t = aux1 + aux2;
 			if (t >= 0 && t <= dt) return t;

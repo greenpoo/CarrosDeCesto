@@ -10,13 +10,13 @@ public class PongWorld extends PhysicsWorld {
 	public PongWorld() {
 		super("pong_background.png");
 		_hh = ((double) getHeight()) * .5;
-	}
 
-	public void started() {
 		add(new PongPlayer("w", "s", 20, _hh));
 		add(new PongPlayer("up", "down", getWidth() - 20, _hh));
 		add(new Bola(getWidth(), getHeight()));
+	}
 
+	public void started() {
 		pong.playLoop();
 	}
 
