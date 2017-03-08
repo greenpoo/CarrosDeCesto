@@ -82,20 +82,21 @@ public class PhysicsActor extends Actor {
 	// devolve um array de doubles,
 	// 	o primeiro representa a posicao apos verificao de colisao (linear),
 	// 	o segundo o momento
-	private double[] maybeLinearCollision(double r, double floor, double ceil, double p, double f, double dt) {
-		p += f*dt;
+	private double[] maybeLinearCollision(double r, double floor, double ceil, double pi, double f, double dt) {
+		double dp = f*dt,
+					 pf = pi + dp;
 
-		double v = p / _mass,
+		double v = pi / _mass,
 					 a = f / _mass;
 
 		try {
 			r = linearCollision(r, floor, ceil, v, a, dt);
-			p = -p;
+			pf = dp - pi;
 		} catch (NoCollisionException e) {
 			r += v*dt - dt*dt*a/2;
 		}
 
-		double[] res = { r, p };
+		double[] res = { r, pf };
 		return res;
 	}
 
