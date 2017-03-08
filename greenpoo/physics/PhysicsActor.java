@@ -43,9 +43,8 @@ public class PhysicsActor extends Actor {
 	// devolve o tempo em que a colisao ocorre
 	// ou falha no caso de nao haver colisao
 	private double timeOfCollision(double r, double w, double v, double a, double dt) throws NoCollisionException {
-		double dr2 = 2 * (w - r),
-					 aux1 = -v / dr2,
-					 aux2 = Math.sqrt(v*v - dr2*a) / dr2,
+		double aux1 = -v / a,
+					 aux2 = Math.sqrt(v*v - 2*a*(r - w) / a,
 					 
 					 t = aux1 - aux2;
 
@@ -93,7 +92,7 @@ public class PhysicsActor extends Actor {
 			r = linearCollision(r, floor, ceil, v, a, dt);
 			p = -p;
 		} catch (NoCollisionException e) {
-			r += v*dt + dt*dt*a/2;
+			r += v*dt - dt*dt*a/2;
 		}
 
 		double[] res = { r, p };
