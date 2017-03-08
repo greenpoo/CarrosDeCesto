@@ -4,7 +4,7 @@ import greenfoot.GreenfootSound;
 import greenpoo.physics.PhysicsWorld;
 
 public class PongWorld extends PhysicsWorld {
-	private GreenfootSound pong = new GreenfootSound("sounds/pong.mp3");
+	private GreenfootSound pong = new GreenfootSound("sounds/bgm/pong.mp3");
 	private double _hh;
 
 	public PongWorld() {
