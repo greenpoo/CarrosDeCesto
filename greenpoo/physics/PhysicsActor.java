@@ -58,7 +58,7 @@ public class PhysicsActor extends Actor {
 			double aux1 = -v / a,
 						 aux3 = v*v - 2*a*(r - w);
 
-			if (aux3 < 0)
+			if (aux3 < 0) // sem solução
 				throw new NoCollisionException();
 					
 			double aux2 = Math.sqrt(aux3) / a,

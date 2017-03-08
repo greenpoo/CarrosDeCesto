@@ -17,7 +17,8 @@ public class PongWorld extends PhysicsWorld {
 	}
 
 	public void started() {
-		pong.playLoop();
+		super.started();
+		// pong.playLoop();
 	}
 
 	public void stopped() {
