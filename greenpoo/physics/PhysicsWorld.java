@@ -43,8 +43,8 @@ public class PhysicsWorld extends World {
 	public void act() {
 		Instant now = Instant.now();
 
-		double dt = ((double) Duration.between(_before, now).toMillis()) / 1000,
-					 hdt = 0.5 * dt, dtDt = dt * dt;
+		double dt = ((double) Duration.between(_before, now).toMillis()) / 1000;
+					 // hdt = 0.5 * dt, dtDt = dt * dt;
 
 		_fps = _fps * OLD_FPS_WEIGHT + 1.0/dt * NEW_FPS_WEIGHT;
 
