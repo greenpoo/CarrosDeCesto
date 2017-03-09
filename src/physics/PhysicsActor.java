@@ -75,7 +75,7 @@ public class PhysicsActor extends Actor {
 	}
 
 	private double postCollisionDisplacement(
-			double r, double v, double a, double t, double dt) throws NoCollisionException
+			double r, double v, double a, double t, double dt)
 	{
 		double rt = dt - t;
 		return - v*rt + a*rt*rt/2;
@@ -106,15 +106,8 @@ public class PhysicsActor extends Actor {
 		return collisionResult(w - r, v, a, dt);
 	}
 
-	// private Map<Double, Double> _myCollisions = new TreeMap<Double, Double>();;
-	private Collision _last_collision;
+	private Map<Double, Double> _myCollisions = new TreeMap<Double, Double>();
 
-	private void collisionCheck(r, v, a, dt) {
-		double t = timeOfCollision(r, v, a, dt);
-		try {
-			CollisionStep pop = _cs.
-
-	}
 	private void addCollision(r, v, a, dt) {
 		try {
 			double t = timeOfCollision(r, v, a, dt);
@@ -153,29 +146,20 @@ public class PhysicsActor extends Actor {
 			}
 		}
 
-
-				
-			}
+		try {
+			coly = wallCollision(ry, hdy, vy, ay, dt);
+		} catch (NoCollisionException e) {
 			try {
-				double[] leftCol = wallCollision(rx, PhysicsWorld.MAP_WIDTH - hdx, vx, ax, dt);
-			} catch (NoCollisionException e2) {
-				double
-				try {
-				} catch (NoCollisionException e3) {
-				}
+				coly = wallCollision(ry, PhysicsWorld.MAP_HEIGHT - hdy, vy, ay, dt);
+			} catch (NoCollisionException e) {
+				coly = noCollisionDisplacement(ry, vy, ay, dt);
 			}
-			double[] hcol = wallCollision(_r.getX(), hdx, v.getX(), a.getX(), dt);
-
-			double[] vcol = wallCollision(_r.getY(), _hd.getY(), v.getY(), a.getY(), dt);
 		}
-			collisionResult(_r.getX(), _hd.getX(), 
-			t = 
-			
-		double[] 
-		double[] colx = maybeLinearCollision(_r.getX(), hdx, PhysicsWorld.MAP_WIDTH - hdx, _p.getX(), f.getX(), dt),
-			coly = maybeLinearCollision(_r.getY(), hdy, PhysicsWorld.MAP_HEIGHT - hdy, _p.getY(), f.getY(), dt);
 
+		
 	}
+
+
 	private final void collideWithWalls(Vector2D f, double dt) {
 		double hdx = _hd.getX(), hdy = _hd.getY();
 		double[] colx = maybeLinearCollision(_r.getX(), hdx, PhysicsWorld.MAP_WIDTH - hdx, _p.getX(), f.getX(), dt),
@@ -189,27 +173,6 @@ public class PhysicsActor extends Actor {
 	// double[]
 	// v = collideWithWalls(v, a, dt);
 
-	// devolve um array de doubles,
-	// 	o primeiro representa a posicao apos verificao de colisao (linear),
-	// 	o segundo o momento
-	private double[] maybeLinearCollision(double r, double floor, double ceil, double pi, double f, double dt) {
-		double dp = f*dt,
-					 pf = pi + dp;
-
-		double v = pi / _mass,
-					 a = f / _mass;
-
-		try {
-			r = floor + displacementAfterCollision(floor - r, v, a, dt);
-			pf = dp - pi;
-		} catch (NoCollisionException e) {
-			r += v*dt - dt*dt*a/2;
-		}
-
-		double[] res = { r, pf };
-		return res;
-	}
-
 	// calcula a nova posicao e momento (grandezas vectoriais)
 
 	protected final void physicsUpdate(double dt) {
@@ -217,7 +180,7 @@ public class PhysicsActor extends Actor {
 						 v = _p / _mass,
 						 a = f / mass;
 
-		_last_collision_t = dt;
+		// _last_collision_t = dt;
 		p = collideWithWalls(v, a, dt);
 	}
 
