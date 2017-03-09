@@ -36,9 +36,6 @@ public class PhysicsActor extends Actor {
 		return Vector2D.NULL;
 	}
 
-	protected final void physicsUpdate(double dt) {
-		collideWithWalls(physicsAct(), dt);
-	}
 
 	private class NoCollisionException extends Exception {
 		NoCollisionException() {
@@ -48,15 +45,20 @@ public class PhysicsActor extends Actor {
 
 	// devolve o tempo em que a colisao ocorre
 	// ou falha no caso de nao haver colisao
-	private double timeOfCollision(double r, double w, double v, double a, double dt) throws NoCollisionException {
+	//
+	// TODO Explain that r v a dt are all intervals now.
+	private double timeOfCollision(double r, double v, double a, double dt) throws NoCollisionException {
 		if (a == 0) {
-			double t = (w - r) / v;
+			double t = r / v;
 
 			if (t >= 0 && t < dt) return t;
 			throw new NoCollisionException();
 		} else {
+			// .EQ
+			// t ~=~~ { - v +- sqrt {v sup 2 - 2 a {r - w}c} } over {2 a}
+			// .EN
 			double aux1 = -v / a,
-						 aux3 = v*v - 2*a*(r - w);
+						 aux3 = v*v - 2*a*r;
 
 			if (aux3 < 0) // sem solução
 				throw new NoCollisionException();
@@ -72,26 +74,120 @@ public class PhysicsActor extends Actor {
 		}
 	}
 
-	// devolve a posicao linear apos colisao
-	// ou falha no caso de nao haver colisao
-	private double linearCollision(double r, double floor, double ceil, double v, double a, double dt) throws NoCollisionException {
-		double ct, cr;
+	private double postCollisionDisplacement(
+			double r, double v, double a, double t, double dt) throws NoCollisionException
+	{
+		double rt = dt - t;
+		return - v*rt + a*rt*rt/2;
+	}
 
+	private double noCollisionDisplacement(double v, double a, double dt) {
+		return v*dt - a*dt*dt/2;
+	}
+
+	private class collisionStep {
+		private double _ct, _cv, _cp;
+	}
+
+	private double wallCollision(double r, double w, double v, double a, double dt) {
+		return timeOfCollision(w - r, v, a, dt);
+	}
+
+	/* cada vez que se encontra uma colisao, e se sabe que acontece antes de outras,
+	 * é preciso verificar se isto afecta colisoes (com ct maior) */
+
+	private double[] collisionResult(r, v, a, dt) {
+		double ct = timeOfCollision(r, v, a, dt);
+		double res = { ct, postCollisionDisplacement(r, v, a, ct, dt) };
+		return res;
+	}
+
+	private double[] wallCollision(double r, double w, double v, double a, double dt) {
+		return collisionResult(w - r, v, a, dt);
+	}
+
+	// private Map<Double, Double> _myCollisions = new TreeMap<Double, Double>();;
+	private Collision _last_collision;
+
+	private void collisionCheck(r, v, a, dt) {
+		double t = timeOfCollision(r, v, a, dt);
 		try {
-			ct = timeOfCollision(r, floor, v, a, dt);
-			cr = floor;
+			CollisionStep pop = _cs.
+
+	}
+	private void addCollision(r, v, a, dt) {
+		try {
+			double t = timeOfCollision(r, v, a, dt);
+			try {
+				CollisionStep pop = _cs.pop();
+				if (t < pop.getT()) {
+				
+				}
+			} catch (Exception e) {
+				_cs.push(new CollisionStep(r, v, a, t));
+			}
+			if (t < _cs.first().getT()) {
+				_cs.pop();
+				_cs.push(new CollisionStep(r, v, a, t));
+
+				// recalculate colisions with everything that is forward in time.
+				_last_collision = new CollisionStep(r, v, a, t);
+		} catch (NoCollisionException e) {
+		}
+	}
+
+	private final void collideWithWalls(Vector2D v, Vector2D a, double dt) {
+		double hdx = _hd.getX(), hdy = _hd.getY(),
+					 rx = _r.getX(), ry = _r.getY(),
+					 vx = v.getX(), vy = v.getY(),
+					 ax = a.getX(), ay = a.getY();
+
+		double[] colx, coly;
+		try {
+			colx = wallCollision(rx, hdx, vx, ax, dt);
 		} catch (NoCollisionException e) {
 			try {
-				ct = timeOfCollision(r, ceil, v, a, dt);
-				cr = ceil;
-			} catch (NoCollisionException e2) {
-				throw e2;
+				colx = wallCollision(rx, PhysicsWorld.MAP_WIDTH - hdx, vx, ax, dt);
+			} catch (NoCollisionException e) {
+				colx = noCollisionDisplacement(rx, vx, ax, dt);
 			}
 		}
 
-		ct = dt - ct;
-		return cr - v*ct + a*ct*ct/2;
+
+				
+			}
+			try {
+				double[] leftCol = wallCollision(rx, PhysicsWorld.MAP_WIDTH - hdx, vx, ax, dt);
+			} catch (NoCollisionException e2) {
+				double
+				try {
+				} catch (NoCollisionException e3) {
+				}
+			}
+			double[] hcol = wallCollision(_r.getX(), hdx, v.getX(), a.getX(), dt);
+
+			double[] vcol = wallCollision(_r.getY(), _hd.getY(), v.getY(), a.getY(), dt);
+		}
+			collisionResult(_r.getX(), _hd.getX(), 
+			t = 
+			
+		double[] 
+		double[] colx = maybeLinearCollision(_r.getX(), hdx, PhysicsWorld.MAP_WIDTH - hdx, _p.getX(), f.getX(), dt),
+			coly = maybeLinearCollision(_r.getY(), hdy, PhysicsWorld.MAP_HEIGHT - hdy, _p.getY(), f.getY(), dt);
+
 	}
+	private final void collideWithWalls(Vector2D f, double dt) {
+		double hdx = _hd.getX(), hdy = _hd.getY();
+		double[] colx = maybeLinearCollision(_r.getX(), hdx, PhysicsWorld.MAP_WIDTH - hdx, _p.getX(), f.getX(), dt),
+			coly = maybeLinearCollision(_r.getY(), hdy, PhysicsWorld.MAP_HEIGHT - hdy, _p.getY(), f.getY(), dt);
+
+		// returns collisions (that will apparently happend)
+		Vector2D[] rp = 
+		_r = new Vector2D(colx[0], coly[0]);
+		_p = new Vector2D(colx[1], coly[1]);
+	}
+	// double[]
+	// v = collideWithWalls(v, a, dt);
 
 	// devolve um array de doubles,
 	// 	o primeiro representa a posicao apos verificao de colisao (linear),
@@ -104,7 +200,7 @@ public class PhysicsActor extends Actor {
 					 a = f / _mass;
 
 		try {
-			r = linearCollision(r, floor, ceil, v, a, dt);
+			r = floor + displacementAfterCollision(floor - r, v, a, dt);
 			pf = dp - pi;
 		} catch (NoCollisionException e) {
 			r += v*dt - dt*dt*a/2;
@@ -115,13 +211,14 @@ public class PhysicsActor extends Actor {
 	}
 
 	// calcula a nova posicao e momento (grandezas vectoriais)
-	private final void collideWithWalls(Vector2D f, double dt) {
-		double hdx = _hd.getX(), hdy = _hd.getY();
-		double[] colx = maybeLinearCollision(_r.getX(), hdx, PhysicsWorld.MAP_WIDTH - hdx, _p.getX(), f.getX(), dt),
-			coly = maybeLinearCollision(_r.getY(), hdy, PhysicsWorld.MAP_HEIGHT - hdy, _p.getY(), f.getY(), dt);
 
-		_r = new Vector2D(colx[0], coly[0]);
-		_p = new Vector2D(colx[1], coly[1]);
+	protected final void physicsUpdate(double dt) {
+		Vector2D f = physicsAct(),
+						 v = _p / _mass,
+						 a = f / mass;
+
+		_last_collision_t = dt;
+		p = collideWithWalls(v, a, dt);
 	}
 
 	protected final void drawInto(GreenfootImage i) {
