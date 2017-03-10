@@ -87,7 +87,7 @@ public class PhysicsActor extends Actor {
 	 * é preciso verificar se isto afecta colisoes (com ct maior) */
 	protected class Collision {
 		private double _t;
-		private Vector2D _r;
+		private Vector2D _p;
 		private Vector2D _pm;
 
 		Collision(double t, Vector2D r, Vector2D pm) {
@@ -110,14 +110,20 @@ public class PhysicsActor extends Actor {
 
 	private final boolean wallCollision(Vector2D r, Vector2D p, double w, boolean vertical, double dt) {
 		try {
-			double ct = timeOfCollision(w - r.get(vertical), p.get(vertical)/_mass, _a.get(vertical), dt);
+			double ct = timeOfCollision(w - r.get(vertical),
+					p.get(vertical)/_mass, _a.get(vertical), dt);
+
 			boolean horizontal = !vertical;
-			addCollision(ct, new Vector2D(w, r.get(horizontal)), new Vector2D(horizontal * -2, vertical * -2));
+			addCollision(ct, new Vector2D(w, r.get(horizontal)),
+					new Vector2D(horizontal * -2, vertical * -2));
+
 			return true;
 		} catch (NoCollisionException e) { return false; }
 	}
 
-	private final boolean void collideWithWalls(Vector2D min, Vector2D max, Vector2D r, Vector2D p, double dt) {
+	private final boolean void collideWithWalls(
+			Vector2D min, Vector2D max, Vector2D r, Vector2D p, double dt)
+	{
 		boolean h = wallCollision(r, false, min.get(0), p, dt) ||
 			wallCollision(r, false, max.get(0), p, dt),
 			v = wallCollision(r, true, min.get(1), p, dt) ||
@@ -131,7 +137,8 @@ public class PhysicsActor extends Actor {
 		return collideWithWalls(_hd, _wallmax, _r, _mass * _v, dt);
 	}
 
-	protected final void simulate() {}
+	protected final void simulate() {
+	}
 
 	protected final void drawInto(GreenfootImage i) {
 		Vector2D c = _r.add(_hd.scale(-1));
