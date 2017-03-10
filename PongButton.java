@@ -14,7 +14,7 @@ public class PongButton extends GameModeSelect
        {
            MainMenu.click.play();
            MainMenu.bailinho.stop();
-           Greenfoot.setWorld(new PongWorld());
+           Greenfoot.setWorld(new pong.PongWorld());
        }
     }
 }

@@ -1,10 +1,12 @@
 package pong;
 
-import greenpoo.physics.*;
+import physics.PhysicsActor;
+import physics.Vector2D;
 
 public class Bola extends PhysicsActor {
-	public Bola(int w, int h) {
-		super("ball.png", .3, new Vector2D(w / 2, h / 2),
-				(new Vector2D(30, 30)).add(Vector2D.random().scale(100)));
+	public Bola() {
+		super(1.0);
+		setImage("ball.png");
+		setVelocity(Vector2D.random().scale(30));
 	}
 }

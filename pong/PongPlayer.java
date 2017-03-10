@@ -1,24 +1,22 @@
 package pong;
 
 import greenfoot.Greenfoot;
-import greenpoo.physics.*;
-import java.lang.String;
+import physics.PhysicsActor;
+import physics.Vector2D;
 
 public class PongPlayer extends PhysicsActor {
 	private String _upkey, _downkey;
 
-	public PongPlayer(String upkey, String downkey, int x, double y) {
-		super("carrocesto1_normal.png", 1, new Vector2D((double) x, y));
+	public PongPlayer(String upkey, String downkey) {
+		super(7.0);
+		setImage("carrocesto1_normal.png");
 		_upkey = upkey;
 		_downkey = downkey;
 	}
 
-	public Vector2D physicsAct() {
-		double fy = 0;
-
-		if (Greenfoot.isKeyDown(_downkey)) fy = 70;
-		if (Greenfoot.isKeyDown(_upkey)) fy -= 70;
-
-		return new Vector2D(0.0, fy);
+	public void act() {
+		double force = 70;
+		if (Greenfoot.isKeyDown(_downkey)) applyForce(new Vector2D(0, force));
+		else if (Greenfoot.isKeyDown(_upkey)) applyForce(new Vector2D(0, -force));
 	}
 }

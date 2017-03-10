@@ -14,8 +14,7 @@ public class WinnerLoserScreen extends World
             showText(P1Name,300,130);
         else
             showText(P2Name,300,130);
-    }    
-
+    } 
     private void prepare()
     {
         addObject(new ExitButton(),300,325);

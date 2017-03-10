@@ -1,19 +1,22 @@
 package pong;
 
+import physics.PhysicsWorld;
 import greenfoot.GreenfootSound;
-import greenpoo.physics.PhysicsWorld;
 
 public class PongWorld extends PhysicsWorld {
 	private GreenfootSound pong = new GreenfootSound("sounds/bgm/pong.mp3");
-	private double _hh;
 
 	public PongWorld() {
-		super("pong_background.png");
-		_hh = ((double) getHeight()) * .5;
+		super();
 
-		add(new PongPlayer("w", "s", 20, _hh));
-		add(new PongPlayer("up", "down", getWidth() - 20, _hh));
-		add(new Bola(getWidth(), getHeight()));
+		setBackground("pong_background.png");
+
+		int halfHeight = getHeight() / 2;
+		int dist = 50;
+
+		addObject(new PongPlayer("w", "s"), dist, halfHeight);
+		addObject(new PongPlayer("up", "down"), getWidth() - dist, halfHeight);
+		addObject(new Bola(), getWidth() / 2, halfHeight);
 	}
 
 	public void started() {

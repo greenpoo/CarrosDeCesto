@@ -1,9 +1,9 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class DerbyWorld extends World
 {
-    public static int CarHealthP1 = 100;
-    public static double CarBoostP1 = 0;
-    public static int CarHealthP2 = 100;
+    private static int CarHealthP1 = 100;
+    private double CarBoostP1 = 0;
+    private int CarHealthP2 = 100;
     public static double CarBoostP2 = 0;
     private GreenfootSound derby = new GreenfootSound("sounds/bgm/derby.mp3");
     public DerbyWorld()
