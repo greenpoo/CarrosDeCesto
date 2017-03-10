@@ -22,14 +22,14 @@ public class PhysicsActor extends Actor {
 		_halfBounds = new Vector2D(img.getWidth()/2, img.getHeight()/2);
 	}
 
-	public void setLocation() {
-		super.setLocation((int) _r.getX(), (int) _r.getY());
+	protected void updateGFLocation(double scale) {
+		super.setLocation((int)(_r.getX() * scale), (int)(_r.getY() * scale));
 	}
 
-	public void setLocation(int x, int y) {
-		super.setLocation(x, y);
-		_r = new Vector2D((double) x, (double) y);
+	public void setLocation(double x, double y) {
+		_r = new Vector2D(x, y);
 	}
+
 
 	public void setVelocity(Vector2D v) {
 		_v = v;
