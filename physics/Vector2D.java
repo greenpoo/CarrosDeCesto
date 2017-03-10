@@ -7,19 +7,16 @@ public class Vector2D {
 				 MIRROR_V = new Vector2D(1.0, -1.0);
 
 	private static Random rand = new Random();
-	private double _x, _y;
+	private double[2] _members;
 
 	public Vector2D(double x, double y) {
-		_x = x;
-		_y = y;
+		_members = { x, y };
 	}
 
-	public double getX() { return _x; }
-
-	public double getY() { return _y; }
+	public double get(int index) { return _members[index]; }
 
 	public Vector2D add(Vector2D dr) {
-		return new Vector2D(_x + dr.getX(), _y + dr.getY());
+		return new Vector2D(_x + dr.get(0), _y + dr.get(1));
 	}
 
 	public Vector2D scale(double s) {
@@ -31,7 +28,7 @@ public class Vector2D {
 	}
 
 	public Vector2D scale2D(Vector2D other) {
-		return new Vector2D(_x * other.getX(), _y * other.getY());
+		return new Vector2D(_x * other.get(0), _y * other.get(1));
 	}
 
 	public static Vector2D random() {
@@ -39,6 +36,6 @@ public class Vector2D {
 	}
 
 	public String toString() {
-		return "(" + _x + ", " + _y + ")";
+		return "{" + _x + ", " + _y + "}";
 	}
 }

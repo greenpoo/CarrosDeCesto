@@ -13,7 +13,7 @@ import java.time.Instant;
 import java.time.Duration;
 
 public class PhysicsWorld extends World {
-	protected static final int MAP_WIDTH = 600, MAP_HEIGHT = 400;
+	protected static final Vector2D dim = new Vector2D(600, 400);
 
 	private static final double NEW_FPS_WEIGHT = 0.1,
 					OLD_FPS_WEIGHT = 1.0 - NEW_FPS_WEIGHT;
@@ -26,7 +26,7 @@ public class PhysicsWorld extends World {
 	private Instant _before = Instant.now();
 
 	public PhysicsWorld(String filename) {
-		super(MAP_WIDTH, MAP_HEIGHT, 1);
+		super((int) dim.getX(), (int) dim.getY(), 1);
 		_backgroundImage = ImageGallery.request(filename);
 		setBackground(_backgroundImage);
 	}
@@ -54,9 +54,21 @@ public class PhysicsWorld extends World {
 		background.setColor(Color.WHITE);
 		background.drawString("FPS: " + (int) _fps, 10, 10);
 
+		double lct = 0; // last collision time
+		while (true) {
+			for (Map.Entry<Integer, PhysicsActor> entry : _actors.
+			boolean wallCollisionsDetected = actor.predictCollisions(lct, dt);
+			if (wallCollisionsDetected) {
+				lct = // TODO
+					// IMPLEMENT COLLISION HISTORY
+				continue
+			}
+		}
+
 		for (Map.Entry<Integer, PhysicsActor> entry : _actors.entrySet()) {
 			PhysicsActor actor = entry.getValue();
 
+			actor.predictCollisions(0, dt)
 			actor.physicsUpdate(dt);
 			actor.drawInto(background);
 		}
@@ -70,5 +82,11 @@ public class PhysicsWorld extends World {
 		_actors.put(id, actor);
 		_actorIds += 1;
 		return id;
+	}
+
+	protected void addCollision(double t, PhysicsActor a, double wall, boolean horizontal) {
+	}
+
+	protected void addCollision(double t, PhysicsActor a, PhysicsActor b) {
 	}
 }
