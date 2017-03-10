@@ -44,7 +44,7 @@ public class PhysicsWorld extends World {
 		Instant now = Instant.now();
 
 		double dt = ((double) Duration.between(_before, now).toMillis()) / 1000,
-					 hdt = 0.5 * dt, dtDt = dt * dt;
+					 hdt = 0.5 * dt, dtDt = dt*dt/2;
 
 		_fps = _fps * OLD_FPS_WEIGHT + 1.0/dt * NEW_FPS_WEIGHT;
 
@@ -54,22 +54,10 @@ public class PhysicsWorld extends World {
 		background.setColor(Color.WHITE);
 		background.drawString("FPS: " + (int) _fps, 10, 10);
 
-		double lct = 0; // last collision time
-		while (true) {
-			for (Map.Entry<Integer, PhysicsActor> entry : _actors.
-			boolean wallCollisionsDetected = actor.predictCollisions(lct, dt);
-			if (wallCollisionsDetected) {
-				lct = // TODO
-					// IMPLEMENT COLLISION HISTORY
-				continue
-			}
-		}
-
 		for (Map.Entry<Integer, PhysicsActor> entry : _actors.entrySet()) {
 			PhysicsActor actor = entry.getValue();
 
-			actor.predictCollisions(0, dt)
-			actor.physicsUpdate(dt);
+			actor.simulateMovement(dt, dtDtO2);
 			actor.drawInto(background);
 		}
 
@@ -82,11 +70,5 @@ public class PhysicsWorld extends World {
 		_actors.put(id, actor);
 		_actorIds += 1;
 		return id;
-	}
-
-	protected void addCollision(double t, PhysicsActor a, double wall, boolean horizontal) {
-	}
-
-	protected void addCollision(double t, PhysicsActor a, PhysicsActor b) {
 	}
 }

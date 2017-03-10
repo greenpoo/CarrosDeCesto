@@ -14,6 +14,8 @@ public class Vector2D {
 	}
 
 	public double get(int index) { return _members[index]; }
+	public double getX() { return _members[0]; }
+	public double getY() { return _members[1]; }
 
 	public Vector2D add(Vector2D dr) {
 		return new Vector2D(_x + dr.get(0), _y + dr.get(1));
