@@ -9,13 +9,21 @@ import java.util.Map;
 import java.time.Instant;
 import java.time.Duration;
 
+// import java.awt.Frame;
+
 public class PhysicsWorld extends World {
 	protected static final Vector2D dim = new Vector2D(600, 400);
 	private Map<Integer, PhysicsActor> _actors = new TreeMap<Integer, PhysicsActor>();
 	private int _actorIds = 0;
+	private double _scale;
 
-	public PhysicsWorld() {
+	public PhysicsWorld(double scale) {
 		super((int) dim.getX(), (int) dim.getY(), 1);
+		_scale = scale;
+	}
+
+	public double getScale() {
+		return _scale;
 	}
 
 	private double _fps = 0;
@@ -33,13 +41,15 @@ public class PhysicsWorld extends World {
 			PhysicsActor actor = entry.getValue();
 
 			actor.simulateMovement(dt, dtDtO2);
-			actor.setLocation();
+			actor.updateGFLocation(_scale);
 		}
 
 		_before = now;
 	}
 
-	public void add(PhysicsActor actor) {
+	public void addObject(PhysicsActor actor, int x, int y) {
+		super.addObject(actor, x, y);
+		actor.setLocation((double)x/_scale, (double)y/_scale);
 		_actors.put(_actorIds, actor);
 		_actorIds += 1;
 	}

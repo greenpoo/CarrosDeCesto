@@ -7,7 +7,7 @@ public class PongWorld extends PhysicsWorld {
 	private GreenfootSound pong = new GreenfootSound("sounds/bgm/pong.mp3");
 
 	public PongWorld() {
-		super();
+		super(60);
 
 		setBackground("pong_background.png");
 
