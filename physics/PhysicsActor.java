@@ -1,67 +1,60 @@
-package greenpoo.physics;
-import greenpoo.engine.ImageGallery;
+package physics;
 
-import greenfoot.Actor;
 import greenfoot.GreenfootImage;
-
-import java.util.Stack;
+import greenfoot.Actor;
 
 public class PhysicsActor extends Actor {
-	private GreenfootImage _image;
-	private Vector2D _r, _v = Vector2D.NULL, _a = Vector2D.NULL, _hd, _ihd, _wallmax;
-
+	private Vector2D _r, _v, _a, _f, _halfBounds = null;
 	private double _mass, _imass;
 
-	public PhysicsActor(String filename, double mass, Vector2D r) {
-		this(filename, mass, r, Vector2D.NULL);
-	}
-
-	public PhysicsActor(String filename, double mass, Vector2D r, Vector2D p) {
+	public PhysicsActor(double mass) {
 		super();
-
 		_mass = mass; _imass = 1 / mass;
-
-		_image = ImageGallery.request(filename);
-		setImage(_image);
-
-		_hd = new Vector2D(
-				((double) _image.getWidth() * 0.5),
-				((double) _image.getHeight() * 0.5));
-		_ihd = _hd.scale(-1);
-
-		_wallmax = PhysicsWorld.dim.add(_ihd);
-
-		_r = r; _p = p;
+		_r = _v = _a = _f = Vector2D.NULL;
 	}
 
-	public void applyForce(Vector2D f) {
-		_f = _f.add(f);
-		_a = _f / _mass;
+	public void setImage(String filename) {
+		setImage(new GreenfootImage(filename));
 	}
+
+	public void setImage(GreenfootImage img) {
+		super.setImage(img);
+		_halfBounds = new Vector2D(img.getWidth()/2, img.getHeight()/2);
+	}
+
+	public void setLocation() {
+		super.setLocation((int) _r.getX(), (int) _r.getY());
+	}
+
+	public void setLocation(int x, int y) {
+		super.setLocation(x, y);
+		_r = new Vector2D((double) x, (double) y);
+	}
+
+	public void setVelocity(Vector2D v) {
+		_v = v;
+	}
+
+	public void applyForce(Vector2D f) { _a = _a.add(f.scale( _imass)); }
 
 	private final void collideWithWalls() {
 		double dr;
-		if ((dr = _r.getX() - _hd.getX()) < 0 ||
-				(dr = _r.getX() - _wallmax.getX()) > 0) {
+
+		if ((dr = _r.getX() - _halfBounds.getX()) < 0 ||
+				(dr = _r.getX() - (double) (getWorld().getWidth() + _halfBounds.getX())) > 0) {
 			_v = _v.scale(-1, 1);
 			_r = _r.add(dr, 0);
 		}
 
-		
-		if ((dr = _r.getY() - _hd.getY()) < 0 ||
-				(dr = _r.getY - _wallmax.getY()) > 0) {
+		if ((dr = _r.getY() - _halfBounds.getY()) < 0 ||
+				(dr = _r.getY() - (double) (getWorld().getHeight() + _halfBounds.getY())) > 0) {
 			_v = _v.scale(1, -1);
 			_r = _r.add(0, dr);
 		}
 	}
 
-	protected final double simulateMovement(double dt, double dtDtO2) {
-		collideWithWalls();
+	protected final void simulateMovement(double dt, double dtDtO2) {
+		// collideWithWalls();
 		_r = _r.add(_v.scale(dt)).add(_a.scale(dtDtO2));
-	}
-
-	protected final void drawInto(GreenfootImage i) {
-		Vector2D c = _r.add(_ihd);
-		i.drawImage(_image, (int) c.getX(), (int) c.getY());
 	}
 }
