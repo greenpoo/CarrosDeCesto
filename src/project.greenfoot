@@ -1,5 +1,5 @@
 #Greenfoot properties
-#Sat Mar 11 21:15:10 GMT 2017
+#Sat Mar 11 23:05:25 GMT 2017
 target24.type=ClassTarget
 target16.name=Player2
 class.ArrowL.superclass=CarSelect
@@ -520,9 +520,9 @@ dependency83.type=UsesDependency
 target18.showInterface=false
 target38.name=Main
 target21.type=ClassTarget
-mainWindow.y=33
+mainWindow.y=13
 target13.name=DerbyMode
-mainWindow.x=816
+mainWindow.x=388
 target16.y=0
 target16.x=0
 dependency28.from=RaceWorld1
@@ -633,8 +633,8 @@ target11.x=0
 dependency19.to=Barrel
 dependency9.type=UsesDependency
 dependency72.to=PongWorld
-editor.fx.0.y=-32000
-editor.fx.0.x=-32000
+editor.fx.0.y=6
+editor.fx.0.x=490
 dependency8.to=MainMenu
 class.WinnerLoserScreen.superclass=greenfoot.World
 target26.showInterface=false

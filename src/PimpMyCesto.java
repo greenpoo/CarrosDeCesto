@@ -18,7 +18,7 @@ public class PimpMyCesto extends World
     public PimpMyCesto()
     {    
         super(600, 400, 1); 
-        setCarImages("images/car_select_normal.png","images/car_select_red.png","images/car_select_green.png","images/car_select_blue.png","images/car_select_purple.png","images/car_select_gray.png");
+        setCarImages("images/carrocesto1_normal.png","images/carrocesto1_red.png","images/carrocesto1_green.png","images/carrocesto1_blue.png","images/carrocesto1_purple.png","images/carrocesto1_gray.png");
         prepare();
     }
     public void prepare()
