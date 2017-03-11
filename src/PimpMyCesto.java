@@ -23,12 +23,15 @@ public class PimpMyCesto extends World
     }
     public void prepare()
     {
+        setBackground("pimpmycesto.png");
         SelectedCarP1 = 0;
         SelectedCarP2 = 0;
         CurrentImage = 1;        
         Car.setImage(CarImages[0]);
         addObject(Car,300,250);
-        ArrowL.getImage().setTransparency(0);
+        ArrowL.setImage("arrow_left.png");
+        ArrowR.setImage("arrow_right.png");
+        ArrowL.getImage().setTransparency(0);        
         addObject(ArrowL,100,250);
         addObject(ArrowR,500,250);
         addObject(MainMenu.getMuteButton(),35,365);
