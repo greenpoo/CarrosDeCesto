@@ -1,4 +1,4 @@
-package greenpoo.physics;
+package physics;
 
 import greenfoot.GreenfootImage;
 import greenfoot.World;
@@ -26,7 +26,7 @@ public class PhysicsActor extends Actor {
 		_ibounds = new Vector2D(img.getWidth(), img.getHeight());
 	}
 
-	protected void scale(double s) {
+	protected void setScale(double s) {
 		_shbounds = _ibounds.scale(1/2*s);
 	}
 
@@ -48,13 +48,13 @@ public class PhysicsActor extends Actor {
 		double dr;
 
 		if ((dr = _r.getX() - _shbounds.getX()) < 0 ||
-				(dr = _r.getX() - _shbounds.getX() + mapSize.getX()) > 0) {
+				(dr = _r.getX() - _shbounds.getX() - mapSize.getX()) > 0) {
 			_v = _v.scale(-1, 1);
 			_r = _r.add(-dr, 0);
 		}
 
 		if ((dr = _r.getY() - _shbounds.getY()) < 0 ||
-				(dr = _r.getY() - _shbounds.getY() + mapSize.getY()) > 0) {
+				(dr = _r.getY() - _shbounds.getY() - mapSize.getY()) > 0) {
 			_v = _v.scale(1, -1);
 			_r = _r.add(0, -dr);
 		}

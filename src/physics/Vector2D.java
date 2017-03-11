@@ -1,4 +1,4 @@
-package greenpoo.physics;
+package physics;
 
 import java.util.Random;
 
