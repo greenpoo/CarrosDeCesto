@@ -1,5 +1,6 @@
+ 
+
 import greenfoot.Greenfoot;
-import pong.PongWorld;
 
 public class PongButton extends GameModeSelect
 {
@@ -13,7 +14,7 @@ public class PongButton extends GameModeSelect
        {
            MainMenu.getClickSound().play();
            MainMenu.getBailinho().stop();
-           Greenfoot.setWorld(new pong.PongWorld());
+           greenfoot.Greenfoot.setWorld(new pong.PongWorld());
        }
     }
 }

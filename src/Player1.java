@@ -1,3 +1,5 @@
+ 
+
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Player1 extends CarrosCesto
 {
@@ -7,17 +9,17 @@ public class Player1 extends CarrosCesto
         movePlayer1();
         rotatePlayer1();
         switchWeaponP1(CurrentWeapon);
-        DerbyWorld.CarHealthP1 = turnAtEdge(DerbyWorld.CarHealthP1,DerbyWorld.CarBoostP1);
-        DerbyWorld.CarHealthP1 = checkCarCollision(DerbyWorld.CarHealthP1,DerbyWorld.CarBoostP1);
-        DerbyWorld.CarBoostP1 = regulateCarSpeed(DerbyWorld.CarBoostP1);
-        DerbyWorld.CarBoostP1 = pickBoost(DerbyWorld.CarBoostP1);
-        DerbyWorld.CarHealthP1 = touchBarrel(DerbyWorld.CarHealthP1);   
+        turnAtEdge(getP1Health(),getP1Boost());
+        checkCarCollision(getP1Health(),getP1Boost());
+        regulateCarSpeed(getP1Boost());
+        pickBoost(getP1Boost());
+        touchBarrel(getP1Health());   
     }
     public void movePlayer1()
     {
         if(Greenfoot.isKeyDown("w"))
         {
-            if(DerbyWorld.CarBoostP1 > 0)
+            if(getP1Boost() > 0)
                 move(10);
             else
                 move(5);
@@ -26,7 +28,7 @@ public class Player1 extends CarrosCesto
         {
             if(Greenfoot.isKeyDown("s"))
             {
-                if(DerbyWorld.CarBoostP1 > 0)
+                if(getP1Boost() > 0)
                     move(-10);
                 else
                     move(-5);

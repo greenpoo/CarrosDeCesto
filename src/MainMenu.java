@@ -1,3 +1,5 @@
+ 
+
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class MainMenu extends World
 {
@@ -12,10 +14,19 @@ public class MainMenu extends World
     }
     public void prepare()
     {
+        setBackground("main_menu.png");
         bailinhoMuted = false;
-        addObject(new PlayButton(),300,175);
-        addObject(new ExitButton(),300,300);
+        
+        PlayButton PlayButton = new PlayButton();
+        addObject(PlayButton,300,175);
+        PlayButton.setImage("PLAYBUTTON.png");
+        
+        ExitButton ExitButton = new ExitButton();
+        addObject(ExitButton,300,300);
+        ExitButton.setImage("EXITBUTTON.png");
+        
         addObject(MuteButton,35,365);
+        MuteButton.setImage("mutebutton.png");
     }
     public static GreenfootSound getBailinho()
     {

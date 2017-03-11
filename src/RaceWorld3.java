@@ -1,7 +1,9 @@
+ 
+
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class RaceWorld3 extends World
 {
-    private GreenfootSound race = new GreenfootSound("sounds/race.mp3");
+    private GreenfootSound race = new GreenfootSound("sounds/bgm/race.mp3");
     public RaceWorld3()
     {    
         super(600, 400, 1);
