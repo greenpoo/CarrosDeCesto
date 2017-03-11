@@ -1,5 +1,6 @@
 *.class
 *.ctxt
+soundindex.list
 **/*.sw?
 build
 gf

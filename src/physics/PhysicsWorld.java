@@ -22,9 +22,9 @@ public class PhysicsWorld extends World {
 		super((int) dim.getX(), (int) dim.getY(), 1);
 		_size = new Vector2D(dim.getX() / scale, dim.getY() / scale);
 		_scale = scale;
+		_before = Instant.now();
 	}
 
-	public Vector2D getSize() { return _size; }
 	public double getScale() { return _scale; }
 
 	private Instant _before;
@@ -40,8 +40,8 @@ public class PhysicsWorld extends World {
 		for (Map.Entry<Integer, PhysicsActor> entry : _actors.entrySet()) {
 			PhysicsActor actor = entry.getValue();
 
-			actor.scale(_scale);
-			actor.collideWithWalls(_size.scale(1/_scale));
+			actor.setScale(_scale);
+			actor.collideWithWalls(_size);
 			actor.simulateMovement(dt, dtDtO2);
 			actor.updateGFLocation(_scale);
 		}
@@ -49,9 +49,9 @@ public class PhysicsWorld extends World {
 		_before = now;
 	}
 
-	public void add(PhysicsActor actor, double x, double y) {
-		addObject(actor, (int) (x * _scale), (int) (y * _scale));
-		actor.setPosition(x, y);
+	public void add(PhysicsActor actor, int x, int y) {
+		addObject(actor, x, y);
+		actor.setPosition(x / _scale, y / _scale);
 		_actors.put(_actorIds, actor);
 		_actorIds += 1;
 	}

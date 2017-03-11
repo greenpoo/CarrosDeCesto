@@ -11,18 +11,16 @@ public class PongWorld extends PhysicsWorld {
 
 		setBackground("pong_background.png");
 
-		Vector2D worldsize = getSize();
-		Vector2D hworldsize = worldsize.scale(0.5);
-		double dist = 1;
+		int dist = 30;
 
-		add(new PongPlayer("w", "s"), dist, hworldsize.getY());
-		add(new PongPlayer("up", "down"), worldsize.getX() - dist, hworldsize.getY());
-		add(new Bola(), hworldsize.getX(), hworldsize.getY());
+		add(new PongPlayer("w", "s"), dist, getHeight()/2);
+		add(new PongPlayer("up", "down"), getWidth() - dist, getHeight()/2);
+		add(new Bola(), getWidth()/2, getHeight()/2);
 	}
 
 	public void started() {
 		super.started();
-		// pong.playLoop();
+		pong.playLoop();
 	}
 
 	public void stopped() {
