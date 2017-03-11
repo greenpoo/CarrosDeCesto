@@ -1,19 +1,44 @@
-<project name="poo" default="clean" basedir=".">
+<project name="greenpoo" default="run" basedir=".">
 	<description>Poo</description>
+
+	<path id="build.classpath">
+		<fileset dir="lib">
+			<include name="Greenfoot-core-3.0.jar"/>
+			<include name="bluejcore.jar"/>
+		</fileset>
+	</path>
+
+	<path id="run.classpath">
+		<fileset dir="lib">
+			<include name="jl1.0.1.jar"/>
+		</fileset>
+	</path>
+
 	<target name="clean">
-		<delete>
-			<fileset dir=".">
-				<include name="**/*.class" />
-				<include name="**/*.ctxt" />
-			</fileset>
-		</delete>
+		<delete dir="build"/>
 	</target>
-	<!-- <target name="compile"> -->
-	<!-- 	<mkdir dir="build/classes"/> -->
-	<!-- 	<javac srcdir="src" destdir="build/classes" includeantruntime="no"/> -->
-	<!-- </target> -->
-	<!-- <target name="jar" depends="compile"> -->
-	<!-- 	<mkdir dir="build/jar"/> -->
-	<!-- 	<jar destfile="build/jar/Greenfoot.jar" basedir="build/classes"/> -->
-	<!-- </target> -->
+
+	<target name="compile" depends="clean">
+		<mkdir dir="build/classes"/>
+		<javac srcdir="src" destdir="build/classes" includeantruntime="no" classpathref="build.classpath" />
+	</target>
+
+	<target name="jar" depends="compile">
+		<jar destfile="build/jar/greenpoo.jar" basedir="build/classes">
+			<fileset dir="resources"/>
+		</jar>
+	</target>
+
+	<target name="run" depends="jar">
+		<java classname="greenfoot.export.GreenfootScenarioMain" fork='true'>
+			<classpath>
+				<path refid="build.classpath" />
+				<path refid="run.classpath" />
+				<pathelement location="build/jar/greenpoo.jar" />
+			</classpath>
+			<arg value="greenpoo" />
+			<arg value="greenpoo.Main" />
+			<arg value="greenfoot-labels" />
+		</java>
+	</target>
 </project>
