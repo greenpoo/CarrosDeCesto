@@ -2,11 +2,11 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.awt.Color;
 public class PimpMyCesto extends World
 {
-    public int SelectedCarP1;
-    public int SelectedCarP2;
+    private static int SelectedCarP1;
+    private static int SelectedCarP2;
     private int CurrentImage;
-    public static String P1Name;
-    public static String P2Name;
+    private static String P1Name;
+    private static String P2Name;
     private Car Car = new Car();
     private GreenfootImage Car_image = Car.getImage();
     private ArrowL ArrowL = new ArrowL();
@@ -28,7 +28,7 @@ public class PimpMyCesto extends World
         ArrowL.getImage().setTransparency(0);
         addObject(ArrowL,100,250);
         addObject(ArrowR,500,250);
-        addObject(MainMenu.MuteButton,35,365);
+        addObject(MainMenu.getMuteButton(),35,365);
     }
     public void act()
     {
@@ -67,7 +67,7 @@ public class PimpMyCesto extends World
             {
                 CurrentImage--;
                 replaceImage(CurrentImage);
-                MainMenu.click.play();
+                MainMenu.getClickSound().play();
             }            
         }
         else
@@ -83,7 +83,7 @@ public class PimpMyCesto extends World
             {
                 CurrentImage++;
                 replaceImage(CurrentImage);
-                MainMenu.click.play();            
+                MainMenu.getClickSound().play();            
             }            
         }
         else
@@ -121,7 +121,7 @@ public class PimpMyCesto extends World
             if(Greenfoot.mousePressed(Car) || Greenfoot.isKeyDown("enter"))
             {
                 P1Name = Greenfoot.ask("Please enter Player 1's name:");
-                MainMenu.click.play();
+                MainMenu.getClickSound().play();
                 SelectedCarP1 = CurrentImage;
             }
         }
@@ -132,11 +132,27 @@ public class PimpMyCesto extends World
                     if(Greenfoot.mousePressed(Car) || Greenfoot.isKeyDown("enter"))
                     {
                         P2Name = Greenfoot.ask("Please enter Player 2's name:");
-                        MainMenu.click.play();
+                        MainMenu.getClickSound().play();
                         SelectedCarP2 = CurrentImage;
                         advanceToGame();
                     }
              }
         }
+    }
+    public static int getP1Car()
+    {
+        return SelectedCarP1;
+    }
+    public static int getP2Car()
+    {
+        return SelectedCarP2;
+    }
+    public static String getP1Name()
+    {
+        return P1Name;
+    }
+    public static String getP2Name()
+    {
+        return P2Name;
     }
 }

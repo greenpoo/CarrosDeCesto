@@ -4,7 +4,8 @@ public class WinnerLoserScreen extends World
     public WinnerLoserScreen()
     {    
         super(600, 400, 1);
-        showWinner(false,PimpMyCesto.P1Name,PimpMyCesto.P2Name);
+        PimpMyCesto PimpMyCesto = new PimpMyCesto();
+        showWinner(false,PimpMyCesto.getP1Name(),PimpMyCesto.getP2Name());
         prepare();
     }
     private void showWinner(boolean P1Won,String P1Name,String P2Name)

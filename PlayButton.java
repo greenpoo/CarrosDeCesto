@@ -9,7 +9,7 @@ public class PlayButton extends MainMenuItems
     {
        if(Greenfoot.mouseClicked(this))
        {
-           MainMenu.click.play();
+           MainMenu.getClickSound().play();
            Greenfoot.setWorld(new PimpMyCesto());
        }
     }  

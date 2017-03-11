@@ -9,8 +9,8 @@ public class ExitButton extends MainMenuItems
     {
        if(Greenfoot.mouseClicked(this))
        {
-           MainMenu.click.play();
-           MainMenu.bailinhoMuted = true;
+           MainMenu.getClickSound().play();
+           MainMenu.setBailinhoMuted(true);
            Greenfoot.stop();
        }
     }

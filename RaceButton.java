@@ -9,8 +9,8 @@ public class RaceButton extends GameModeSelect
     {
        if(Greenfoot.mouseClicked(this))
        {
-           MainMenu.click.play();
-           MainMenu.bailinho.stop();
+           MainMenu.getClickSound().play();
+           MainMenu.getBailinho().stop();
            switch(Greenfoot.getRandomNumber(3))
            {
                case 0:
