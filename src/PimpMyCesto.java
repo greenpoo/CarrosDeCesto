@@ -1,7 +1,10 @@
+ 
+
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class PimpMyCesto extends World
 {
-    private static int SelectedCarP1;
+    private static GreenfootImage[] CarImages = new GreenfootImage[6];
+	private static int SelectedCarP1;
     private static int SelectedCarP2;
     private int CurrentImage;
     private static String P1Name;
@@ -15,19 +18,33 @@ public class PimpMyCesto extends World
     public PimpMyCesto()
     {    
         super(600, 400, 1); 
+        setCarImages("images/car_select_normal.png","images/car_select_red.png","images/car_select_green.png","images/car_select_blue.png","images/car_select_purple.png","images/car_select_gray.png");
         prepare();
     }
     public void prepare()
     {
         SelectedCarP1 = 0;
         SelectedCarP2 = 0;
-        CurrentImage = 1;
-        Car.setImage("car_select_normal.png");
+        CurrentImage = 1;        
+        Car.setImage(CarImages[0]);
         addObject(Car,300,250);
         ArrowL.getImage().setTransparency(0);
         addObject(ArrowL,100,250);
         addObject(ArrowR,500,250);
         addObject(MainMenu.getMuteButton(),35,365);
+    }
+    public static GreenfootImage[] getCarImages()
+    {
+        return CarImages;
+    }
+    public void setCarImages(String Image0,String Image1,String Image2,String Image3,String Image4,String Image5)
+    {
+        CarImages[0] = new GreenfootImage(Image0);
+        CarImages[1] = new GreenfootImage(Image1);
+        CarImages[2] = new GreenfootImage(Image2);
+        CarImages[3] = new GreenfootImage(Image3);
+        CarImages[4] = new GreenfootImage(Image4);
+        CarImages[5] = new GreenfootImage(Image5);
     }
     public void act()
     {
@@ -91,27 +108,7 @@ public class PimpMyCesto extends World
     }
     private void replaceImage(int CurrentImage)
     {
-        switch(CurrentImage)
-        {
-            case 1:
-                Car.setImage("car_select_normal.png");
-                break;
-            case 2:
-                Car.setImage("car_select_red.png");
-                break;
-            case 3:
-                Car.setImage("car_select_green.png");
-                break;
-            case 4:
-                Car.setImage("car_select_blue.png");
-                break;
-            case 5:
-                Car.setImage("car_select_purple.png");
-                break;
-            case 6:
-                Car.setImage("car_select_gray.png");
-                break;
-        } 
+        Car.setImage(CarImages[CurrentImage-1]);
     }
     private void pickCars()
     {

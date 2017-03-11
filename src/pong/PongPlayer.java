@@ -1,7 +1,7 @@
 package pong;
 
 import greenfoot.Greenfoot;
-import greenpoo.physics.*;
+import physics.*;
 
 public class PongPlayer extends PhysicsActor {
 	private String _upkey, _downkey;

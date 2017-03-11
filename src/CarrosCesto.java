@@ -1,9 +1,17 @@
+ 
+
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.time.Instant;
 import java.time.Duration;
 public class CarrosCesto extends Actor
 {
-    public static GreenfootSound crash = new GreenfootSound("crash.mp3");
+    private static GreenfootSound crash = new GreenfootSound("sounds/se/crash.mp3");
+    private static GreenfootSound explosion = new GreenfootSound("sounds/se/explosion.mp3");
+    private static GreenfootSound boost = new GreenfootSound("sounds/se/boost.mp3");
+    private static int CarHealthP1 = 100;
+    private static int CarHealthP2 = 0;
+    private static int CarBoostP1 = 100;
+    private static int CarBoostP2 = 0;
     private Instant past = Instant.now();
     private float x = 0;
     private float y = 0;
@@ -21,13 +29,57 @@ public class CarrosCesto extends Actor
      * - DISPARAR BANANAS (-DAMAGE,+RATEOFFIRE)
      * - GAMEOVER/WINNER SCREEN
      */
+    public static int getP1Health()
+    {
+        return CarHealthP1;
+    }
+    public static int getP2Health()
+    {
+        return CarHealthP2;
+    }
+    public static void decreaseP1Health(int minus)
+    {
+        CarHealthP1 -= minus;
+    }
+    public static void decreaseP2Health(int minus)
+    {
+        CarHealthP2 -= minus;
+    }
+    public static int getP1Boost()
+    {
+        return CarBoostP1;
+    }
+    public static int getP2Boost()
+    {
+        return CarBoostP2;
+    }
+    public static void setP1Boost(int newBoost)
+    {
+        CarBoostP1 = newBoost;
+    }
+    public static void setP2Boost(int newBoost)
+    {
+        CarBoostP2 = newBoost;
+    }        
+    public static GreenfootSound getCrashSound()
+    {
+        return crash;
+    }
+    public static GreenfootSound getBoostSound()
+    {
+        return boost;
+    }
+    public static GreenfootSound getExplosionSound()
+    {
+        return explosion;
+    }
     public double pickBoost(double CarBoost)
     {
-        BoostPickup boost = (BoostPickup)getOneIntersectingObject(BoostPickup.class);
-        if(boost != null && CarBoost <= 0)
+        BoostPickup PickedBoost = (BoostPickup)getOneIntersectingObject(BoostPickup.class);
+        if(PickedBoost != null && CarBoost <= 0)
         {
-            Greenfoot.playSound("boost.mp3");
-            getWorld().removeObject(boost);
+            boost.play();
+            getWorld().removeObject(PickedBoost);
             return 100;
         }
         else
@@ -66,7 +118,7 @@ public class CarrosCesto extends Actor
         Barrel barrel = (Barrel)getOneIntersectingObject(Barrel.class);
         if(barrel != null)
         {
-            Greenfoot.playSound("explosion.mp3");
+            explosion.play();
             getWorld().removeObject(barrel);
             return CarHealth - 5;
         }

@@ -1,6 +1,6 @@
 package pong;
 
-import greenpoo.physics.*;
+import physics.*;
 
 public class Bola extends PhysicsActor {
 	public Bola() {

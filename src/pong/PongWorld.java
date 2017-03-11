@@ -1,6 +1,6 @@
 package pong;
 
-import greenpoo.physics.*;
+import physics.*;
 import greenfoot.GreenfootSound;
 
 public class PongWorld extends PhysicsWorld {
