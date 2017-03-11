@@ -37,7 +37,7 @@
 				<pathelement location="build/jar/greenpoo.jar" />
 			</classpath>
 			<arg value="greenpoo" />
-			<arg value="greenpoo.Main" />
+			<arg value="Main" />
 			<arg value="greenfoot-labels" />
 		</java>
 	</target>

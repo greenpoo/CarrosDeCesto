@@ -1,6 +1,6 @@
-mkdir -p projecto_greenfoot || true
-cd projecto_greenfoot
-ln -fs ../src/*
-ln -fs ../resources/images
-ln -fs ../resources/sounds
-cp ../resources/project.greenfoot.mess project.greenfoot
+rm -rf gf
+mkdir gf
+ln -s resources/images gf
+ln -s resources/sounds gf
+ln -s src/* gf
+cp resources/project.greenfoot.mess gf/project.greenfoot

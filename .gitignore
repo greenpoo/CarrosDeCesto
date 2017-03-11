@@ -1,4 +1,5 @@
 *.class
 *.ctxt
 **/*.sw?
-project.greenfoot
+build
+gf
