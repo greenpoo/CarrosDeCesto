@@ -26,7 +26,6 @@ public class PhysicsWorld extends World {
 		return _scale;
 	}
 
-	private double _fps = 0;
 	private Instant _before;
 
 	public void started() { _before = Instant.now(); }
