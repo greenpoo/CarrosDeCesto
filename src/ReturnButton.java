@@ -9,8 +9,8 @@ public class ReturnButton extends MainMenuItems
     {
        if(Greenfoot.mouseClicked(this))
        {
-           MainMenu.click.play();
-           MainMenu.bailinhoMuted = false;
+           MainMenu.getClickSound().play();
+           MainMenu.setBailinhoMuted(false);
            Greenfoot.setWorld(new MainMenu());
        }
     }

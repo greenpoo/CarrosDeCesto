@@ -1,8 +1,7 @@
-import pong.PongWorld;
-
+import greenpoo.pong.*;
 public class Main extends greenfoot.World {
 	public Main() {
 		super(600, 400, 1);
-		greenfoot.Greenfoot.setWorld(new greenpoo.MainMenu());
+		greenfoot.Greenfoot.setWorld(new PongWorld());
 	}
 }

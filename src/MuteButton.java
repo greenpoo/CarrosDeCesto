@@ -8,18 +8,18 @@ public class MuteButton extends MainMenuItems
     }
     private void playOrMuteBGM()
     {
-        if(!MainMenu.bailinho.isPlaying() && !MainMenu.bailinhoMuted)
-            MainMenu.bailinho.playLoop();
+        if(!MainMenu.getBailinho().isPlaying() && !MainMenu.isBailinhoMuted())
+            MainMenu.getBailinho().playLoop();
         else
-            if(MainMenu.bailinho.isPlaying() && MainMenu.bailinhoMuted)
-                MainMenu.bailinho.stop();
+            if(MainMenu.getBailinho().isPlaying() && MainMenu.isBailinhoMuted())
+                MainMenu.getBailinho().stop();
     }
     private void checkMuteButton()
     {
         if(Greenfoot.mouseClicked(this))
         {
-            MainMenu.click.play();
-            MainMenu.bailinhoMuted = !MainMenu.bailinhoMuted;
+            MainMenu.getClickSound().play();
+            MainMenu.toggleBailinhoMuted();
         }
     }
 }

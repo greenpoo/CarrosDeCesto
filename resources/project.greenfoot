@@ -1,3 +1,11 @@
-project.name=Greenpoo
+#Greenfoot project file
 main.class=greenpoo.Main
+package.numDependencies=0
+package.numTargets=0
+project.name=Greenpoo
+readme.height=58
+readme.name=@README
+readme.width=47
+readme.x=10
+readme.y=10
 scenario.lock=false
