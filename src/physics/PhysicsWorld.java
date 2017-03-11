@@ -22,6 +22,7 @@ public class PhysicsWorld extends World {
 		super((int) dim.getX(), (int) dim.getY(), 1);
 		_size = new Vector2D(dim.getX() / scale, dim.getY() / scale);
 		_scale = scale;
+		_before = Instant.now();
 	}
 
 	public double getScale() { return _scale; }
