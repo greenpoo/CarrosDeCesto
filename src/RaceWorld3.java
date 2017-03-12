@@ -61,9 +61,11 @@ public class RaceWorld3 extends World
         Player1 player12 = new Player1();
         addObject(player12,488,17);
         player12.setRotation(110);
+        player12.setImage(PimpMyCesto.getCarImages()[PimpMyCesto.getP1Car() - 1]);
         
         Player2 player22 = new Player2();
         addObject(player22,557,29);
-        player22.setRotation(290);
+        player22.setRotation(110);
+        player22.setImage(PimpMyCesto.getCarImages()[PimpMyCesto.getP2Car() - 1]);
     }
 }

@@ -25,8 +25,7 @@ public class RaceWorld2 extends World
         addObject(new Wall(),450,84);
         addObject(new Wall(),313,213);
        
-        addObject(new FinishLine(),512,20);
-        addObject(new FinishLine(),592,20);
+        addObject(new FinishLine(),537,21);
         
         addObject(new Wall(),449,247);
         addObject(new Wall(),169,244);
@@ -34,9 +33,11 @@ public class RaceWorld2 extends World
         Player1 player12 = new Player1();
         addObject(player12,34,40);
         player12.setRotation(90);
+        player12.setImage(PimpMyCesto.getCarImages()[PimpMyCesto.getP1Car() - 1]);
         
         Player2 player22 = new Player2();
         addObject(player22,112,42);
-        player22.setRotation(270);
+        player22.setRotation(90);
+        player22.setImage(PimpMyCesto.getCarImages()[PimpMyCesto.getP2Car() - 1]);
     }
 }

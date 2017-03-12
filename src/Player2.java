@@ -8,14 +8,14 @@ public class Player2 extends CarrosCesto
     {
         movePlayer2();
         rotatePlayer2();
-        switchWeaponP2(CurrentWeapon);
-        turnAtEdge(getP2Health(),getP2Boost());
-        checkCarCollision(getP2Health(),getP2Boost());
-        regulateCarSpeed(getP2Boost());
-        pickBoost(getP2Boost());
-        touchBarrel(getP2Health());   
+        switchWeaponP2();
+        setP2Health(turnAtEdge(getP2Health(),getP2Boost()));
+        setP2Health(checkCarCollision(getP2Health(),getP2Boost()));
+        setP2Boost(regulateCarSpeed(getP2Boost()));
+        setP2Boost(pickBoost(getP2Boost()));
+        setP2Health(touchBarrel(getP2Health()));   
     }
-    public void movePlayer2()
+    private void movePlayer2()
     {
         if(Greenfoot.isKeyDown("up"))
         {
@@ -36,7 +36,7 @@ public class Player2 extends CarrosCesto
         }
         return;
     }
-    public void rotatePlayer2()
+    private void rotatePlayer2()
     {
         if(Greenfoot.isKeyDown("left"))
             turn(-5);
@@ -45,7 +45,7 @@ public class Player2 extends CarrosCesto
                 turn(5);
         return;
     }
-    public int switchWeaponP2(int CurrentWeapon)
+    private void switchWeaponP2()
     {
         if(Greenfoot.isKeyDown("0"))
         {
@@ -54,6 +54,5 @@ public class Player2 extends CarrosCesto
             else
                 CurrentWeapon = 1;
         }
-        return CurrentWeapon;
     }
 }

@@ -3,6 +3,16 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class GameModeMenu extends World
 {
+    private static boolean P1Won;
+    
+    private static GreenfootSound crash = new GreenfootSound("sounds/se/crash.mp3");
+    private static GreenfootSound explosion = new GreenfootSound("sounds/se/explosion.mp3");
+    private static GreenfootSound boost = new GreenfootSound("sounds/se/boost.mp3");
+    private static GreenfootSound fanfare = new GreenfootSound("sounds/se/fanfare.wav");
+    
+    private static GreenfootSound race = new GreenfootSound("sounds/bgm/race.mp3");
+    private static GreenfootSound derby = new GreenfootSound("sounds/bgm/derby.mp3");
+    private static GreenfootSound pong = new GreenfootSound("sounds/bgm/pong.mp3");
     public GameModeMenu()
     {    
         super(600, 400, 1);
@@ -26,4 +36,40 @@ public class GameModeMenu extends World
         
         addObject(MainMenu.getMuteButton(),35,365);
     }
+    public static GreenfootSound getCrashSound()
+    {
+        return crash;
+    }
+    public static GreenfootSound getBoostSound()
+    {
+        return boost;
+    }
+    public static GreenfootSound getExplosionSound()
+    {
+        return explosion;
+    }
+    public static GreenfootSound getFanfareSound()
+    {
+        return fanfare;
+    }
+    public static GreenfootSound getDerbySong()
+    {
+        return derby;
+    }
+    public static GreenfootSound getRaceSong()
+    {
+        return race;
+    }
+    public static GreenfootSound getPongSong()
+    {
+        return pong;
+    }
+    public static void setP1Won(boolean bool)
+    {
+        P1Won = bool;
+    }
+    public static boolean getP1Won()
+    {
+        return P1Won;
+    }    
 }
