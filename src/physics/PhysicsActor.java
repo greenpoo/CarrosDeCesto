@@ -5,13 +5,13 @@ import greenfoot.World;
 import greenfoot.Actor;
 
 public class PhysicsActor extends Actor {
-	private Vector2D _r, _v, _a, _f, _ibounds = null, _shbounds = null;
+	private Vector2D _r, _v, _a, _frameForce, _ibounds = null, _shbounds = null;
 	private double _mass, _imass;
 
 	public PhysicsActor(double mass) {
 		super();
 		_mass = mass; _imass = 1 / mass;
-		_r = _v = _a = _f = Vector2D.NULL;
+		_r = _v = _a = _frameForce = Vector2D.NULL;
 	}
 
 	public Vector2D getPosition() { return _r; }
@@ -36,15 +36,25 @@ public class PhysicsActor extends Actor {
 		super.setLocation((int)(_r.getX() * scale), (int)(_r.getY() * scale));
 	}
 
+	public void setLocation(int x, int y) {
+		super.setLocation(x, y);
+		double scale = ((PhysicsWorld) getWorld()).getScale();
+		_r = new Vector2D(((double)x)/scale, ((double)y)/scale);
+	}
+	
 	public void setPosition(double x, double y) {
 		_r = new Vector2D(x, y);
 	}
-
+	
+	public void setVelocity(double x, double y) {
+		setVelocity(new Vector2D(x, y));
+	}
+	
 	public void setVelocity(Vector2D v) {
 		_v = v;
 	}
 
-	public void applyForce(Vector2D f) { _f = _f.add(f); }
+	public void applyFrameForce(Vector2D f) { _frameForce = _frameForce.add(f); }
 
 	protected final void collideWithWalls(Vector2D mapSize) {
 		double dr;
@@ -64,11 +74,13 @@ public class PhysicsActor extends Actor {
 	
 
 	protected final void simulateMovement(double dt, double dtDtO2) {
-		_r = _r.add(_v.scale(dt)).add(_a.scale(dtDtO2));
-		_v = _v.add(_a.scale(dt));
-		_a = _f.scale(_imass);
-		_f = Vector2D.NULL;
+		// A ORDEM É IMPORTANTE
+		_a = _frameForce.scale(_imass); // Actualiza a aceleração
+		_v = _v.add(_a.scale(dt)); // Atualiza a velosidade
+		_r = _r.add(_v.scale(dt)).add(_a.scale(dtDtO2)); // Atualiza a posição
+		_frameForce = Vector2D.NULL; // faz reset á força que é aplicada por frame
 	}
+
 	
 	
 }
