@@ -15,6 +15,8 @@ public class PhysicsActor extends Actor {
 	}
 
 	public Vector2D getPosition() { return _r; }
+	
+	public Vector2D getVelocity() { return _v; }
 
 	public void setImage(String filename) {
 		setImage(new GreenfootImage(filename));
@@ -42,7 +44,7 @@ public class PhysicsActor extends Actor {
 		_v = v;
 	}
 
-	public void applyForce(Vector2D f) { _a = _a.add(f.scale( _imass)); }
+	public void applyForce(Vector2D f) { _f = _f.add(f); }
 
 	protected final void collideWithWalls(Vector2D mapSize) {
 		double dr;
@@ -59,8 +61,14 @@ public class PhysicsActor extends Actor {
 			_r = _r.add(0, -dr);
 		}
 	}
+	
 
 	protected final void simulateMovement(double dt, double dtDtO2) {
 		_r = _r.add(_v.scale(dt)).add(_a.scale(dtDtO2));
+		_v = _v.add(_a.scale(dt));
+		_a = _f.scale(_imass);
+		_f = Vector2D.NULL;
 	}
+	
+	
 }

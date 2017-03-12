@@ -24,7 +24,7 @@ public class PhysicsWorld extends World {
 		_scale = scale;
 		_before = Instant.now();
 	}
-
+// Cria a escala por metros por pixies 
 	public double getScale() { return _scale; }
 
 	private Instant _before;
@@ -35,15 +35,17 @@ public class PhysicsWorld extends World {
 	public void act() {
 		Instant now = Instant.now();
 
-		double dt = ((double) Duration.between(_before, now).toMillis()) / 1000, dtDtO2 = dt*dt/2;
-
+		double dt = ((double) Duration.between(_before, now).toMillis()) / 1000, dtDtO2 = dt*dt/2;// Calcula o tempo de cada frame??
+			//Aplica a cada actor estas funções 
 		for (Map.Entry<Integer, PhysicsActor> entry : _actors.entrySet()) {
 			PhysicsActor actor = entry.getValue();
 
-			actor.setScale(_scale);
-			actor.collideWithWalls(_size);
-			actor.simulateMovement(dt, dtDtO2);
-			actor.updateGFLocation(_scale);
+			actor.setScale(_scale);// Faz scale da image do actor.
+			actor.collideWithWalls(_size);// Faz a colição com as paredes
+			actor.simulateMovement(dt, dtDtO2);//Atualiza o vector do deslocamento, tendo em conta a equação do deslocamento.
+			actor.updateGFLocation(_scale);// Faz a atualização do actor tendo em conta o novo vector de deslocamento calculado por simulateMovement.
+			
+			
 		}
 
 		_before = now;
