@@ -12,7 +12,7 @@ public class PongPlayer extends PhysicsActor {
 
 	public PongPlayer(String upkey, String downkey) {
 		super(7.0);
-		setImage(ImageProcessing.screen(new GreenfootImage("luchador.png"), new Color(120, 100, 200)));
+		setImage(ImageProcessing.tint(new GreenfootImage("luchador.png"), new Color(120, 255, 255)));
 
 		_upkey = upkey;
 		_downkey = downkey;
