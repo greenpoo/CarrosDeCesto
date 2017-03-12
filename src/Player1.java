@@ -11,7 +11,7 @@ public class Player1 extends CarrosCesto
         rotatePlayer1();
         switchWeaponP1();
         setP1Health(turnAtEdge(getP1Health(),getP1Boost(),true));
-        setP1Health(checkCarCollision(getP1Health(),getP1Boost()));
+        setP1Health(checkCarCollision(getP1Health(),getP1Boost(),true));
         setP1Boost(regulateCarSpeed(getP1Boost()));
         setP1Boost(pickBoost(getP1Boost()));
         setP1Health(touchBarrel(getP1Health()));   

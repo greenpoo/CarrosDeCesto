@@ -83,16 +83,22 @@ public class CarrosCesto extends Actor
                if(!isP1)
                     Player2.toggleCanCrash();
                if(CarBoost > 0)
-                    return CarHealth - 6;
+               {
+                    move(-10);
+                    return CarHealth - 2;
+               }
                else
-                    return CarHealth - 2;             
+               {
+                    move(-5);
+                    return CarHealth - 1;
+               }               
            }
         }
         else
         {
             if(isP1 && !Player1.getCanCrash())
                 Player1.toggleCanCrash();
-            if(!isP1 && !Player2.getCanCrash())
+            if(!isP1 && Player2.getCanCrash())
                 Player2.toggleCanCrash();
         }
         return CarHealth;
@@ -111,33 +117,46 @@ public class CarrosCesto extends Actor
         {
             GameModeMenu.getExplosionSound().play();
             getWorld().removeObject(barrel);
-            return CarHealth - 5;
+            return CarHealth - 3;
         }
         else
             return CarHealth;
     }
-    public int checkCarCollision(int CarHealth,double CarBoost)
+    public int checkCarCollision(int CarHealth,double CarBoost,boolean isP1)
     {
         CarrosCesto carro = (CarrosCesto) getOneIntersectingObject(CarrosCesto.class);
         if(carro != null)
         {
-           GameModeMenu.getCrashSound().play();
-           if(Greenfoot.getRandomNumber(2) == 1)
-                turn(10-Greenfoot.getRandomNumber(5));
-           else
-                turn(Greenfoot.getRandomNumber(5)-10);
-           if(CarBoost > 0)
+           if((isP1 && Player1.getCanCrash()) || (!isP1 && Player2.getCanCrash()))
            {
-                move(-15);
-                return CarHealth - 12;
-           }
-           else
-           {
-                move(-5);
-                return CarHealth - 4;
+               GameModeMenu.getCrashSound().play();
+               if(isP1)
+                    Player1.toggleCanCrash();
+               if(!isP1)
+                    Player2.toggleCanCrash();
+               if(Greenfoot.getRandomNumber(2) == 1)
+                    turn(10-Greenfoot.getRandomNumber(5));
+               else
+                    turn(Greenfoot.getRandomNumber(5)-10);
+               if(CarBoost > 0)
+               {
+                    move(-15);
+                    return CarHealth - 2;
+               }
+               else
+               {
+                    move(-5);
+                    return CarHealth - 1;
+               }               
            }
         }
         else
-            return CarHealth;
+        {
+            if(isP1 && !Player1.getCanCrash())
+                Player1.toggleCanCrash();
+            if(!isP1 && Player2.getCanCrash())
+                Player2.toggleCanCrash();
+        }
+        return CarHealth;
     }   
 }
