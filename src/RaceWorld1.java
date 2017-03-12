@@ -3,7 +3,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class RaceWorld1 extends World
 {
-    private GreenfootSound race = new GreenfootSound("sounds/bgm/race.mp3");
     public RaceWorld1()
     {    
         super(600, 400, 1);
@@ -16,8 +15,8 @@ public class RaceWorld1 extends World
     }
     private void playBGM()
     {
-        if(!race.isPlaying())
-            race.playLoop();
+        if(!GameModeMenu.getRaceSong().isPlaying())
+            GameModeMenu.getRaceSong().playLoop();
     }
     private void prepare()
     {

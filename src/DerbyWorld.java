@@ -1,7 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class DerbyWorld extends World
 {
-    private GreenfootSound derby = new GreenfootSound("sounds/bgm/derby.mp3");
     public DerbyWorld()
     {   
         super(600, 400, 1);
@@ -47,8 +46,8 @@ public class DerbyWorld extends World
     }
     private void playBGM()
     {
-        if(!derby.isPlaying())
-            derby.playLoop();
+        if(!GameModeMenu.getDerbySong().isPlaying())
+            GameModeMenu.getDerbySong().playLoop();
         return;
     }
     private void checkPlayer1Health()

@@ -5,9 +5,6 @@ import java.time.Instant;
 import java.time.Duration;
 public class CarrosCesto extends Actor
 {
-    private static GreenfootSound crash = new GreenfootSound("sounds/se/crash.mp3");
-    private static GreenfootSound explosion = new GreenfootSound("sounds/se/explosion.mp3");
-    private static GreenfootSound boost = new GreenfootSound("sounds/se/boost.mp3");
     private static int CarHealthP1;
     private static int CarHealthP2;
     private static double CarBoostP1;
@@ -61,24 +58,13 @@ public class CarrosCesto extends Actor
     {
         CarBoostP2 = newBoost;
     }        
-    public static GreenfootSound getCrashSound()
-    {
-        return crash;
-    }
-    public static GreenfootSound getBoostSound()
-    {
-        return boost;
-    }
-    public static GreenfootSound getExplosionSound()
-    {
-        return explosion;
-    }
+   
     public double pickBoost(double CarBoost)
     {
         BoostPickup PickedBoost = (BoostPickup)getOneIntersectingObject(BoostPickup.class);
         if(PickedBoost != null && CarBoost <= 0)
         {
-            boost.play();
+            GameModeMenu.getBoostSound().play();
             getWorld().removeObject(PickedBoost);
             return 100;
         }
@@ -90,7 +76,7 @@ public class CarrosCesto extends Actor
     {
         if(isAtEdge())
         {
-           crash.play();
+           GameModeMenu.getCrashSound().play();
            if(CarBoost > 0)
            {
                 move(-10);
@@ -117,7 +103,7 @@ public class CarrosCesto extends Actor
         Barrel barrel = (Barrel)getOneIntersectingObject(Barrel.class);
         if(barrel != null)
         {
-            explosion.play();
+            GameModeMenu.getExplosionSound().play();
             getWorld().removeObject(barrel);
             return CarHealth - 5;
         }
@@ -129,7 +115,7 @@ public class CarrosCesto extends Actor
         CarrosCesto carro = (CarrosCesto) getOneIntersectingObject(CarrosCesto.class);
         if(carro != null)
         {
-           crash.play();
+           GameModeMenu.getCrashSound().play();
            if(Greenfoot.getRandomNumber(2) == 1)
                 turn(10-Greenfoot.getRandomNumber(5));
            else
