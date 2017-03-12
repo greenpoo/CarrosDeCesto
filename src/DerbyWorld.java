@@ -8,7 +8,7 @@ public class DerbyWorld extends World
     }    
     public void act()
     {
-        // playBGM();
+        playBGM();
         generateBarrels(); 
         generateBoostPickups();     
         checkPlayer1Health();
@@ -52,18 +52,24 @@ public class DerbyWorld extends World
     }
     private void checkPlayer1Health()
     {
-        if(CarrosCesto.getP1Health() == 0)
+        if(CarrosCesto.getP1Health() < 0)
         {
-            GameModeMenu.setP1Won(false);
+            GameModeMenu.getDerbySong().stop();
+            GameModeMenu.setP1Won(false);            
+            GameModeMenu.getFanfareSound().play();
+            Greenfoot.delay(60);
             Greenfoot.setWorld(new WinnerLoserScreen());
             return;
         }
     }
     private void checkPlayer2Health()
     {
-        if(CarrosCesto.getP2Health() == 0)
+        if(CarrosCesto.getP2Health() < 0)
         {
-           GameModeMenu.setP1Won(true);
+           GameModeMenu.getDerbySong().stop();
+           GameModeMenu.setP1Won(true);            
+           GameModeMenu.getFanfareSound().play();
+           Greenfoot.delay(60);
            Greenfoot.setWorld(new WinnerLoserScreen());
            return;
         }
