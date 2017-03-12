@@ -5,17 +5,28 @@ import greenfoot.GreenfootSound;
 
 public class PongWorld extends PhysicsWorld {
 	private static GreenfootSound pong = new GreenfootSound("sounds/bgm/pong.mp3");
+	private Bola bola = new Bola();
+	private PongPlayer p1 = new PongPlayer("w", "s"), p2 = new PongPlayer("up", "down");
+	private int p1x = 30, p2x, cx, cy;
 
 	public PongWorld() {
 		super(60);
 
 		setBackground("pong_background.png");
-
-		int dist = 30;
-
-		add(new PongPlayer("w", "s"), dist, getHeight()/2);
-		add(new PongPlayer("up", "down"), getWidth() - dist, getHeight()/2);
-		add(new Bola(), getWidth()/2, getHeight()/2);
+		p2x = getWidth() - p1x;
+		cx = getWidth()/2;
+		cy = getHeight()/2;
+		add(p1, p1x, cy);
+		add(p2, p2x, cy);
+		add(bola, cx, cy);
+	}
+	
+	public void act() {
+		super.act();
+		if(bola.getX() < p1x || bola.getX() > p2x) {
+			bola.setLocation(cx, cy);
+			bola.randVelocity();
+		}
 	}
 
 	public void started() {

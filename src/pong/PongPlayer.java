@@ -19,10 +19,10 @@ public class PongPlayer extends PhysicsActor {
 	}
 
 	public void act() {
-		double force = 100;
+		double force = 200;
 		if (Greenfoot.isKeyDown(_downkey)) applyForce(new Vector2D(0, force));
 		else if (Greenfoot.isKeyDown(_upkey)) applyForce(new Vector2D(0, -force));
-		else applyForce(new Vector2D(0, - 100 * getVelocity().getY()));
+			else applyForce(new Vector2D(0, - 80 * getVelocity().getY()));
 	}
 	
 	
