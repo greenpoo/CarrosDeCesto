@@ -44,8 +44,6 @@ public class PhysicsWorld extends World {
 			actor.collideWithWalls(_size);// Faz a colição com as paredes
 			actor.simulateMovement(dt, dtDtO2);//Atualiza o vector do deslocamento, tendo em conta a equação do deslocamento.
 			actor.updateGFLocation(_scale);// Faz a atualização do actor tendo em conta o novo vector de deslocamento calculado por simulateMovement.
-			
-			
 		}
 
 		_before = now;

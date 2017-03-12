@@ -1,14 +1,19 @@
 package pong;
 
 import greenfoot.Greenfoot;
+import greenfoot.GreenfootImage;
+import greenfoot.Color;
+
 import physics.*;
+import util.ImageProcessing;
 
 public class PongPlayer extends PhysicsActor {
 	private String _upkey, _downkey;
 
 	public PongPlayer(String upkey, String downkey) {
 		super(7.0);
-		setImage("luchador.png");
+		setImage(ImageProcessing.screen(new GreenfootImage("luchador.png"), new Color(120, 100, 200)));
+
 		_upkey = upkey;
 		_downkey = downkey;
 	}
