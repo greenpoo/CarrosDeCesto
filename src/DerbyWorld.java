@@ -31,7 +31,8 @@ public class DerbyWorld extends World
         addObject(Player2,500,200);
         Player1.setImage(PimpMyCesto.getCarImages()[PimpMyCesto.getP1Car() - 1]);
         Player2.setImage(PimpMyCesto.getCarImages()[PimpMyCesto.getP2Car() - 1]);
-        Player2.getImage().mirrorHorizontally();
+        Player2.getImage().mirrorVertically();
+        Player2.turn(180);
         addObject(new Barrel(),(Greenfoot.getRandomNumber(10)+1)*55,(Greenfoot.getRandomNumber(10)+1)*35);
         addObject(new BoostPickup(),(Greenfoot.getRandomNumber(10)+1)*55,(Greenfoot.getRandomNumber(10)+1)*35);
     }
