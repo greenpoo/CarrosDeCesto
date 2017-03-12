@@ -58,7 +58,6 @@ public class CarrosCesto extends Actor
     {
         CarBoostP2 = newBoost;
     }        
-   
     public double pickBoost(double CarBoost)
     {
         BoostPickup PickedBoost = (BoostPickup)getOneIntersectingObject(BoostPickup.class);
@@ -72,24 +71,31 @@ public class CarrosCesto extends Actor
             return CarBoost;
     }
     
-    public int turnAtEdge(int CarHealth,double CarBoost)
+    public int turnAtEdge(int CarHealth,double CarBoost,boolean isP1)
     {
         if(isAtEdge())
         {
-           GameModeMenu.getCrashSound().play();
-           if(CarBoost > 0)
+           if((isP1 && Player1.getCanCrash()) || (!isP1 && Player2.getCanCrash()))
            {
-                move(-10);
-                return CarHealth - 6;
-           }
-           else
-           {
-                move(-5);
-                return CarHealth - 2;
+               GameModeMenu.getCrashSound().play();
+               if(isP1)
+                    Player1.toggleCanCrash();
+               if(!isP1)
+                    Player2.toggleCanCrash();
+               if(CarBoost > 0)
+                    return CarHealth - 6;
+               else
+                    return CarHealth - 2;             
            }
         }
         else
-            return CarHealth;
+        {
+            if(isP1 && !Player1.getCanCrash())
+                Player1.toggleCanCrash();
+            if(!isP1 && !Player2.getCanCrash())
+                Player2.toggleCanCrash();
+        }
+        return CarHealth;
     }
     public double regulateCarSpeed(double CarBoost)
     {
