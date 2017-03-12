@@ -8,10 +8,10 @@ public class CarrosCesto extends Actor
     private static GreenfootSound crash = new GreenfootSound("sounds/se/crash.mp3");
     private static GreenfootSound explosion = new GreenfootSound("sounds/se/explosion.mp3");
     private static GreenfootSound boost = new GreenfootSound("sounds/se/boost.mp3");
-    private static int CarHealthP1 = 100;
-    private static int CarHealthP2 = 0;
-    private static int CarBoostP1 = 100;
-    private static int CarBoostP2 = 0;
+    private static int CarHealthP1;
+    private static int CarHealthP2;
+    private static double CarBoostP1;
+    private static double CarBoostP2;
     private Instant past = Instant.now();
     private float x = 0;
     private float y = 0;
@@ -37,27 +37,27 @@ public class CarrosCesto extends Actor
     {
         return CarHealthP2;
     }
-    public static void decreaseP1Health(int minus)
+    public static void setP1Health(int newHealth)
     {
-        CarHealthP1 -= minus;
+        CarHealthP1 = newHealth;
     }
-    public static void decreaseP2Health(int minus)
+    public static void setP2Health(int newHealth)
     {
-        CarHealthP2 -= minus;
+        CarHealthP2 = newHealth;
     }
-    public static int getP1Boost()
+    public static double getP1Boost()
     {
         return CarBoostP1;
     }
-    public static int getP2Boost()
+    public static double getP2Boost()
     {
         return CarBoostP2;
     }
-    public static void setP1Boost(int newBoost)
+    public static void setP1Boost(double newBoost)
     {
         CarBoostP1 = newBoost;
     }
-    public static void setP2Boost(int newBoost)
+    public static void setP2Boost(double newBoost)
     {
         CarBoostP2 = newBoost;
     }        
@@ -101,7 +101,6 @@ public class CarrosCesto extends Actor
                 move(-5);
                 return CarHealth - 2;
            }
-           
         }
         else
             return CarHealth;
