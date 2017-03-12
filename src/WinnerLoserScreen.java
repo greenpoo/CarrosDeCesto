@@ -19,7 +19,14 @@ public class WinnerLoserScreen extends World
     } 
     private void prepare()
     {
-        addObject(new ExitButton(),300,325);
+        setBackground("gameover.png");
+        
+        ExitButton ExitButton = new ExitButton();
+        addObject(ExitButton,300,325);
+        ExitButton.setImage("EXITBUTTON.png");
+        
+        ReturnButton ReturnButton = new ReturnButton();
         addObject(new ReturnButton(),300,200);
+        ReturnButton.setImage("RETURNBUTTON.png");
     }
 }
