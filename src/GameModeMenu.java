@@ -3,6 +3,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class GameModeMenu extends World
 {
+    private static boolean P1Won;
     public GameModeMenu()
     {    
         super(600, 400, 1);
@@ -26,4 +27,12 @@ public class GameModeMenu extends World
         
         addObject(MainMenu.getMuteButton(),35,365);
     }
+    public static void setP1Won(boolean bool)
+    {
+        P1Won = bool;
+    }
+    public static boolean getP1Won()
+    {
+        return P1Won;
+    }    
 }
