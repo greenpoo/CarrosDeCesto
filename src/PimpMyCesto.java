@@ -3,7 +3,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class PimpMyCesto extends World
 {
-    private static GreenfootImage[] CarImages = new GreenfootImage[6];
+    private static String CarImages[] = new String[6];
     private static int SelectedCarP1;
     private static int SelectedCarP2;
     private int CurrentImage;
@@ -37,18 +37,18 @@ public class PimpMyCesto extends World
         addObject(ArrowR,500,250);
         addObject(MainMenu.getMuteButton(),35,365);
     }
-    public static GreenfootImage[] getCarImages()
+    public static String[] getCarImages()
     {
         return CarImages;
     }
     public void setCarImages(String Image0,String Image1,String Image2,String Image3,String Image4,String Image5)
     {
-        CarImages[0] = new GreenfootImage(Image0);
-        CarImages[1] = new GreenfootImage(Image1);
-        CarImages[2] = new GreenfootImage(Image2);
-        CarImages[3] = new GreenfootImage(Image3);
-        CarImages[4] = new GreenfootImage(Image4);
-        CarImages[5] = new GreenfootImage(Image5);
+        CarImages[0] = Image0;
+        CarImages[1] = Image1;
+        CarImages[2] = Image2;
+        CarImages[3] = Image3;
+        CarImages[4] = Image4;
+        CarImages[5] = Image5;
     }
     public void act()
     {
@@ -135,7 +135,6 @@ public class PimpMyCesto extends World
                         P2Name = Greenfoot.ask("Please enter Player 2's name:");
                         MainMenu.getClickSound().play();
                         SelectedCarP2 = CurrentImage;
-                        resetImageScale();
                         advanceToGame();
                     }
              }
@@ -157,9 +156,5 @@ public class PimpMyCesto extends World
     {
         return P2Name;
     }
-    private void resetImageScale()
-    {
-        for (int i = 0;i<6;i++)        
-            CarImages[i].scale(75,56);
-    }        
+  
 }
