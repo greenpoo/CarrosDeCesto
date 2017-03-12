@@ -25,8 +25,7 @@ public class RaceWorld2 extends World
         addObject(new Wall(),450,84);
         addObject(new Wall(),313,213);
        
-        addObject(new FinishLine(),512,20);
-        addObject(new FinishLine(),592,20);
+        addObject(new FinishLine(),537,21);
         
         addObject(new Wall(),449,247);
         addObject(new Wall(),169,244);
