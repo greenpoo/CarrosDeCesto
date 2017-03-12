@@ -36,10 +36,20 @@ public class PhysicsActor extends Actor {
 		super.setLocation((int)(_r.getX() * scale), (int)(_r.getY() * scale));
 	}
 
+	public void setLocation(int x, int y) {
+		super.setLocation(x, y);
+		double scale = ((PhysicsWorld) getWorld()).getScale();
+		_r = new Vector2D(((double)x)/scale, ((double)y)/scale);
+	}
+	
 	public void setPosition(double x, double y) {
 		_r = new Vector2D(x, y);
 	}
-
+	
+	public void setVelocity(double x, double y) {
+		setVelocity(new Vector2D(x, y));
+	}
+	
 	public void setVelocity(Vector2D v) {
 		_v = v;
 	}
@@ -64,11 +74,12 @@ public class PhysicsActor extends Actor {
 	
 
 	protected final void simulateMovement(double dt, double dtDtO2) {
-		_r = _r.add(_v.scale(dt)).add(_a.scale(dtDtO2));
-		_v = _v.add(_a.scale(dt));
-		_a = _f.scale(_imass);
-		_f = Vector2D.NULL;
+		_r = _r.add(_v.scale(dt)).add(_a.scale(dtDtO2));//Atualiza a posição 
+		_v = _v.add(_a.scale(dt));// Atualiza a velosidade 
+		_a = _f.scale(_imass);// Atualiza a força 
+		_f = Vector2D.NULL;//Atualiza a força
 	}
+
 	
 	
 }
