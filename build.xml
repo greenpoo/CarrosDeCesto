@@ -9,13 +9,12 @@
 	</path>
 
 	<path id="run.classpath">
-		<fileset dir="lib">
-			<include name="jl1.0.1.jar"/>
-		</fileset>
+		<fileset dir="lib" includes="jl1.0.1.jar"/>
 	</path>
 
 	<target name="clean">
 		<delete dir="build"/>
+		<delete dir="gf"/>
 	</target>
 
 	<target name="compile" depends="clean">
@@ -40,5 +39,28 @@
 			<arg value="Main" />
 			<arg value="greenfoot-labels" />
 		</java>
+	</target>
+
+
+	<target name="gf" depends="compile">
+		<mkdir dir="gf"/>
+		<copy toDir="gf">
+			<fileset dir="resources" />
+			<fileset dir="src"/>
+		</copy>
+		<!-- <symlink action="single" link="gf/images" resource="/resources/images" /> -->
+		<!-- <symlink action="single" link="gf/sounds" resource="resources/sounds" /> -->
+		<!-- <symlink action="single" link="gf/project.greenfoot" resource="resources/project.greenfoot" /> -->
+		<!-- <sequential> -->
+		<!-- 	<apply executable="ln" dest="gf" dir="gf"> -->
+				<!-- <arg value="-s"/> -->
+				<!-- <arg value="-f"/> -->
+				<!-- <globmapper from="src/*.java" to="*.java"/> -->
+				<!-- <fileset dir="src" includes="**"/> -->
+				<!-- <identitymapper/> -->
+				<!-- <globmapper from="resources/images/*" to="gf/images/*"/> -->
+				<!-- <fileset dir="resources" includes="images/*"/> -->
+			<!-- </apply> -->
+		<!-- </sequential> -->
 	</target>
 </project>
