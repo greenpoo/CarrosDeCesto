@@ -5,9 +5,10 @@ public class FinishLine extends RaceMode
 {
     public void act() 
     {
-        isRaceOver();
+        hasP1Won();
+        hasP2Won();
     }
-    private void isRaceOver()
+    private void hasP1Won()
     {
         if(getOneIntersectingObject(Player1.class) != null)
         {
@@ -16,17 +17,19 @@ public class FinishLine extends RaceMode
             GameModeMenu.getFanfareSound().play();
             Greenfoot.delay(60);
             Greenfoot.setWorld(new WinnerLoserScreen());
-        }
-        else
+            return;
+        }        
+    }
+    private void hasP2Won()
+    {
+        if(getOneIntersectingObject(Player2.class) != null)
         {
-            if(getOneIntersectingObject(Player2.class) != null)
-            {
-               GameModeMenu.getRaceSong().stop();
-               GameModeMenu.setP1Won(false);
-               GameModeMenu.getFanfareSound().play();
-               Greenfoot.delay(60);
-               Greenfoot.setWorld(new WinnerLoserScreen());
-            }
+           GameModeMenu.getRaceSong().stop();
+           GameModeMenu.setP1Won(false);
+           GameModeMenu.getFanfareSound().play();
+           Greenfoot.delay(60);
+           Greenfoot.setWorld(new WinnerLoserScreen());
+           return;
         }
     }
 }

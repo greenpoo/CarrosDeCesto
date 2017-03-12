@@ -17,6 +17,7 @@ public class RaceWorld1 extends World
     {
         if(!GameModeMenu.getRaceSong().isPlaying())
             GameModeMenu.getRaceSong().playLoop();
+        return;
     }
     private void prepare()
     {
