@@ -15,7 +15,7 @@ public class ImageProcessing {
 				Color ic = i.getColorAt(x, y);
 				double gray = (ic.getRed() + ic.getGreen() + ic.getBlue())/3;
 
-				n.setColorAt(x, y, new Color((int)(r*gray), (int)(g*gray), (int)(b*gray)));
+				n.setColorAt(x, y, new Color((int)(r*gray), (int)(g*gray), (int)(b*gray), ic.getAlpha()));
 			}
 
 		return n;
@@ -36,7 +36,7 @@ public class ImageProcessing {
 		for (int y=0; y<height; y++)
 			for (int x=0; x<width; x++) {
 				Color ic = i.getColorAt(x, y);
-				double ir = ic.getRed()/255.0, ig = ic.getGreen()/255.0, ib = ic.getBlue()/255.0;;
+				double ir = ic.getRed()/255.0, ig = ic.getGreen()/255.0, ib = ic.getBlue()/255.0;
 				n.setColorAt(x, y, new Color(
 							screen255(ir, r),
 							screen255(ig, g),
