@@ -8,14 +8,17 @@ public class PongPlayer extends PhysicsActor {
 
 	public PongPlayer(String upkey, String downkey) {
 		super(7.0);
-		setImage("carrocesto1_normal.png");
+		setImage("luchador.png");
 		_upkey = upkey;
 		_downkey = downkey;
 	}
 
 	public void act() {
-		double force = 70;
+		double force = 100;
 		if (Greenfoot.isKeyDown(_downkey)) applyForce(new Vector2D(0, force));
 		else if (Greenfoot.isKeyDown(_upkey)) applyForce(new Vector2D(0, -force));
+		else applyForce(new Vector2D(0, - 100 * getVelocity().getY()));
 	}
+	
+	
 }
