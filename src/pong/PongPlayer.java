@@ -5,14 +5,15 @@ import greenfoot.GreenfootImage;
 import greenfoot.Color;
 
 import physics.*;
-import util.ImageProcessing;
+import engine.*;
 
 public class PongPlayer extends PhysicsActor {
+	private static GreenfootImage img = new GreenfootImage("luchador.png");
 	private String _upkey, _downkey;
 
-	public PongPlayer(String upkey, String downkey) {
-		super(7.0);
-		setImage(ImageProcessing.tint(new GreenfootImage("luchador.png"), new Color(120, 255, 255)));
+	public PongPlayer(double unitPixelRatio, String upkey, String downkey, double xposition) {
+		super(PongPlayer.img, unitPixelRatio, 7.0);
+		setPosition(xposition, 0);
 
 		_upkey = upkey;
 		_downkey = downkey;

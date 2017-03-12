@@ -1,40 +1,60 @@
 package pong;
 
 import physics.*;
+import engine.*;
 import greenfoot.GreenfootSound;
+import greenfoot.GreenfootImage;
+import java.util.Random;
 
 public class PongWorld extends PhysicsWorld {
-	private static GreenfootSound pong = new GreenfootSound("sounds/bgm/pong.mp3");
-	private Bola bola = new Bola();
-	private PongPlayer p1 = new PongPlayer("w", "s"), p2 = new PongPlayer("up", "down");
-	private int p1x = 30, p2x, cx, cy;
+	private static double unitPixelRatio = 1.0 / 30.0;
+	private static GreenfootSound bgm = new GreenfootSound("sounds/bgm/pong.mp3");
+	private static GreenfootImage img = new GreenfootImage("pong_background.png");
+	private static Random rand = new Random();
+
+	private PongPlayer p1 = new PongPlayer(unitPixelRatio, "w", "s", 0),
+					p2 = new PongPlayer(unitPixelRatio, "up", "down", 20);
+
+	private Bola ball = new Bola(unitPixelRatio);
+
+	private static Vector2D randVelocity() {
+		double theta = (rand.nextDouble() - 1) * Math.PI/3;
+		double v = 4;
+		if (rand.nextDouble()<0.5) theta = -theta;
+		if (rand.nextDouble()<0.5) v = -v;
+		return new Vector2D(v * Math.cos(theta), v * Math.sin(theta));
+	}
+
+	private void initBall() {
+		// Vector2D a = p1.getPosition(), b = p2.getPosition();
+		// ball.setPosition(a.add(b.subtract(a).scale(0.5)));
+		// ball.setVelocity(PongWorld.randVelocity());
+		ball.setPosition(0, 0);
+	}
 
 	public PongWorld() {
-		super(60);
+		super(img, 60);
 
-		setBackground("pong_background.png");
-		p2x = getWidth() - p1x;
-		cx = getWidth()/2;
-		cy = getHeight()/2;
-		add(p1, p1x, cy);
-		add(p2, p2x, cy);
-		add(bola, cx, cy);
+		add(p1);
+		add(p2);
+		add(ball);
+		initBall();
 	}
-	
+
 	public void act() {
 		super.act();
-		if(bola.getX() < p1x || bola.getX() > p2x) {
-			bola.setLocation(cx, cy);
-			bola.randVelocity();
-		}
+		Camera cam = getCamera();
+		double bx = ball.getPosition().getX();
+		if (bx < cam.getMin().getX() || bx > cam.getMax().getX())
+			initBall();
 	}
-
+	
 	public void started() {
 		super.started();
-		pong.playLoop();
+		// bgm.playLoop();
 	}
 
 	public void stopped() {
-		pong.stop();
+		bgm.stop();
 	}
 }
