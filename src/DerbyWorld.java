@@ -16,15 +16,18 @@ public class DerbyWorld extends World
     }
     public void prepare()
     {
-        CarrosCesto.setP1Health(100);
-        CarrosCesto.setP2Health(100);
-        CarrosCesto.setP1Boost(0);
-        CarrosCesto.setP2Boost(0);
-        
+        resetStats();
         spawnPlayers();
         
         addObject(new Barrel(),(Greenfoot.getRandomNumber(10)+1)*55,(Greenfoot.getRandomNumber(10)+1)*35);
         addObject(new BoostPickup(),(Greenfoot.getRandomNumber(10)+1)*55,(Greenfoot.getRandomNumber(10)+1)*35);
+    }
+    private void resetStats()
+    {
+        CarrosCesto.setP1Health(100);
+        CarrosCesto.setP2Health(100);
+        CarrosCesto.setP1Boost(0);
+        CarrosCesto.setP2Boost(0);
     }
     private void spawnPlayers()
     {
@@ -41,19 +44,16 @@ public class DerbyWorld extends World
     {
         if(Greenfoot.getRandomNumber(500)<2)
             addObject(new Barrel(),(Greenfoot.getRandomNumber(10)+1)*55,(Greenfoot.getRandomNumber(10)+1)*35);
-        return;
     }    
     private void generateBoostPickups()
     {
         if(Greenfoot.getRandomNumber(500)<2)
             addObject(new BoostPickup(),(Greenfoot.getRandomNumber(10)+1)*55,(Greenfoot.getRandomNumber(10)+1)*35);
-        return;
     }
     private void playBGM()
     {
         if(!GameModeMenu.getDerbySong().isPlaying())
             GameModeMenu.getDerbySong().playLoop();
-        return;
     }
     private void checkPlayer1Health()
     {
@@ -64,7 +64,6 @@ public class DerbyWorld extends World
             GameModeMenu.getFanfareSound().play();
             Greenfoot.delay(60);
             Greenfoot.setWorld(new WinnerLoserScreen());
-            return;
         }
     }
     private void checkPlayer2Health()
@@ -76,7 +75,6 @@ public class DerbyWorld extends World
            GameModeMenu.getFanfareSound().play();
            Greenfoot.delay(60);
            Greenfoot.setWorld(new WinnerLoserScreen());
-           return;
         }
     }
 }
