@@ -20,12 +20,6 @@ public class CarrosCesto extends Actor
         physicsAct(Duration.between(past, now).toMillis());
         past = now;
     }
-    /**
-     * FALTA:
-     * - DISPARAR BOLOS DE MEL (+DAMAGE,-RATEOFFIRE)
-     * - DISPARAR BANANAS (-DAMAGE,+RATEOFFIRE)
-     * - GAMEOVER/WINNER SCREEN
-     */
     public static double getP1Health()
     {
         return CarHealthP1;
@@ -82,9 +76,9 @@ public class CarrosCesto extends Actor
                     Player2.toggleCanCrash();
                GameModeMenu.getCrashSound().play();
                if(CarBoost > 0)
-                    return CarHealth - 0.2;
+                    return CarHealth - 4;
                else
-                    return CarHealth - 0.1;
+                    return CarHealth - 1;
            }
         }
         else
@@ -110,7 +104,7 @@ public class CarrosCesto extends Actor
         {
             GameModeMenu.getExplosionSound().play();
             getWorld().removeObject(barrel);
-            return CarHealth - 0.3;
+            return CarHealth - 6;
         }
         else
             return CarHealth;
@@ -129,13 +123,20 @@ public class CarrosCesto extends Actor
                GameModeMenu.getCrashSound().play();
                
                if(Greenfoot.getRandomNumber(2) == 1)
-                    turn(10-Greenfoot.getRandomNumber(5));
+                    turn(Greenfoot.getRandomNumber(90)+90);
                else
-                    turn(Greenfoot.getRandomNumber(5)-10);
+                    turn(-Greenfoot.getRandomNumber(90)-90);
+               
                if(CarBoost > 0)
-                    return CarHealth - 0.2;
+               {
+                   move(20); 
+                   return CarHealth - 1;
+               }
                else
-                    return CarHealth - 0.1;        
+               {
+                   move(5);
+                   return CarHealth - 4;
+               }
            }
         }
         else
