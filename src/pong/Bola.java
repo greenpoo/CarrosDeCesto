@@ -1,14 +1,15 @@
 package pong;
 
 import physics.PhysicsActor;
-import engine.Camera;
+import engine.Vector2D;
 
 import greenfoot.GreenfootImage;
 
 public class Bola extends PhysicsActor {
 	private static GreenfootImage img = new GreenfootImage("ball.png");
 
-	public Bola(double unitPixelRatio) {
-		super(Bola.img, unitPixelRatio, 1.0);
+	public Bola() {
+		super(Bola.img, new Vector2D(0.3, 0.3), 1.0);
+		setPosition(3, 3);
 	}
 }

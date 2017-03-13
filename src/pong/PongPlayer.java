@@ -11,8 +11,8 @@ public class PongPlayer extends PhysicsActor {
 	private static GreenfootImage img = new GreenfootImage("luchador.png");
 	private String _upkey, _downkey;
 
-	public PongPlayer(double unitPixelRatio, String upkey, String downkey, double xposition) {
-		super(PongPlayer.img, unitPixelRatio, 7.0);
+	public PongPlayer(String upkey, String downkey, double xposition) {
+		super(PongPlayer.img, new Vector2D(5, 3), 7.0);
 		setPosition(xposition, 0);
 
 		_upkey = upkey;
@@ -23,8 +23,6 @@ public class PongPlayer extends PhysicsActor {
 		double force = 200;
 		if (Greenfoot.isKeyDown(_downkey)) applyFrameForce(new Vector2D(0, force));
 		else if (Greenfoot.isKeyDown(_upkey)) applyFrameForce(new Vector2D(0, -force));
-			else applyFrameForce(new Vector2D(0, - 80 * getVelocity().getY()));
+		else applyFrameForce(new Vector2D(0, - 80 * getVelocity().getY()));
 	}
-	
-	
 }

@@ -2,6 +2,7 @@ package physics;
 
 import engine.*;
 
+import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import greenfoot.World;
 
@@ -12,22 +13,22 @@ import java.time.Instant;
 import java.time.Duration;
 
 public class PhysicsWorld extends World {
-	protected static final Vector2D dim = new Vector2D(600, 400);
-
 	private Map<Integer, PhysicsActor> actors = new TreeMap<Integer, PhysicsActor>();
 	private int actorIds = 0;
 
-	private Camera cam = new Camera(new Vector2D(Math.PI/4, Math.PI/4));
+	private Camera cam;
 
 	private GreenfootImage background = null, dc;
 
-	public PhysicsWorld(GreenfootImage background, double scale) {
-		super((int) dim.getX(), (int) dim.getY(), 1);
-		before = Instant.now();
+	public PhysicsWorld(GreenfootImage background) {
+		super((int) Camera.screenSize.getX(), (int) Camera.screenSize.getY(), 1);
+
+		cam = new Camera(new Vector2D(Math.PI/6, Math.PI/6), 8);
 		this.background = background;
 		dc = new GreenfootImage(getWidth(), getHeight());
 		setBackground(dc);
 		dc.drawImage(background, 0, 0);
+		before = Instant.now();
 	}
 
 	public Camera getCamera() { return cam; }
@@ -46,13 +47,20 @@ public class PhysicsWorld extends World {
 
 			actor.collideWithWalls(cam);
 			actor.simulateMovement(dt, dtDtO2);
+			actor.act();
 		}
+
+		if (Greenfoot.isKeyDown("j")) cam.moveZ(dt * 2);
+		if (Greenfoot.isKeyDown("k")) cam.moveZ(- dt * 2);
 	}
 
 	private void draw() {
 		dc.drawImage(background, 0, 0);
-		for (Map.Entry<Integer, PhysicsActor> entry : actors.entrySet())
-			entry.getValue().draw(dc, cam);
+		for (Map.Entry<Integer, PhysicsActor> entry : actors.entrySet()) {
+			PhysicsActor actor = entry.getValue();
+			actor.scale(cam);
+			actor.draw(dc, cam);
+		}
 	}
 
 	public void act() {
@@ -62,7 +70,6 @@ public class PhysicsWorld extends World {
 
 	public void add(PhysicsActor actor) {
 		actors.put(actorIds, actor);
-		actor.scale(cam.getProjection());
 		actorIds += 1;
 	}
 }

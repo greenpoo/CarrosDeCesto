@@ -7,10 +7,10 @@ public class PhysicsActor extends Billboard {
 	Vector2D v, a, frameForce;
 	double mass, imass;
 
-	public PhysicsActor(GreenfootImage image, double unitPixelRatio, double mass) {
-		super(image, unitPixelRatio);
+	public PhysicsActor(GreenfootImage image, Vector2D size, double mass) {
+		super(image, size);
 		this.mass = mass;
-		this.imass = 1 / mass;
+		this.imass = 1.0 / mass;
 		v = a = frameForce = Vector2D.NULL;
 	}
 
@@ -41,13 +41,14 @@ public class PhysicsActor extends Billboard {
 			move(0, -dr);
 		}
 	}
-	
+
+	public void act() { }
 
 	protected final void simulateMovement(double dt, double dtDtO2) {
 		// A ORDEM É IMPORTANTE
-		// a = frameForce.scale(imass); // Actualiza a aceleração
-		// v = v.add(a.scale(dt)); // Atualiza a velosidade
-		// move(v.scale(dt).add(a.scale(dtDtO2))); // Atualiza a posição
-		// frameForce = Vector2D.NULL; // faz reset á força que é aplicada por frame
+		a = frameForce.scale(imass); // Actualiza a aceleração
+		v = v.add(a.scale(dt)); // Atualiza a velosidade
+		move(v.scale(dt).add(a.scale(dtDtO2))); // Atualiza a posição
+		frameForce = Vector2D.NULL; // faz reset á força que é aplicada por frame
 	}
 }
