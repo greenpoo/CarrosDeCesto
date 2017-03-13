@@ -5,7 +5,7 @@ public class MainMenu extends World
 {
     private static GreenfootSound click = new GreenfootSound("sounds/se/click.mp3");
     private static GreenfootSound bailinho = new GreenfootSound("sounds/bgm/bailinho.mp3");
-    private static boolean bailinhoMuted;
+    private static boolean bailinhoMuted = false;
     private static MuteButton MuteButton = new MuteButton();
     public MainMenu()
     {    
@@ -15,16 +15,24 @@ public class MainMenu extends World
     public void prepare()
     {
         setBackground("main_menu.png");
-        bailinhoMuted = false;
-        
+        spawnPlayButton();
+        spawnExitButton();
+        spawnMuteButton();
+    }
+    private void spawnPlayButton()
+    {
         PlayButton PlayButton = new PlayButton();
         addObject(PlayButton,300,175);
         PlayButton.setImage("PLAYBUTTON.png");
-        
+    }
+    private void spawnExitButton()
+    {
         ExitButton ExitButton = new ExitButton();
         addObject(ExitButton,300,300);
         ExitButton.setImage("EXITBUTTON.png");
-        
+    }
+    private void spawnMuteButton()
+    {
         addObject(MuteButton,35,365);
         MuteButton.setImage("mutebutton.png");
     }
