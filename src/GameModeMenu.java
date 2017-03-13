@@ -1,5 +1,3 @@
- 
-
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class GameModeMenu extends World
 {
@@ -21,20 +19,28 @@ public class GameModeMenu extends World
     public void prepare()
     {
         setBackground("game_mode_menu.png");
-        
+        spawnRaceButton();
+        spawnDerbyButton();
+        spawnPongButton();    
+        addObject(MainMenu.getMuteButton(),35,365);
+    }
+    private void spawnRaceButton()
+    {
         RaceButton RaceButton = new RaceButton();
         addObject(RaceButton,300,125);
         RaceButton.setImage("RACE_MODE.png");
-        
+    }
+    private void spawnDerbyButton()
+    {
         DerbyButton DerbyButton = new DerbyButton();
         addObject(DerbyButton,300,225);
         DerbyButton.setImage("DERBY_MODE.png");
-        
+    }
+    private void spawnPongButton()
+    {
         PongButton PongButton = new PongButton();
         addObject(PongButton,300,325);
         PongButton.setImage("PONG_MODE.png");
-        
-        addObject(MainMenu.getMuteButton(),35,365);
     }
     public static GreenfootSound getCrashSound()
     {
