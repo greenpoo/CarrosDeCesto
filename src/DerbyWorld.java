@@ -21,6 +21,13 @@ public class DerbyWorld extends World
         CarrosCesto.setP1Boost(0);
         CarrosCesto.setP2Boost(0);
         
+        spawnPlayers();
+        
+        addObject(new Barrel(),(Greenfoot.getRandomNumber(10)+1)*55,(Greenfoot.getRandomNumber(10)+1)*35);
+        addObject(new BoostPickup(),(Greenfoot.getRandomNumber(10)+1)*55,(Greenfoot.getRandomNumber(10)+1)*35);
+    }
+    private void spawnPlayers()
+    {
         Player1 Player1 = new Player1();
         Player2 Player2 = new Player2();
         addObject(Player1,100,200);
@@ -29,18 +36,16 @@ public class DerbyWorld extends World
         Player2.setImage(PimpMyCesto.getCarImages()[PimpMyCesto.getP2Car() - 1]);
         Player2.getImage().mirrorVertically();
         Player2.turn(180);
-        addObject(new Barrel(),(Greenfoot.getRandomNumber(10)+1)*55,(Greenfoot.getRandomNumber(10)+1)*35);
-        addObject(new BoostPickup(),(Greenfoot.getRandomNumber(10)+1)*55,(Greenfoot.getRandomNumber(10)+1)*35);
     }
     private void generateBarrels()
     {
-        if(Greenfoot.getRandomNumber(2000)<2)
+        if(Greenfoot.getRandomNumber(500)<2)
             addObject(new Barrel(),(Greenfoot.getRandomNumber(10)+1)*55,(Greenfoot.getRandomNumber(10)+1)*35);
         return;
     }    
     private void generateBoostPickups()
     {
-        if(Greenfoot.getRandomNumber(2000)<2)
+        if(Greenfoot.getRandomNumber(500)<2)
             addObject(new BoostPickup(),(Greenfoot.getRandomNumber(10)+1)*55,(Greenfoot.getRandomNumber(10)+1)*35);
         return;
     }
@@ -52,7 +57,7 @@ public class DerbyWorld extends World
     }
     private void checkPlayer1Health()
     {
-        if(CarrosCesto.getP1Health() < 0)
+        if(CarrosCesto.getP1Health() <= 0)
         {
             GameModeMenu.getDerbySong().stop();
             GameModeMenu.setP1Won(false);            
@@ -64,7 +69,7 @@ public class DerbyWorld extends World
     }
     private void checkPlayer2Health()
     {
-        if(CarrosCesto.getP2Health() < 0)
+        if(CarrosCesto.getP2Health() <= 0)
         {
            GameModeMenu.getDerbySong().stop();
            GameModeMenu.setP1Won(true);            
