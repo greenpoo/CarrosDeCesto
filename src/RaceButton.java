@@ -1,5 +1,3 @@
- 
-
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class RaceButton extends GameModeSelect
 {
@@ -7,6 +5,7 @@ public class RaceButton extends GameModeSelect
     {
         isRaceClicked();
     }
+    
     private void isRaceClicked()
     {
        if(Greenfoot.mouseClicked(this))
