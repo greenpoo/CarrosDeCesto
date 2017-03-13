@@ -8,7 +8,7 @@ public class GameModeMenu extends World
     private static GreenfootSound crash = new GreenfootSound("sounds/se/crash.mp3");
     private static GreenfootSound explosion = new GreenfootSound("sounds/se/explosion.mp3");
     private static GreenfootSound boost = new GreenfootSound("sounds/se/boost.mp3");
-    private static GreenfootSound fanfare = new GreenfootSound("sounds/se/fanfare.wav");
+    private static GreenfootSound fanfare = new GreenfootSound("sounds/se/fanfare.mp3");
     
     private static GreenfootSound race = new GreenfootSound("sounds/bgm/race.mp3");
     private static GreenfootSound derby = new GreenfootSound("sounds/bgm/derby.mp3");
