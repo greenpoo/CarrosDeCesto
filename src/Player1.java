@@ -23,8 +23,7 @@ public class Player1 extends CarrosCesto
     public static void toggleCanCrash()
     {
         CanCrash = !CanCrash;
-    }
-    
+    }    
     private void movePlayer1()
     {
         if(Greenfoot.isKeyDown("w"))
