@@ -1,4 +1,3 @@
- 
 
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class WinnerLoserScreen extends World
@@ -20,11 +19,17 @@ public class WinnerLoserScreen extends World
     private void prepare()
     {
         setBackground("gameover.png");
-        
+        spawnExitButton();
+        spawnReturnButton();
+    }
+    private void spawnExitButton()
+    {
         ExitButton ExitButton = new ExitButton();
         addObject(ExitButton,300,325);
         ExitButton.setImage("EXITBUTTON.png");
-        
+    }
+    private void spawnReturnButton()
+    {
         ReturnButton ReturnButton = new ReturnButton();
         addObject(new ReturnButton(),300,200);
         ReturnButton.setImage("RETURNBUTTON.png");
