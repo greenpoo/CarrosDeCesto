@@ -1,5 +1,3 @@
- 
-
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class PimpMyCesto extends World
 {
@@ -26,20 +24,28 @@ public class PimpMyCesto extends World
         setBackground("pimpmycesto.png");
         SelectedCarP1 = 0;
         SelectedCarP2 = 0;
-        CurrentImage = 1;        
-        Car.setImage(CarImages[0]);
-        Car.getImage().scale(150,112);
-        addObject(Car,300,250);
-        ArrowL.setImage("arrow_left.png");
-        ArrowR.setImage("arrow_right.png");
-        ArrowL.getImage().setTransparency(0);        
-        addObject(ArrowL,100,250);
-        addObject(ArrowR,500,250);
+        CurrentImage = 1;       
+        spawnMenuCar();
+        spawnArrows();
         addObject(MainMenu.getMuteButton(),35,365);
     }
     public static String[] getCarImages()
     {
         return CarImages;
+    }
+    private void spawnMenuCar()
+    {
+        Car.setImage(CarImages[0]);
+        Car.getImage().scale(150,112);
+        addObject(Car,300,250);
+    }
+    private void spawnArrows()
+    {
+        ArrowL.setImage("arrow_left.png");
+        ArrowR.setImage("arrow_right.png");
+        ArrowL.getImage().setTransparency(0);        
+        addObject(ArrowL,100,250);
+        addObject(ArrowR,500,250);
     }
     public void setCarImages(String Image0,String Image1,String Image2,String Image3,String Image4,String Image5)
     {
@@ -155,6 +161,5 @@ public class PimpMyCesto extends World
     public static String getP2Name()
     {
         return P2Name;
-    }
-  
+    }  
 }
