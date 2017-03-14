@@ -1,18 +1,18 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-public class DerbyPlayer extends Actor
+public class DerbyPlayer extends DerbyMode
 {
     private boolean CanCrash;
     private String UpKey;
     private String DownKey;
     private String LeftKey;
     private String RightKey;
-    private double CarHealth = 100; // variável que guarda o valor da vida
-    private double CarBoost = 0; // variável que guarda o valor do 'boost'
+    private double CarHealth; // variável que guarda o valor da vida
+    private double CarBoost; // variável que guarda o valor do 'boost'
     public DerbyPlayer(String UpKey, String DownKey, String LeftKey, String RightKey)
     {
-        CanCrash = true;
-        CarHealth = 100;
-        CarBoost = 0;
+        this.CanCrash = true;
+        this.CarHealth = 100;
+        this.CarBoost = 0;
         this.UpKey = UpKey;
         this.DownKey = DownKey;
         this.LeftKey = LeftKey;
@@ -79,26 +79,25 @@ public class DerbyPlayer extends Actor
     private void checkCarCollision()
     {
         DerbyPlayer carro = (DerbyPlayer) getOneIntersectingObject(DerbyPlayer.class);
-        if(carro != null) // Se houver colisão entre dois carros
+        if(carro != null && CanCrash) // Se houver colisão entre dois carros e puder bater outra vez
         {
-           if(CanCrash) // Se o carro pode bater
+           CanCrash = false; // O carro já não pode bater outra vez
+           GameModeMenu.getCrashSound().play(); // O som da colisão é ouvido               
+           /*if(Greenfoot.getRandomNumber(2) == 1)
+                turn(Greenfoot.getRandomNumber(90)+90); // Vira [90,180]º
+           else
+                turn(-Greenfoot.getRandomNumber(90)-90);// Vira [-180,-90]º
+                */
+           turn(180);
+           if(CarBoost > 0) // Se o carro tiver algum 'boost' 
            {
-               CanCrash = false; // O carro já não pode bater outra vez
-               GameModeMenu.getCrashSound().play(); // O som da colisão é ouvido               
-               if(Greenfoot.getRandomNumber(2) == 1)
-                    turn(Greenfoot.getRandomNumber(90)+90); // Vira [90,180]º
-               else
-                    turn(-Greenfoot.getRandomNumber(90)-90);// Vira [-180,-90]º               
-               if(CarBoost > 0) // Se o carro tiver algum 'boost' 
-               {
-                   move(20); 
-                   CarHealth-=1;
-               }
-               else // Caso contrário
-               {
-                   move(5);
-                   CarHealth-=4;
-               }
+               move(20); 
+               CarHealth-=1;
+           }
+           else // Caso contrário
+           {
+               move(5);
+               CarHealth-=4;
            }
         }
         else // Caso não há colisão
@@ -118,7 +117,24 @@ public class DerbyPlayer extends Actor
         {          
            CanCrash = false; // já não pode bater outra vez
            GameModeMenu.getCrashSound().play(); // som da colisão é ouvido
-           turn(180);
+           if(getRotation() <= 90 || (getRotation() >= 180 && getRotation() <= 270))
+           {
+               if(getX() == 0 || getX() == 599)
+                    turn(100);
+               else
+                    turn(-100);
+           }
+           else
+           {
+               if(getRotation() > 270 || (getRotation() > 90 && getRotation() < 180))
+               {
+                   if(getX() == 0 || getX() == 599)
+                        turn(-100);
+                   else
+                        turn(100);
+               }
+           }
+           move(10);
            if(CarBoost > 0) // Se tiver algum boost no momento
                 CarHealth -= 4;
            else // Caso contrário
