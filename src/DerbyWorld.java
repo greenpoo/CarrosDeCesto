@@ -16,11 +16,31 @@ public class DerbyWorld extends World
     }
     public void prepare()
     {
+        resetStats();
+        spawnPlayers();
+        
+        addObject(new Barrel(),(Greenfoot.getRandomNumber(10)+1)*55,(Greenfoot.getRandomNumber(10)+1)*35);
+        addObject(new BoostPickup(),(Greenfoot.getRandomNumber(10)+1)*55,(Greenfoot.getRandomNumber(10)+1)*35);
+    }
+    /**
+     * resetStats()
+     * 
+     * Método que faz 'reset' da vida e do 'boost' dos dois jogadores
+     */
+    private void resetStats()
+    {
         CarrosCesto.setP1Health(100);
         CarrosCesto.setP2Health(100);
         CarrosCesto.setP1Boost(0);
         CarrosCesto.setP2Boost(0);
-        
+    }
+    /**
+     * spawnPlayers()
+     * 
+     * 'Faz nascer' os carros de cesto prontos a serem controlados no modo Derby
+     */
+    private void spawnPlayers()
+    {
         Player1 Player1 = new Player1();
         Player2 Player2 = new Player2();
         addObject(Player1,100,200);
@@ -29,49 +49,67 @@ public class DerbyWorld extends World
         Player2.setImage(PimpMyCesto.getCarImages()[PimpMyCesto.getP2Car() - 1]);
         Player2.getImage().mirrorVertically();
         Player2.turn(180);
-        addObject(new Barrel(),(Greenfoot.getRandomNumber(10)+1)*55,(Greenfoot.getRandomNumber(10)+1)*35);
-        addObject(new BoostPickup(),(Greenfoot.getRandomNumber(10)+1)*55,(Greenfoot.getRandomNumber(10)+1)*35);
     }
+    /**
+     * generateBarrels()
+     * 
+     * Método que gera inconstante e aleatoriamente barris pelo mundo DerbyWorld
+     */
     private void generateBarrels()
     {
-        if(Greenfoot.getRandomNumber(2000)<2)
+        if(Greenfoot.getRandomNumber(500)<2)
             addObject(new Barrel(),(Greenfoot.getRandomNumber(10)+1)*55,(Greenfoot.getRandomNumber(10)+1)*35);
-        return;
-    }    
+    }
+    /**
+     * generateBoostPickups()
+     * 
+     * Método que gera inconstante e aleatoriamente 'boosts' pelo mundo DerbyWorld
+     */
     private void generateBoostPickups()
     {
-        if(Greenfoot.getRandomNumber(2000)<2)
+        if(Greenfoot.getRandomNumber(500)<2)
             addObject(new BoostPickup(),(Greenfoot.getRandomNumber(10)+1)*55,(Greenfoot.getRandomNumber(10)+1)*35);
-        return;
     }
+    /**
+     * playBGM()
+     * 
+     * Reproduz a música de fundo do modo Derby
+     */
     private void playBGM()
     {
-        if(!GameModeMenu.getDerbySong().isPlaying())
+        if(!GameModeMenu.getDerbySong().isPlaying()) // Se ainda não tiver a ser reproduzida
             GameModeMenu.getDerbySong().playLoop();
-        return;
     }
+    /**
+     * checkPlayer1Health()
+     * 
+     * Verifica a vida do Jogador 1 (e no caso de já estar a 0, acaba o jogo e o Jogador 2 é o vencedor)
+     */
     private void checkPlayer1Health()
     {
-        if(CarrosCesto.getP1Health() < 0)
+        if(CarrosCesto.getP1Health() <= 0)
         {
             GameModeMenu.getDerbySong().stop();
             GameModeMenu.setP1Won(false);            
             GameModeMenu.getFanfareSound().play();
-            Greenfoot.delay(60);
+            Greenfoot.delay(200);
             Greenfoot.setWorld(new WinnerLoserScreen());
-            return;
         }
     }
+    /**
+     * checkPlayer2Health()
+     * 
+     * Verifica a vida do Jogador 2 (e no caso de já estar a 0, acaba o jogo e o Jogador 1 é o vencedor)
+     */
     private void checkPlayer2Health()
     {
-        if(CarrosCesto.getP2Health() < 0)
+        if(CarrosCesto.getP2Health() <= 0)
         {
            GameModeMenu.getDerbySong().stop();
            GameModeMenu.setP1Won(true);            
            GameModeMenu.getFanfareSound().play();
-           Greenfoot.delay(60);
+           Greenfoot.delay(200);
            Greenfoot.setWorld(new WinnerLoserScreen());
-           return;
         }
     }
 }

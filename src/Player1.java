@@ -4,17 +4,26 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Player1 extends CarrosCesto
 {
     private int CurrentWeapon = 1;
+    private static boolean CanCrash = true;
     public void physicsAct(long delta) 
     {
         movePlayer1();
         rotatePlayer1();
         switchWeaponP1();
-        setP1Health(turnAtEdge(getP1Health(),getP1Boost()));
-        setP1Health(checkCarCollision(getP1Health(),getP1Boost()));
+        setP1Health(turnAtEdge(getP1Health(),getP1Boost(),true));
+        setP1Health(checkCarCollision(getP1Health(),getP1Boost(),true));
         setP1Boost(regulateCarSpeed(getP1Boost()));
         setP1Boost(pickBoost(getP1Boost()));
         setP1Health(touchBarrel(getP1Health()));   
     }
+    public static boolean getCanCrash()
+    {
+        return CanCrash;
+    }
+    public static void toggleCanCrash()
+    {
+        CanCrash = !CanCrash;
+    }    
     private void movePlayer1()
     {
         if(Greenfoot.isKeyDown("w"))
