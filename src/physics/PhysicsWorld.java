@@ -20,51 +20,76 @@ public class PhysicsWorld extends World {
 
 	private GreenfootImage background = null, dc;
 
-	public PhysicsWorld(GreenfootImage background) {
+	public PhysicsWorld(GreenfootImage background, Camera cam) {
 		super((int) Camera.screenSize.getX(), (int) Camera.screenSize.getY(), 1);
+		this.cam = cam;
 
-		cam = new Camera(new Vector2D(Math.PI/6, Math.PI/6), 8);
 		this.background = background;
+
 		dc = new GreenfootImage(getWidth(), getHeight());
 		setBackground(dc);
 		dc.drawImage(background, 0, 0);
-		before = Instant.now();
+
+		rescaleActors();
 	}
 
 	public Camera getCamera() { return cam; }
 
-	private Instant before;
-	public void started() { before = Instant.now(); }
-	// public void stopped() {}
+	private void draw() {
+		dc.drawImage(background, 0, 0);
+		for (Map.Entry<Integer, PhysicsActor> entry : actors.entrySet())
+			entry.getValue().draw(dc, cam);
+	}
 
-	private void update() {
-		Instant now = Instant.now();
-		double dt = ((double) Duration.between(before, now).toMillis()) / 1000, dtDtO2 = dt*dt/2;
-		before = now;
+	private void updateActors(double dt) {
+		double dtDtO2 = dt*dt/2;
 
 		for (Map.Entry<Integer, PhysicsActor> entry : actors.entrySet()) {
 			PhysicsActor actor = entry.getValue();
 
 			actor.collideWithWalls(cam);
 			actor.simulateMovement(dt, dtDtO2);
+
 			actor.act();
 		}
-
-		if (Greenfoot.isKeyDown("j")) cam.moveZ(dt * 2);
-		if (Greenfoot.isKeyDown("k")) cam.moveZ(- dt * 2);
 	}
 
-	private void draw() {
-		dc.drawImage(background, 0, 0);
-		for (Map.Entry<Integer, PhysicsActor> entry : actors.entrySet()) {
-			PhysicsActor actor = entry.getValue();
-			actor.scale(cam);
-			actor.draw(dc, cam);
-		}
+	private void rescaleActors() {
+		for (Map.Entry<Integer, PhysicsActor> entry : actors.entrySet())
+			entry.getValue().scale(cam);
 	}
+
+	private Instant before = null;
+	public void started() { before = null; }
+	// public void stopped() { }
 
 	public void act() {
-		update();
+		Instant now = Instant.now();
+
+		if (before != null) {
+			double dt = ((double) Duration.between(before, now).toMillis()) / 1000;
+			before = now;
+
+			updateActors(dt);
+
+			if (Greenfoot.isKeyDown("h")) cam.move(-1, 0);
+			if (Greenfoot.isKeyDown("l")) cam.move(1, 0);
+			if (Greenfoot.isKeyDown("j")) cam.move(0, 1);
+			if (Greenfoot.isKeyDown("k")) cam.move(0, -1);
+
+
+			if (Greenfoot.isKeyDown("i")) {
+				cam.moveZ(- .7);
+				rescaleActors();
+			}
+
+			if (Greenfoot.isKeyDown("o")) {
+				cam.moveZ(.7);
+				rescaleActors();
+			}
+
+		} else before = now;
+
 		draw();
 	}
 

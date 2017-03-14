@@ -14,6 +14,8 @@ public class PhysicsActor extends Billboard {
 		v = a = frameForce = Vector2D.NULL;
 	}
 
+	public double getMass() { return mass; }
+
 	public Vector2D getVelocity() { return v; }
 	public void setVelocity(Vector2D v) { this.v = v; }
 	public void setVelocity(double x, double y) {

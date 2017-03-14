@@ -45,4 +45,10 @@ public class ImageProcessing {
 
 		return n;
 	}
+
+	public static GreenfootImage flip(GreenfootImage img) {
+		GreenfootImage r = new GreenfootImage(img);
+		r.mirrorHorizontally();
+		return r;
+	}
 }

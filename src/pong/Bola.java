@@ -10,6 +10,6 @@ public class Bola extends PhysicsActor {
 
 	public Bola() {
 		super(Bola.img, new Vector2D(0.3, 0.3), 1.0);
-		setPosition(3, 3);
+		setPosition(0.6, 0);
 	}
 }
