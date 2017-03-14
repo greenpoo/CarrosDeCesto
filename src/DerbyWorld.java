@@ -1,6 +1,8 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class DerbyWorld extends World
 {
+    public DerbyPlayer Player1 = new DerbyPlayer("w","s","a","d");
+    public DerbyPlayer Player2 = new DerbyPlayer("up","down","left","right");
     public DerbyWorld()
     {   
         super(600, 400, 1);
@@ -16,23 +18,7 @@ public class DerbyWorld extends World
     }
     public void prepare()
     {
-        resetStats();
         spawnPlayers();
-        
-        addObject(new Barrel(),(Greenfoot.getRandomNumber(10)+1)*55,(Greenfoot.getRandomNumber(10)+1)*35);
-        addObject(new BoostPickup(),(Greenfoot.getRandomNumber(10)+1)*55,(Greenfoot.getRandomNumber(10)+1)*35);
-    }
-    /**
-     * resetStats()
-     * 
-     * Método que faz 'reset' da vida e do 'boost' dos dois jogadores
-     */
-    private void resetStats()
-    {
-        CarrosCesto.setP1Health(100);
-        CarrosCesto.setP2Health(100);
-        CarrosCesto.setP1Boost(0);
-        CarrosCesto.setP2Boost(0);
     }
     /**
      * spawnPlayers()
@@ -41,8 +27,7 @@ public class DerbyWorld extends World
      */
     private void spawnPlayers()
     {
-        Player1 Player1 = new Player1();
-        Player2 Player2 = new Player2();
+
         addObject(Player1,100,200);
         addObject(Player2,500,200);
         Player1.setImage(PimpMyCesto.getCarImages()[PimpMyCesto.getP1Car() - 1]);
@@ -87,7 +72,7 @@ public class DerbyWorld extends World
      */
     private void checkPlayer1Health()
     {
-        if(CarrosCesto.getP1Health() <= 0)
+        if(Player1.getCarHealth() <= 0)
         {
             GameModeMenu.getDerbySong().stop();
             GameModeMenu.setP1Won(false);            
@@ -103,7 +88,7 @@ public class DerbyWorld extends World
      */
     private void checkPlayer2Health()
     {
-        if(CarrosCesto.getP2Health() <= 0)
+        if(Player2.getCarHealth() <= 0)
         {
            GameModeMenu.getDerbySong().stop();
            GameModeMenu.setP1Won(true);            
