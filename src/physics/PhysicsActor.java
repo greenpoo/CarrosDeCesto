@@ -72,6 +72,7 @@ public class PhysicsActor extends Actor {
 		}
 	}
 	
+	
 
 	protected final void simulateMovement(double dt, double dtDtO2) {
 		_r = _r.add(_v.scale(dt)).add(_a.scale(dtDtO2));//Atualiza a posição 

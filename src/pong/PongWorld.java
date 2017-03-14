@@ -1,7 +1,7 @@
 package pong;
 
 import physics.*;
-import greenfoot.GreenfootSound;
+import greenfoot.*;
 
 public class PongWorld extends PhysicsWorld {
 	private static GreenfootSound pong = new GreenfootSound("sounds/bgm/pong.mp3");
@@ -37,4 +37,6 @@ public class PongWorld extends PhysicsWorld {
 	public void stopped() {
 		pong.stop();
 	}
+	
+	
 }
