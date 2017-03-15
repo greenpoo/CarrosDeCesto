@@ -1,11 +1,9 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class HealthBar extends DerbyMode
 {
-    private Color color;
     private DerbyPlayer Player;
     public HealthBar(DerbyPlayer Player)
     {
-         this.color = color;
          this.Player = Player;
     }
     public void act() 
