@@ -28,6 +28,7 @@ public class DerbyPlayer extends DerbyMode
         pickBoost();
         touchBarrel();   
     }
+
     /**
      * movePlayer
      * 

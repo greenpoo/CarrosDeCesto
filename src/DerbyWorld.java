@@ -1,8 +1,10 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class DerbyWorld extends World
 {
-    public DerbyPlayer Player1 = new DerbyPlayer("w","s","a","d");
-    public DerbyPlayer Player2 = new DerbyPlayer("up","down","left","right");
+    private DerbyPlayer Player1 = new DerbyPlayer("w","s","a","d");
+    private DerbyPlayer Player2 = new DerbyPlayer("up","down","left","right");
+    private HealthBar HealthBarPl = new HealthBar(Color.RED,Player1);
+    private HealthBar HealthBarP2 = new HealthBar(Color.GREEN,Player2);
     public DerbyWorld()
     {   
         super(600, 400, 1);
@@ -19,6 +21,13 @@ public class DerbyWorld extends World
     public void prepare()
     {
         spawnPlayers();
+        spawnHealthBars();
+        showPlayerNames();
+    }
+    private void showPlayerNames()
+    {
+        showText(PimpMyCesto.getP1Name(),50,25);
+        showText(PimpMyCesto.getP2Name(),530,25);
     }
     /**
      * spawnPlayers()
@@ -27,13 +36,17 @@ public class DerbyWorld extends World
      */
     private void spawnPlayers()
     {
-
         addObject(Player1,100,200);
         addObject(Player2,500,200);
         Player1.setImage(PimpMyCesto.getCarImages()[PimpMyCesto.getP1Car() - 1]);
         Player2.setImage(PimpMyCesto.getCarImages()[PimpMyCesto.getP2Car() - 1]);
         Player2.getImage().mirrorVertically();
         Player2.turn(180);
+    }
+    private void spawnHealthBars()
+    {
+        addObject(HealthBarPl,70,50);
+        addObject(HealthBarP2,530,50);
     }
     /**
      * generateBarrels()
