@@ -173,11 +173,20 @@ public class DerbyPlayer extends DerbyMode
     /**
      * getCarHealth()
      * 
-     * Getter que retorna a referência à variável de instância que armazena a vida do Jogador 1
+     * Getter que retorna a referência à variável de instância que armazena a vida do Jogador
      */
     public double getCarHealth()
     {
         return CarHealth;
+    }
+    /**
+     * getCarBoost()
+     * 
+     * Getter que retorna a referência à variável de instância que armazena o 'boost' do Jogador
+     */
+    public double getCarBoost()
+    {
+        return CarBoost;
     }
     /**
      * pickBoost

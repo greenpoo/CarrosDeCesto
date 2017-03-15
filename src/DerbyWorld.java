@@ -3,8 +3,10 @@ public class DerbyWorld extends World
 {
     private DerbyPlayer Player1 = new DerbyPlayer("w","s","a","d");
     private DerbyPlayer Player2 = new DerbyPlayer("up","down","left","right");
-    private HealthBar HealthBarPl = new HealthBar(Color.RED,Player1);
-    private HealthBar HealthBarP2 = new HealthBar(Color.GREEN,Player2);
+    private HealthBar HealthBarPl = new HealthBar(Player1);
+    private HealthBar HealthBarP2 = new HealthBar(Player2);
+    private BoostBar BoostBarPl = new BoostBar(Player1);
+    private BoostBar BoostBarP2 = new BoostBar(Player2);
     public DerbyWorld()
     {   
         super(600, 400, 1);
@@ -22,6 +24,7 @@ public class DerbyWorld extends World
     {
         spawnPlayers();
         spawnHealthBars();
+        spawnBoostBars();
         showPlayerNames();
     }
     private void showPlayerNames()
@@ -47,6 +50,11 @@ public class DerbyWorld extends World
     {
         addObject(HealthBarPl,70,50);
         addObject(HealthBarP2,530,50);
+    }
+    private void spawnBoostBars()
+    {
+        addObject(BoostBarPl,70,70);
+        addObject(BoostBarP2,530,70);
     }
     /**
      * generateBarrels()
