@@ -62,10 +62,10 @@ public class DerbyPlayer extends DerbyMode
     private void rotatePlayer()
     {
         if(Greenfoot.isKeyDown(LeftKey))
-            turn(-5);
+            turn(-2);
         else
             if(Greenfoot.isKeyDown(RightKey))
-                turn(5);
+                turn(2);
     }
     /**
      * touchBarrel
@@ -122,12 +122,17 @@ public class DerbyPlayer extends DerbyMode
         {          
            CanCrash = false; // já não pode bater outra vez
            GameModeMenu.getCrashSound().play(); // som da colisão é ouvido
-           newAngleAtTurn();
-           move(10);
+           turn(180);
            if(CarBoost > 0) // Se tiver algum boost no momento
-                CarHealth -= 4;
+           {
+               move(20);
+               CarHealth -= 4;
+           }
            else // Caso contrário
-                CarHealth -= 1;
+           {
+               move(5);
+               CarHealth -= 1;
+           }
         }
         else // Se não estiver nos limites do mundo
         {
@@ -140,26 +145,29 @@ public class DerbyPlayer extends DerbyMode
      * 
      * Método que deduz o novo ângulo do carro após a colisão com uma das paredes
      */
+    /*
     private void newAngleAtTurn()
     {
        if(getRotation() <= 90 || (getRotation() >= 180 && getRotation() <= 270))
        {
            if(getX() == 0 || getX() == 599)
-                turn(100);
+                turn(180);
            else
-                turn(-100);
+                turn(-180);
        }
        else
        {
            if(getRotation() > 270 || (getRotation() > 90 && getRotation() < 180))
            {
                if(getX() == 0 || getX() == 599)
-                    turn(-100);
+                    turn(-180);
                else
-                    turn(100);
+                    turn(180);
            }
        }
+       
     }
+    */
     /**
      * regulateCarSpeed
      * 
