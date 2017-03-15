@@ -6,9 +6,7 @@ public class Camera extends MoveableObject {
 
 	double d;
 
-	Vector2D fov,
-					 hFov,
-					 s;
+	Vector2D fov, hFov, s;
 
 	public Camera(Vector2D fov, double distance) {
 		super();
