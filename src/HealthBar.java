@@ -3,7 +3,7 @@ public class HealthBar extends DerbyMode
 {
     private Color color;
     private DerbyPlayer Player;
-    public HealthBar(Color color, DerbyPlayer Player)
+    public HealthBar(DerbyPlayer Player)
     {
          this.color = color;
          this.Player = Player;
