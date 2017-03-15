@@ -1,5 +1,3 @@
- 
-
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class RaceWorld1 extends World
 {
@@ -7,7 +5,7 @@ public class RaceWorld1 extends World
     {    
         super(600, 400, 1);
         prepare();
-        setPaintOrder(Player1.class,Player2.class,Wall.class,FinishLine.class);
+        //setPaintOrder(Player1.class,Player2.class,Wall.class,FinishLine.class);
     }
     public void act()
     {
@@ -17,19 +15,13 @@ public class RaceWorld1 extends World
     {
         if(!GameModeMenu.getRaceSong().isPlaying())
             GameModeMenu.getRaceSong().playLoop();
-        return;
     }
     private void prepare()
     {
-        Player1 player1 = new Player1();
-        addObject(player1,60,375);
-        player1.setRotation(-90);
-        player1.setImage(PimpMyCesto.getCarImages()[PimpMyCesto.getP1Car() - 1]);
+     
+        //Player1.setImage(PimpMyCesto.getCarImages()[PimpMyCesto.getP1Car() - 1]);
         
-        Player2 player2 = new Player2();
-        addObject(player2,150,375);
-        player2.setRotation(-90);
-        player2.setImage(PimpMyCesto.getCarImages()[PimpMyCesto.getP2Car() - 1]);
+        //Player2.setImage(PimpMyCesto.getCarImages()[PimpMyCesto.getP2Car() - 1]);
         
         addObject(new Wall(),21,328);
         addObject(new Wall(),22,160);

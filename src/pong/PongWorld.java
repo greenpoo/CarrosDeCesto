@@ -1,42 +1,79 @@
 package pong;
 
 import physics.*;
-import greenfoot.*;
+import engine.*;
+import greenfoot.GreenfootSound;
+import greenfoot.GreenfootImage;
+import java.util.Random;
+import greenfoot.Actor;
 
 public class PongWorld extends PhysicsWorld {
-	private static GreenfootSound pong = new GreenfootSound("sounds/bgm/pong.mp3");
-	private Bola bola = new Bola();
-	private PongPlayer p1 = new PongPlayer("w", "s"), p2 = new PongPlayer("up", "down");
-	private int p1x = 30, p2x, cx, cy;
+	private static GreenfootSound bgm = new GreenfootSound("sounds/bgm/pong.mp3");
+	private static GreenfootImage img = new GreenfootImage("pong_background.png");
+	private static Random rand = new Random();
+
+	private PongPlayer p1 = new PongPlayer("w", "s", false),
+					p2 = new PongPlayer("up", "down", true);
+
+	private Bola ball = new Bola();
+
+	private static Vector2D randVelocity() {
+		double theta = (rand.nextDouble() - 1) * Math.PI/3;
+		double v = 4;
+		if (rand.nextDouble()<0.5) theta = -theta;
+		if (rand.nextDouble()<0.5) v = -v;
+		return new Vector2D(v * Math.cos(theta), v * Math.sin(theta));
+	}
+
+	private void initBall() {
+		Vector2D a = p1.getPosition(), b = p2.getPosition();
+		ball.setPosition(a.add(b.subtract(a).scale(0.5)));
+		ball.setVelocity(PongWorld.randVelocity());
+	}
 
 	public PongWorld() {
-		super(60);
+		super(img, new Camera(new Vector2D(Math.PI/6, Math.PI/8), 40));
 
-		setBackground("pong_background.png");
-		p2x = getWidth() - p1x;
-		cx = getWidth()/2;
-		cy = getHeight()/2;
-		add(p1, p1x, cy);
-		add(p2, p2x, cy);
-		add(bola, cx, cy);
+		add(p1);
+		add(p2);
+		add(ball);
+		initBall();
 	}
-	
+
 	public void act() {
 		super.act();
-		if(bola.getX() < p1x || bola.getX() > p2x) {
-			bola.setLocation(cx, cy);
-			bola.randVelocity();
-		}
+		double bx = ball.getPosition().getX();
+		if (bx < p1.getPosition().getX() - 1 || bx > p2.getPosition().getX() + 1) initBall();
+		p1.setPosition(getCamera().getMin().getX() + 2, p1.getPosition().getY());
+		p2.setPosition(getCamera().getMax().getX() - 2, p2.getPosition().getY());
+		isAtCesto();
 	}
-
+	
 	public void started() {
 		super.started();
-		pong.playLoop();
+		// bgm.playLoop();
 	}
 
 	public void stopped() {
-		pong.stop();
+		bgm.stop();
+	}
+	public void isAtCesto(){
+	Vector2D _velocidade= new Vector2D(0.0,0.0);
+	Vector2D _posisaop1= new Vector2D(0.0,0.0);
+	Vector2D _posisaop2= new Vector2D(0.0,0.0);
+	Vector2D _posicaoball =new Vector2D(0.0,0.0);
+	
+	_velocidade=ball.getVelocity();
+	_posisaop1=p1.getPosition();
+	_posisaop2=p2.getPosition();
+	_posicaoball=ball.getPosition();
+	
+		if(_posicaoballgetX()<_posisaop1.getX()+5||_posicaoballgetX()>_posisaop1.getX()-5){
+			ball.setVelocity(-1*_velocidade.getX(),_velocidade.getY());
+		}
+			
 	}
 	
+
 	
 }

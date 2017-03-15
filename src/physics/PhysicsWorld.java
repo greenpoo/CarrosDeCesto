@@ -1,5 +1,8 @@
 package physics;
 
+import engine.*;
+
+import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import greenfoot.World;
 
@@ -9,50 +12,89 @@ import java.util.Map;
 import java.time.Instant;
 import java.time.Duration;
 
-// import java.awt.Frame;
-
 public class PhysicsWorld extends World {
-	protected static final Vector2D dim = new Vector2D(600, 400);
-	private Map<Integer, PhysicsActor> _actors = new TreeMap<Integer, PhysicsActor>();
-	private int _actorIds = 0;
-	private double _scale;
-	private Vector2D _size;
+	private Map<Integer, PhysicsActor> actors = new TreeMap<Integer, PhysicsActor>();
+	private int actorIds = 0;
 
-	public PhysicsWorld(double scale) {
-		super((int) dim.getX(), (int) dim.getY(), 1);
-		_size = new Vector2D(dim.getX() / scale, dim.getY() / scale);
-		_scale = scale;
-		_before = Instant.now();
+	private Camera cam;
+
+	private GreenfootImage background = null, dc;
+
+	public PhysicsWorld(GreenfootImage background, Camera cam) {
+		super((int) Camera.screenSize.getX(), (int) Camera.screenSize.getY(), 1);
+		this.cam = cam;
+
+		this.background = background;
+
+		dc = new GreenfootImage(getWidth(), getHeight());
+		setBackground(dc);
+		dc.drawImage(background, 0, 0);
+
+		rescaleActors();
 	}
-// Cria a escala por metros por pixies 
-	public double getScale() { return _scale; }
 
-	private Instant _before;
+	public Camera getCamera() { return cam; }
 
-	public void started() { _before = Instant.now(); }
-	// public void stopped() {}
+	private void draw() {
+		dc.drawImage(background, 0, 0);
+		for (Map.Entry<Integer, PhysicsActor> entry : actors.entrySet())
+			entry.getValue().draw(dc, cam);
+	}
+
+	private void updateActors(double dt) {
+		double dtDtO2 = dt*dt/2;
+
+		for (Map.Entry<Integer, PhysicsActor> entry : actors.entrySet()) {
+			PhysicsActor actor = entry.getValue();
+
+			actor.collideWithWalls(cam);
+			actor.simulateMovement(dt, dtDtO2);
+
+			actor.act();
+		}
+	}
+
+	private void rescaleActors() {
+		for (Map.Entry<Integer, PhysicsActor> entry : actors.entrySet())
+			entry.getValue().scale(cam);
+	}
+
+	private Instant before = null;
+	public void started() { before = null; }
+	// public void stopped() { }
 
 	public void act() {
 		Instant now = Instant.now();
 
-		double dt = ((double) Duration.between(_before, now).toMillis()) / 1000, dtDtO2 = dt*dt/2;// Calcula o tempo de cada frame??
-			//Aplica a cada actor estas funções 
-		for (Map.Entry<Integer, PhysicsActor> entry : _actors.entrySet()) {
-			PhysicsActor actor = entry.getValue();
+		if (before != null) {
+			double dt = ((double) Duration.between(before, now).toMillis()) / 1000;
+			before = now;
 
-			actor.setScale(_scale); // Diz ao actor qual é a scale do mundo.
-			actor.collideWithWalls(_size);// Faz a colição com as paredes
-			actor.simulateMovement(dt, dtDtO2);//Atualiza o vector do deslocamento, tendo em conta a equação do deslocamento.
-			actor.updateGFLocation(_scale);// Faz a atualização do actor tendo em conta o novo vector de deslocamento calculado por simulateMovement.
-		}
+			updateActors(dt);
 
-		_before = now;
+			if (Greenfoot.isKeyDown("h")) cam.move(-1, 0);
+			if (Greenfoot.isKeyDown("l")) cam.move(1, 0);
+			if (Greenfoot.isKeyDown("j")) cam.move(0, 1);
+			if (Greenfoot.isKeyDown("k")) cam.move(0, -1);
+
+
+			if (Greenfoot.isKeyDown("i")) {
+				cam.moveZ(- .7);
+				rescaleActors();
+			}
+
+			if (Greenfoot.isKeyDown("o")) {
+				cam.moveZ(.7);
+				rescaleActors();
+			}
+
+		} else before = now;
+
+		draw();
 	}
 
-	public void add(PhysicsActor actor, int x, int y) {
-		addObject(actor, x, y);
-		actor.setPosition(x / _scale, y / _scale);
-		_actors.put(_actorIds, actor);
-		_actorIds += 1;
+	public void add(PhysicsActor actor) {
+		actors.put(actorIds, actor);
+		actorIds += 1;
 	}
 }

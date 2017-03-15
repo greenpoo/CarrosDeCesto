@@ -1,7 +1,7 @@
  
 
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-public class ArrowL extends CarSelect
+public class ArrowL extends PimpMyCestoMode
 {
     public void act() 
     {

@@ -13,14 +13,15 @@ public class FinishLine extends RaceMode
      */
     private void hasP1Won()
     {
-        if(getOneIntersectingObject(Player1.class) != null)
+        /*if(getOneIntersectingObject(Player1.class) != null)
         {
             GameModeMenu.getRaceSong().stop();
             GameModeMenu.setP1Won(true);            
             GameModeMenu.getFanfareSound().play();
             Greenfoot.delay(200);
             Greenfoot.setWorld(new WinnerLoserScreen());
-        }        
+        }
+        */
     }
     /**
      * hasP2Won()
@@ -29,7 +30,7 @@ public class FinishLine extends RaceMode
      */
     private void hasP2Won()
     {
-        if(getOneIntersectingObject(Player2.class) != null)
+        /*if(getOneIntersectingObject(Player2.class) != null)
         {
            GameModeMenu.getRaceSong().stop();
            GameModeMenu.setP1Won(false);
@@ -37,5 +38,6 @@ public class FinishLine extends RaceMode
            Greenfoot.delay(200);
            Greenfoot.setWorld(new WinnerLoserScreen());
         }
+        */
     }
 }
