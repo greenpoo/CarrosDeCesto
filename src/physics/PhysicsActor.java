@@ -77,7 +77,7 @@ public abstract class PhysicsActor extends Billboard {
 	}
 
 	private double[] timeOfCollision(double r, double v, double a) {
-		double solution[] = MathHelper.resolve(0.5 * a, -v, r);
+		double solution[] = MathHelper.resolve(0.5 * a, v, r);
 		return solution;
 	}
 
@@ -88,10 +88,12 @@ public abstract class PhysicsActor extends Billboard {
 						 dr = getPosition().subtract(b.getPosition()), dv = va.subtract(vb),
 						 da = getAcceleration().subtract(b.getAcceleration());
 
-		// Instant t = Instant.now();
-		// double tx[] = timeOfCollision(dr.getX(), dv.getX(), da.getX()),
-		// 			 ty[] = timeOfCollision(dr.getY(), dv.getY(), da.getY());
+		Instant t = Instant.now();
+		double tx[] = timeOfCollision(dr.getX(), dv.getX(), da.getX()),
+					 ty[] = timeOfCollision(dr.getY(), dv.getY(), da.getY());
 
+		for (int i = 0; i < tx.length; i++) System.out.print(tx[i] + " ");
+		for (int i = 0; i < ty.length; i++) System.out.print(ty[i] + " ");
 
 		double resultsx[] = collisionResponse(cr, ma, va.getX(), mb, vb.getX()),
 					 resultsy[] = collisionResponse(cr, ma, va.getY(), mb, vb.getY());
