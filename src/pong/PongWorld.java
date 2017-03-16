@@ -49,10 +49,10 @@ public class PongWorld extends PhysicsWorld {
 		p2.setPosition(getCamera().getMax().getX() - 2, p2.getPosition().getY());
 
 		if (ball.isCollidingAABB(p1))
-			ball.collisionResponse(p1, 0.3);
+			ball.collisionResponse(p1, 0.9);
 
 		if (ball.isCollidingAABB(p2))
-			ball.collisionResponse(p2, 0.3);
+			ball.collisionResponse(p2, 0.9);
 	}
 	
 	public void started() {

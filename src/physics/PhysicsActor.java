@@ -4,6 +4,9 @@ import engine.*;
 import util.*;
 import greenfoot.GreenfootImage;
 
+import java.time.Instant;
+import java.time.Duration;
+
 public abstract class PhysicsActor extends Billboard {
 	Vector2D v, a, frameForce;
 	double mass, imass;
@@ -33,29 +36,17 @@ public abstract class PhysicsActor extends Billboard {
 		frameForce = frameForce.add(f);
 	}
 
-	// private double timeOfCollision(double r, double v, double a, double dt) throws NoCollisionException {
-	// 	double solution[] = MathHelper.resolve(0.5 * a, -v, r);
-
-	// 	if (solution.length > 0)
-	// 		for (int i = 0; i < solution.length; i++) {
-	// 			double t = solution[i];
-	// 			if (t >= 0 && t <= dt) {
-	// 				System.out.println("COLLISION");
-	// 				return t;
-	// 			}
-	// 		}
-
-	// 	throw new NoCollisionException();
-	// }
-
 	public boolean isCollidingAABB(PhysicsActor b) {
 		double dx = getPosition().getX() - b.getPosition().getX();
-		boolean xcollision = dx > 0 && dx < getHalfSize().getX() + b.getHalfSize().getX() ||
-			dx < 0 && dx > - getHalfSize().getX() - getHalfSize().getX();
+		double fx = getHalfSize().getX() + b.getHalfSize().getX();
 
-		double dy = getPosition().getY() - b.getPosition().getY();
-		return xcollision && (dy > 0 && dy < getHalfSize().getY() + b.getHalfSize().getY() ||
-			dy < 0 && dy > - getHalfSize().getY() - getHalfSize().getY());
+		if (dx > 0 && dx < fx || dx < 0 && dx > -fx) {
+			double dy = getPosition().getY() - b.getPosition().getY();
+			double fy = getHalfSize().getY() + b.getHalfSize().getY();
+			return dy > 0 && dy < fy || dy < 0 && dy > -fy;
+		}
+
+		return false;
 	}
 
 	protected void collideWithWalls(Camera c) {
@@ -85,11 +76,22 @@ public abstract class PhysicsActor extends Billboard {
 		return result;
 	}
 
+	private double[] timeOfCollision(double r, double v, double a) {
+		double solution[] = MathHelper.resolve(0.5 * a, -v, r);
+		return solution;
+	}
+
 	public void collisionResponse(PhysicsActor b, double cr) {
 		double ma = getMass(), mb = b.getMass();
 
-		Vector2D va = getVelocity(),
-						 vb = b.getVelocity();
+		Vector2D va = getVelocity(), vb = b.getVelocity(), 
+						 dr = getPosition().subtract(b.getPosition()), dv = va.subtract(vb),
+						 da = getAcceleration().subtract(b.getAcceleration());
+
+		// Instant t = Instant.now();
+		// double tx[] = timeOfCollision(dr.getX(), dv.getX(), da.getX()),
+		// 			 ty[] = timeOfCollision(dr.getY(), dv.getY(), da.getY());
+
 
 		double resultsx[] = collisionResponse(cr, ma, va.getX(), mb, vb.getX()),
 					 resultsy[] = collisionResponse(cr, ma, va.getY(), mb, vb.getY());
