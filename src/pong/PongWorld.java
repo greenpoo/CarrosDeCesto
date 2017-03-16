@@ -40,13 +40,15 @@ public class PongWorld extends PhysicsWorld {
 		add(ball);
 		initBall();
 		rescaleActors();
+		p1.setPosition(getCamera().getMin().getX() + 2, p1.getPosition().getY());
+		p2.setPosition(getCamera().getMax().getX() - 2, p2.getPosition().getY());
 	}
 
 	public void physicsAct(double dt) {
 		// double bx = ball.getPosition().getX();
 		// if (bx < p1.getPosition().getX() - 1 || bx > p2.getPosition().getX() + 1) initBall();
-		p1.setPosition(getCamera().getMin().getX() + 2, p1.getPosition().getY());
-		p2.setPosition(getCamera().getMax().getX() - 2, p2.getPosition().getY());
+		// p1.setPosition(getCamera().getMin().getX() + 2, p1.getPosition().getY());
+		// p2.setPosition(getCamera().getMax().getX() - 2, p2.getPosition().getY());
 
 		if (ball.isCollidingAABB(p1))
 			ball.collisionResponse(p1, 0.9);

@@ -102,6 +102,15 @@ public abstract class PhysicsActor extends Billboard {
 		b.setVelocity(resultsx[1], resultsy[1]);
 	}
 
+	public void drag(double u) {
+		double aux = u * getMass() * 9.8;
+		Vector2D v = getVelocity();
+
+		applyFrameForce(new Vector2D(
+					((v.getX() > 0) ? -1 : 1) * aux,
+					((v.getY() > 0) ? -1 : 1) * aux));
+	}
+
 	protected final void simulateMovement(double dt, double dtDtO2) {
 		// A ORDEM É IMPORTANTE
 		a = frameForce.scale(imass); // Actualiza a aceleração

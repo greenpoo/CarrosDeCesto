@@ -22,13 +22,13 @@ public class PongPlayer extends PhysicsActor {
 	}
 
 	public void physicsAct(double dt) {
-		double force = 10000, u = .5;
+		double fy = 10000, u = .5;
 
-		if (Greenfoot.isKeyDown(upkey)) force = -force;
-		else if (!Greenfoot.isKeyDown(downkey)) force = 0;
+		if (Greenfoot.isKeyDown(upkey)) fy = -fy;
+		else if (!Greenfoot.isKeyDown(downkey)) fy = 0;
+		applyFrameForce(new Vector2D(0, fy));
 
-		force += ((getVelocity().getY() > 0) ? -1 : 1) * u * getMass() * 9.8;
+		drag(0.5);
 
-		applyFrameForce(new Vector2D(0, force));
 	}
 }
