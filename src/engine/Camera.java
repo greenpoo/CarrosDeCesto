@@ -37,6 +37,11 @@ public class Camera extends MoveableObject {
 		return project(new Vector2D(x,y));
 	}
 
+	// private double projectOne(double r, double p, double s, double z) {
+	// 	double hh = Math.sqrt(z * z + (p - r));
+	// 	return 1.0 + (d / hh) * (p - r)/s;
+	// }
+
 	private static double projectOne(double r, double p, double s) {
 		return 1.0 + (p - r)/s;
 	}

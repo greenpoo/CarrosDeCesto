@@ -50,13 +50,17 @@ public class PongWorld extends PhysicsWorld {
 		// p1.setPosition(getCamera().getMin().getX() + 2, p1.getPosition().getY());
 		// p2.setPosition(getCamera().getMax().getX() - 2, p2.getPosition().getY());
 
+		// we need to know when the last frame was
+		
+
 		if (ball.isCollidingAABB(p1))
-			ball.collisionResponse(p1, 0.9);
+			ball.collisionResponse(p1, 0.6, dt);
 
 		if (ball.isCollidingAABB(p2))
-			ball.collisionResponse(p2, 0.9);
+			ball.collisionResponse(p2, 0.5, dt);
 	}
 	
+	// MAYBE PHYSICS IS NOT THE BEST THING FOR PONG
 	public void started() {
 		super.started();
 		// bgm.playLoop();

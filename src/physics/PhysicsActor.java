@@ -36,19 +36,6 @@ public abstract class PhysicsActor extends Billboard {
 		frameForce = frameForce.add(f);
 	}
 
-	public boolean isCollidingAABB(PhysicsActor b) {
-		double dx = getPosition().getX() - b.getPosition().getX();
-		double fx = getHalfSize().getX() + b.getHalfSize().getX();
-
-		if (dx > 0 && dx < fx || dx < 0 && dx > -fx) {
-			double dy = getPosition().getY() - b.getPosition().getY();
-			double fy = getHalfSize().getY() + b.getHalfSize().getY();
-			return dy > 0 && dy < fy || dy < 0 && dy > -fy;
-		}
-
-		return false;
-	}
-
 	protected void collideWithWalls(Camera c) {
 		Vector2D camMin = c.getMin(), camMax = c.getMax();
 		Vector2D myMin = getMin(), myMax = getMax();
@@ -67,6 +54,33 @@ public abstract class PhysicsActor extends Billboard {
 		}
 	}
 
+	// private class Contact {
+	// 	private Vector2D point,
+	// 					Vector2D normal;
+
+	// 	Contact(double x, double y, double nx, double ny) {
+	// 		this(new Vector2D(x, y), new Vector2D(nx, ny));
+	// 	}
+
+	// 	Contact(Vector2D point, Vector2D normal) {
+	// 		this.point = point;
+	// 		this.normal = normal;
+	// 	}
+	// }
+
+	public boolean isCollidingAABB(PhysicsActor b) {
+		double dx = getPosition().getX() - b.getPosition().getX();
+		double fx = getHalfSize().getX() + b.getHalfSize().getX();
+
+		if (dx > 0 && dx < fx || dx < 0 && dx > -fx) {
+			double dy = getPosition().getY() - b.getPosition().getY();
+			double fy = getHalfSize().getY() + b.getHalfSize().getY();
+			return dy > 0 && dy < fy || dy < 0 && dy > -fy;
+		}
+
+		return false;
+	}
+
 	private static double[] collisionResponse(double cr, double ma, double ua, double mb, double ub) {
 		double aux = cr * mb * (ub - ua),
 					 aux2 = ma*ua + mb*ub,
@@ -81,19 +95,38 @@ public abstract class PhysicsActor extends Billboard {
 		return solution;
 	}
 
-	public void collisionResponse(PhysicsActor b, double cr) {
+	private double obtain_best_t(double[] ts, double dt) {
+		double reasonable_t = 0;
+		for (int i = 0; i < ts.length; i++) {
+			double t = ts[i];
+			System.out.print(t + " ");
+			if (t < 0) continue;
+			if (t >= dt) continue;
+			if (t > reasonable_t) reasonable_t = t;
+		}
+		return reasonable_t;
+	}
+
+	public void collisionResponse(PhysicsActor b, double cr, double dt) {
 		double ma = getMass(), mb = b.getMass();
 
 		Vector2D va = getVelocity(), vb = b.getVelocity(), 
 						 dr = getPosition().subtract(b.getPosition()), dv = va.subtract(vb),
 						 da = getAcceleration().subtract(b.getAcceleration());
 
-		Instant t = Instant.now();
-		double tx[] = timeOfCollision(dr.getX(), dv.getX(), da.getX()),
-					 ty[] = timeOfCollision(dr.getY(), dv.getY(), da.getY());
+		System.out.println("DT " + dt);
 
-		for (int i = 0; i < tx.length; i++) System.out.print(tx[i] + " ");
-		for (int i = 0; i < ty.length; i++) System.out.print(ty[i] + " ");
+		// Instant t = Instant.now();
+		System.out.print("X ");
+		double tx = obtain_best_t(
+				timeOfCollision(dr.getX(), dv.getX(), da.getX()), dt);
+
+		System.out.print("Y ");
+		double ty = obtain_best_t(
+							 timeOfCollision(dr.getY(), dv.getY(), da.getY()), dt),
+					 bt = tx > ty ? tx : ty;
+
+		System.out.println("TOC: " + bt);
 
 		double resultsx[] = collisionResponse(cr, ma, va.getX(), mb, vb.getX()),
 					 resultsy[] = collisionResponse(cr, ma, va.getY(), mb, vb.getY());
