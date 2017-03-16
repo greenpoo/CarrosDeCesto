@@ -1,9 +1,10 @@
 package physics;
 
 import engine.*;
+import util.*;
 import greenfoot.GreenfootImage;
 
-public class PhysicsActor extends Billboard {
+public abstract class PhysicsActor extends Billboard {
 	Vector2D v, a, frameForce;
 	double mass, imass;
 
@@ -16,6 +17,12 @@ public class PhysicsActor extends Billboard {
 
 	public double getMass() { return mass; }
 
+	public Vector2D getAcceleration() { return a; }
+	public void setAcceleration(Vector2D a) { this.a = a; }
+	public void setAcceleration(double x, double y) {
+		setAcceleration(new Vector2D(x, y));
+	}
+
 	public Vector2D getVelocity() { return v; }
 	public void setVelocity(Vector2D v) { this.v = v; }
 	public void setVelocity(double x, double y) {
@@ -24,6 +31,31 @@ public class PhysicsActor extends Billboard {
 
 	public void applyFrameForce(Vector2D f) {
 		frameForce = frameForce.add(f);
+	}
+
+	// private double timeOfCollision(double r, double v, double a, double dt) throws NoCollisionException {
+	// 	double solution[] = MathHelper.resolve(0.5 * a, -v, r);
+
+	// 	if (solution.length > 0)
+	// 		for (int i = 0; i < solution.length; i++) {
+	// 			double t = solution[i];
+	// 			if (t >= 0 && t <= dt) {
+	// 				System.out.println("COLLISION");
+	// 				return t;
+	// 			}
+	// 		}
+
+	// 	throw new NoCollisionException();
+	// }
+
+	public boolean isCollidingAABB(PhysicsActor b) {
+		double dx = getPosition().getX() - b.getPosition().getX();
+		boolean xcollision = dx > 0 && dx < getHalfSize().getX() + b.getHalfSize().getX() ||
+			dx < 0 && dx > - getHalfSize().getX() - getHalfSize().getX();
+
+		double dy = getPosition().getY() - b.getPosition().getY();
+		return xcollision && (dy > 0 && dy < getHalfSize().getY() + b.getHalfSize().getY() ||
+			dy < 0 && dy > - getHalfSize().getY() - getHalfSize().getY());
 	}
 
 	protected void collideWithWalls(Camera c) {
@@ -44,7 +76,27 @@ public class PhysicsActor extends Billboard {
 		}
 	}
 
-	public void act() { }
+	private static double[] collisionResponse(double cr, double ma, double ua, double mb, double ub) {
+		double aux = cr * mb * (ub - ua),
+					 aux2 = ma*ua + mb*ub,
+					 aux3 = ma + mb;
+
+		double result[] = { (aux2 + aux) / aux3, (aux2 - aux) / aux3 };
+		return result;
+	}
+
+	public void collisionResponse(PhysicsActor b, double cr) {
+		double ma = getMass(), mb = b.getMass();
+
+		Vector2D va = getVelocity(),
+						 vb = b.getVelocity();
+
+		double resultsx[] = collisionResponse(cr, ma, va.getX(), mb, vb.getX()),
+					 resultsy[] = collisionResponse(cr, ma, va.getY(), mb, vb.getY());
+
+		setVelocity(resultsx[0], resultsy[0]);
+		b.setVelocity(resultsx[1], resultsy[1]);
+	}
 
 	protected final void simulateMovement(double dt, double dtDtO2) {
 		// A ORDEM É IMPORTANTE
@@ -53,4 +105,6 @@ public class PhysicsActor extends Billboard {
 		move(v.scale(dt).add(a.scale(dtDtO2))); // Atualiza a posição
 		frameForce = Vector2D.NULL; // faz reset á força que é aplicada por frame
 	}
+
+	public void physicsAct(double dt) {}
 }

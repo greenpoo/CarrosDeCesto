@@ -7,8 +7,10 @@ import greenfoot.GreenfootImage;
 import java.util.Random;
 
 public class PongWorld extends PhysicsWorld {
-	private static GreenfootSound bgm = new GreenfootSound("sounds/bgm/pong.mp3");
-	private static GreenfootImage img = new GreenfootImage("pong_background.png");
+	private static GreenfootSound bgm =
+		new GreenfootSound("sounds/bgm/pong.mp3");
+	private static GreenfootImage img =
+		new GreenfootImage("pong_background.png");
 	private static Random rand = new Random();
 
 	private PongPlayer p1 = new PongPlayer("w", "s", false),
@@ -37,14 +39,20 @@ public class PongWorld extends PhysicsWorld {
 		add(p2);
 		add(ball);
 		initBall();
+		rescaleActors();
 	}
 
-	public void act() {
-		super.act();
-		double bx = ball.getPosition().getX();
-		if (bx < p1.getPosition().getX() - 1 || bx > p2.getPosition().getX() + 1) initBall();
+	public void physicsAct(double dt) {
+		// double bx = ball.getPosition().getX();
+		// if (bx < p1.getPosition().getX() - 1 || bx > p2.getPosition().getX() + 1) initBall();
 		p1.setPosition(getCamera().getMin().getX() + 2, p1.getPosition().getY());
 		p2.setPosition(getCamera().getMax().getX() - 2, p2.getPosition().getY());
+
+		if (ball.isCollidingAABB(p1))
+			ball.collisionResponse(p1, 0.3);
+
+		if (ball.isCollidingAABB(p2))
+			ball.collisionResponse(p2, 0.3);
 	}
 	
 	public void started() {

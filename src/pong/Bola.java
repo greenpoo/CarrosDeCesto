@@ -1,7 +1,7 @@
 package pong;
 
 import physics.PhysicsActor;
-import engine.Vector2D;
+import engine.*;
 
 import greenfoot.GreenfootImage;
 

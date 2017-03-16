@@ -21,6 +21,8 @@ public class Rect extends MoveableObject {
 	}
 
 	public Vector2D getSize() { return size; }
+	public Vector2D getHalfSize() { return halfSize; }
+
 
 	public Vector2D getMin() {
 		return getPosition().subtract(halfSize);

@@ -10,7 +10,6 @@ public class Billboard extends Rect {
 	public Billboard(GreenfootImage image, Vector2D size) {
 		super(size);
 		this.image = image;
-		scaled = new GreenfootImage(image);
 		imageSize = new Vector2D(image.getWidth(), image.getHeight());
 	}
 

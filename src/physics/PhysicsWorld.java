@@ -50,11 +50,11 @@ public class PhysicsWorld extends World {
 			actor.collideWithWalls(cam);
 			actor.simulateMovement(dt, dtDtO2);
 
-			actor.act();
+			actor.physicsAct(dt);
 		}
 	}
 
-	private void rescaleActors() {
+	public void rescaleActors() {
 		for (Map.Entry<Integer, PhysicsActor> entry : actors.entrySet())
 			entry.getValue().scale(cam);
 	}
@@ -63,12 +63,17 @@ public class PhysicsWorld extends World {
 	public void started() { before = null; }
 	// public void stopped() { }
 
+	public void physicsAct(double dt) {
+	}
+
 	public void act() {
 		Instant now = Instant.now();
 
 		if (before != null) {
 			double dt = ((double) Duration.between(before, now).toMillis()) / 1000;
 			before = now;
+
+			physicsAct(dt);
 
 			updateActors(dt);
 
@@ -87,6 +92,8 @@ public class PhysicsWorld extends World {
 				cam.moveZ(.7);
 				rescaleActors();
 			}
+
+			rescaleActors();
 
 		} else before = now;
 

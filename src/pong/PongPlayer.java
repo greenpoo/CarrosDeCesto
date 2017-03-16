@@ -21,7 +21,7 @@ public class PongPlayer extends PhysicsActor {
 		this.downkey = downkey;
 	}
 
-	public void act() {
+	public void physicsAct(double dt) {
 		double force = 10000, u = .5;
 
 		if (Greenfoot.isKeyDown(upkey)) force = -force;
