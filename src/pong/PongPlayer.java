@@ -13,7 +13,7 @@ public class PongPlayer extends PhysicsActor {
 	private static GreenfootImage mirrorImg = ImageProcessing.flip(PongPlayer.img);
 
 	private String upkey, downkey;
-
+	
 	public PongPlayer(String upkey, String downkey, boolean flip) {
 		super(flip ? PongPlayer.mirrorImg : PongPlayer.img, new Vector2D(3, 2), 500.0);
 
@@ -31,5 +31,7 @@ public class PongPlayer extends PhysicsActor {
 
 		applyFrameForce(new Vector2D(0, force));
 	}
+	
+	public static GreenfootImage getImg(){return img;}
 
 }

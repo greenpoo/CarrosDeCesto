@@ -12,11 +12,11 @@ public class PongWorld extends PhysicsWorld {
 	private static GreenfootImage img = new GreenfootImage("pong_background.png");
 	private static Random rand = new Random();
 
-	private PongPlayer p1 = new PongPlayer("w", "s", false),
+	private static PongPlayer p1 = new PongPlayer("w", "s", false),
 					p2 = new PongPlayer("up", "down", true);
 
 	private Bola ball = new Bola();
-
+	
 	private static Vector2D randVelocity() {
 		double theta = (rand.nextDouble() - 1) * Math.PI/3;
 		double v = 4;
@@ -30,7 +30,9 @@ public class PongWorld extends PhysicsWorld {
 		ball.setPosition(a.add(b.subtract(a).scale(0.5)));
 		ball.setVelocity(PongWorld.randVelocity());
 	}
-
+	public static PongPlayer getPongP1(){return p1;}
+	public static PongPlayer getPongP2(){return p2;}
+	
 	public PongWorld() {
 		super(img, new Camera(new Vector2D(Math.PI/6, Math.PI/8), 40));
 
@@ -46,7 +48,7 @@ public class PongWorld extends PhysicsWorld {
 		if (bx < p1.getPosition().getX() - 1 || bx > p2.getPosition().getX() + 1) initBall();
 		p1.setPosition(getCamera().getMin().getX() + 2, p1.getPosition().getY());
 		p2.setPosition(getCamera().getMax().getX() - 2, p2.getPosition().getY());
-		isAtCesto();
+		
 	}
 	
 	public void started() {
@@ -57,22 +59,9 @@ public class PongWorld extends PhysicsWorld {
 	public void stopped() {
 		bgm.stop();
 	}
-	public void isAtCesto(){
-	Vector2D _velocidade= new Vector2D(0.0,0.0);
-	Vector2D _posisaop1= new Vector2D(0.0,0.0);
-	Vector2D _posisaop2= new Vector2D(0.0,0.0);
-	Vector2D _posicaoball =new Vector2D(0.0,0.0);
 	
-	_velocidade=ball.getVelocity();
-	_posisaop1=p1.getPosition();
-	_posisaop2=p2.getPosition();
-	_posicaoball=ball.getPosition();
-	
-		if(_posicaoballgetX()<_posisaop1.getX()+5||_posicaoballgetX()>_posisaop1.getX()-5){
-			ball.setVelocity(-1*_velocidade.getX(),_velocidade.getY());
-		}
 			
-	}
+	
 	
 
 	
