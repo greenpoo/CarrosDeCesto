@@ -8,7 +8,7 @@ import java.time.Instant;
 import java.time.Duration;
 
 public abstract class PhysicsActor extends Billboard {
-	Vector2D v, a, frameForce;
+	Vector2D v, a, frameForce, dr = Vector2D.NULL;
 	double mass, imass;
 
 	public PhysicsActor(GreenfootImage image, Vector2D size, double mass) {
@@ -99,7 +99,7 @@ public abstract class PhysicsActor extends Billboard {
 		double reasonable_t = 0;
 		for (int i = 0; i < ts.length; i++) {
 			double t = ts[i];
-			System.out.print(t + " ");
+			System.out.print("R" + t + " ");
 			if (t < 0) continue;
 			if (t >= dt) continue;
 			if (t > reasonable_t) reasonable_t = t;
@@ -107,11 +107,49 @@ public abstract class PhysicsActor extends Billboard {
 		return reasonable_t;
 	}
 
+	protected Vector2D walkBack() {
+		return getPosition().subtract(dr);
+	}
+
 	public void collisionResponse(PhysicsActor b, double cr, double dt) {
 		double ma = getMass(), mb = b.getMass();
+		double dtDtO2 = dt * dt / 2;
+
+		// now - dt should be "close" to t = 0
+		Vector2D p0a = walkBack(), p0b = walkBack(),
+			hsa = getHalfSize(), hsb = b.getHalfSize();
+
+		// well kinda you might have changes in
+		// acceleration you are not accounting for that
+		if (p0a.getX() > p0b.getX()) {
+			// possibly right edge of a left edge of b collision
+			System.out.println("possibly right edge of a left edge of b collision");
+			p0a.add(hsa.getX());
+			p0b.add(-hsb.getX());
+		} else {
+			// possibly left edge of a right edge of b collision
+			System.out.println("possibly left edge of a right edge of b collision");
+			p0a.add(-hsa.getX());
+			p0b.add(hsb.getX());
+		}
+
+		if (p0a.getY() > p0b.getY()) {
+			// possibly bottom edge of a top edge of b collision
+			System.out.println("possibly bottom edge of a top edge of b collision");
+			p0a.add(hsa.getY());
+			p0b.add(-hsb.getY());
+		} else {
+			// possibly top edge of a bottom edge of b collision
+			System.out.println("possibly top edge of a bottom edge of b collision");
+			p0a.add(-hsa.getY());
+			p0b.add(hsb.getY());
+		}
+
+		// now we have correct initial position
+		// we can now go forward again and check for time of collision
 
 		Vector2D va = getVelocity(), vb = b.getVelocity(), 
-						 dr = getPosition().subtract(b.getPosition()), dv = va.subtract(vb),
+						 dr = p0a.subtract(p0b), dv = va.subtract(vb),
 						 da = getAcceleration().subtract(b.getAcceleration());
 
 		System.out.println("DT " + dt);
@@ -120,11 +158,14 @@ public abstract class PhysicsActor extends Billboard {
 		System.out.print("X ");
 		double tx = obtain_best_t(
 				timeOfCollision(dr.getX(), dv.getX(), da.getX()), dt);
+		System.out.println("CHOSE: " + tx);
 
 		System.out.print("Y ");
 		double ty = obtain_best_t(
 							 timeOfCollision(dr.getY(), dv.getY(), da.getY()), dt),
-					 bt = tx > ty ? tx : ty;
+					 bt = Math.abs(tx) > Math.abs(ty) ? tx : ty;
+		System.out.println("CHOSE: " + ty);
+
 
 		System.out.println("TOC: " + bt);
 
@@ -148,7 +189,8 @@ public abstract class PhysicsActor extends Billboard {
 		// A ORDEM É IMPORTANTE
 		a = frameForce.scale(imass); // Actualiza a aceleração
 		v = v.add(a.scale(dt)); // Atualiza a velosidade
-		move(v.scale(dt).add(a.scale(dtDtO2))); // Atualiza a posição
+		dr = v.scale(dt).add(a.scale(dtDtO2));
+		move(dr); // Atualiza a posição
 		frameForce = Vector2D.NULL; // faz reset á força que é aplicada por frame
 	}
 
