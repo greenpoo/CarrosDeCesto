@@ -3,8 +3,8 @@ public class PimpMyCesto extends World
 {
     private static String CarImages[] = new String[6];
     private Color CarColors[] = {Color.YELLOW,Color.RED,Color.GREEN,Color.BLUE,Color.PINK,Color.GRAY};
-    private static int SelectedCarP1;
-    private static int SelectedCarP2;
+    private static GreenfootImage SelectedCarP1;
+    private static GreenfootImage SelectedCarP2;
     private int CurrentImage;
     private static String P1Name;
     private static String P2Name;
@@ -31,8 +31,6 @@ public class PimpMyCesto extends World
         Car_image = Car.getImage();
         getPixels();
         Car.setImage(tint(Car_image,CarColors[0]));
-        SelectedCarP1 = 0;
-        SelectedCarP2 = 0;
         CurrentImage = 1;       
         spawnMenuCar();
         spawnArrows();
@@ -148,41 +146,38 @@ public class PimpMyCesto extends World
 
         return n;
     }
-    /*private void replaceImage(int CurrentImage)
-    {
-        Car.setImage(CarImages[CurrentImage-1]);
-        Car.getImage().scale(150,112);
-    }*/
     private void pickCars()
     {
-        if(SelectedCarP1 == 0)
+        if(SelectedCarP1 == null)
         {
             if(Greenfoot.mousePressed(Car) || Greenfoot.isKeyDown("enter"))
             {
                 P1Name = Greenfoot.ask("Please enter Player 1's name:");
                 MainMenu.getClickSound().play();
-                SelectedCarP1 = CurrentImage;
+                SelectedCarP1 = new GreenfootImage(Car.getImage());
+                SelectedCarP1.scale(75,56);
             }
         }
         else
         {
-             if(SelectedCarP2 == 0)
+             if(SelectedCarP2 == null)
              {
                     if(Greenfoot.mousePressed(Car) || Greenfoot.isKeyDown("enter"))
                     {
                         P2Name = Greenfoot.ask("Please enter Player 2's name:");
                         MainMenu.getClickSound().play();
-                        SelectedCarP2 = CurrentImage;
+                        SelectedCarP2 = new GreenfootImage(Car.getImage());
+                        SelectedCarP2.scale(75,56);
                         advanceToGame();
                     }
              }
         }
     }
-    public static int getP1Car()
+    public static GreenfootImage getP1Car()
     {
         return SelectedCarP1;
     }
-    public static int getP2Car()
+    public static GreenfootImage getP2Car()
     {
         return SelectedCarP2;
     }

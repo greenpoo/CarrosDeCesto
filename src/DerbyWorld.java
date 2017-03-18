@@ -27,6 +27,11 @@ public class DerbyWorld extends World
         spawnBoostBars();
         showPlayerNames();
     }
+    /**
+     * showPlayerNames()
+     * 
+     * Método que mostra o nome de cada jogador
+     */
     private void showPlayerNames()
     {
         showText(PimpMyCesto.getP1Name(),50,25);
@@ -41,16 +46,26 @@ public class DerbyWorld extends World
     {
         addObject(Player1,100,200);
         addObject(Player2,500,200);
-        Player1.setImage(PimpMyCesto.getCarImages()[PimpMyCesto.getP1Car() - 1]);
-        Player2.setImage(PimpMyCesto.getCarImages()[PimpMyCesto.getP2Car() - 1]);
+        Player1.setImage(PimpMyCesto.getP1Car());
+        Player2.setImage(PimpMyCesto.getP2Car());
         Player2.getImage().mirrorVertically();
         Player2.turn(180);
     }
+    /**
+     * spawnHealthBars()
+     * 
+     * Desenha as barras com a vida de cada jogador
+     */
     private void spawnHealthBars()
     {
         addObject(HealthBarPl,70,50);
         addObject(HealthBarP2,530,50);
     }
+    /**
+     * spawnBoostBars()
+     * 
+     * Desenha as barras com o boost de cada jogador
+     */
     private void spawnBoostBars()
     {
         addObject(BoostBarPl,70,70);
