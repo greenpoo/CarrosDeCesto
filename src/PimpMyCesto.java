@@ -2,26 +2,35 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class PimpMyCesto extends World
 {
     private static String CarImages[] = new String[6];
+    private Color CarColors[] = {Color.YELLOW,Color.RED,Color.GREEN,Color.BLUE,Color.PINK,Color.GRAY};
     private static int SelectedCarP1;
     private static int SelectedCarP2;
     private int CurrentImage;
     private static String P1Name;
     private static String P2Name;
     private Car Car = new Car();
-    private GreenfootImage Car_image = Car.getImage();
+    private GreenfootImage Car_image;
     private ArrowL ArrowL = new ArrowL();
     private ArrowR ArrowR = new ArrowR();
     private boolean ArrowLClicked = false;
     private boolean ArrowRClicked = false;
+    private double[][] PixelsGray;
+    private double[][] PixelsAlpha;
     public PimpMyCesto()
     {    
         super(600, 400, 1); 
-        setCarImages("images/carrocesto1_normal.png","images/carrocesto1_red.png","images/carrocesto1_green.png","images/carrocesto1_blue.png","images/carrocesto1_purple.png","images/carrocesto1_gray.png");
         prepare();
     }
     public void prepare()
     {
         setBackground("pimpmycesto.png");
+        Car.setImage("images/carrocesto1_normal.png");
+        Car.getImage().scale(150,112);
+        PixelsGray = new double[Car.getImage().getWidth()][Car.getImage().getHeight()];
+        PixelsAlpha = new double[Car.getImage().getWidth()][Car.getImage().getHeight()];
+        Car_image = Car.getImage();
+        getPixels();
+        Car.setImage(tint(Car_image,CarColors[0]));
         SelectedCarP1 = 0;
         SelectedCarP2 = 0;
         CurrentImage = 1;       
@@ -35,8 +44,6 @@ public class PimpMyCesto extends World
     }
     private void spawnMenuCar()
     {
-        Car.setImage(CarImages[0]);
-        Car.getImage().scale(150,112);
         addObject(Car,300,250);
     }
     private void spawnArrows()
@@ -92,7 +99,7 @@ public class PimpMyCesto extends World
             if(CurrentImage > 1)
             {
                 CurrentImage--;
-                replaceImage(CurrentImage);
+                Car.setImage(tint(Car_image,CarColors[CurrentImage - 1]));
                 MainMenu.getClickSound().play();
             }            
         }
@@ -108,19 +115,44 @@ public class PimpMyCesto extends World
             if(CurrentImage < 6)
             {
                 CurrentImage++;
-                replaceImage(CurrentImage);
+                //replaceImage(CurrentImage);
+                Car.setImage(tint(Car_image,CarColors[CurrentImage - 1]));
                 MainMenu.getClickSound().play();            
             }            
         }
         else
             if(!Greenfoot.mouseClicked(ArrowR) && !Greenfoot.isKeyDown("d") && ArrowRClicked)
                 ArrowRClicked = false;
+    } 
+    private void getPixels()
+    {
+        int width = Car_image.getWidth(), height = Car_image.getHeight();
+        for (int y=0; y<height-1; y++)
+            for (int x=0; x<width-1; x++) 
+            {
+                Color ic = Car_image.getColorAt(x, y);
+                PixelsGray[x][y]=(ic.getRed() + ic.getGreen() + ic.getBlue())/3;
+                PixelsAlpha[x][y]=ic.getAlpha();
+            }
+    }        
+    public GreenfootImage tint(GreenfootImage i, Color c) 
+    {
+        double r = c.getRed() / 255.0, g = c.getGreen() / 255.0, b = c.getBlue() / 255.0;
+
+        int width = Car_image.getWidth(), height = Car_image.getHeight();
+        GreenfootImage n = new GreenfootImage(width, height);
+        
+        for (int y=0; y<height; y++)
+            for (int x=0; x<width; x++)
+                n.setColorAt(x, y, new Color((int)(r*PixelsGray[x][y]), (int)(g*PixelsGray[x][y]), (int)(b*PixelsGray[x][y]), (int)(PixelsAlpha[x][y])));
+
+        return n;
     }
-    private void replaceImage(int CurrentImage)
+    /*private void replaceImage(int CurrentImage)
     {
         Car.setImage(CarImages[CurrentImage-1]);
         Car.getImage().scale(150,112);
-    }
+    }*/
     private void pickCars()
     {
         if(SelectedCarP1 == 0)
