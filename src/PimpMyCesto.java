@@ -17,7 +17,9 @@ public class PimpMyCesto extends World
     private double[][] PixelsAlpha;
     public PimpMyCesto()
     {    
-        super(600, 400, 1); 
+        super(600, 400, 1);
+        SelectedCarP1 = null;
+        SelectedCarP2 = null;
         prepare();
     }
     public void prepare()
