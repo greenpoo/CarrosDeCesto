@@ -46,6 +46,36 @@ public class Vector2D {
 		return add(-x, -y);
 	}
 
+	public boolean canNormalize() {
+		return x != 0 || y != 0;
+	}
+
+	public Vector2D normalize() { return normalize(length()); }
+	public Vector2D normalize(double len) { return scale(1/len); }
+
+	public double toAngle() {
+		return Math.atan(y/x);
+	}
+
+	public double length() {
+		return Math.sqrt(x * x + y * y);
+	}
+
+	public Vector2D rotate(double angle) {
+		angle += toAngle();
+		double len = length();
+		return new Vector2D(len * Math.cos(angle), len * Math.sin(angle));
+	}
+
+	public double dot(Vector2D other) {
+		return x * other.getX() + y * other.getY();
+	}
+
+	// www.metanetsoftware.com/technique/tutorialA.html
+	public Vector2D project(double dp, Vector2D unitVectorB) {
+		return new Vector2D(dp * unitVectorB.x, dp * unitVectorB.y);
+	}
+
 	public String toString() {
 		return "{" + this.x + ", " + this.y + "}";
 	}

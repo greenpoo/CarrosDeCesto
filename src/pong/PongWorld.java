@@ -53,11 +53,14 @@ public class PongWorld extends PhysicsWorld {
 		// we need to know when the last frame was
 		
 
-		if (ball.isCollidingAABB(p1))
-			ball.collisionResponse(p1, 0.6, dt);
-
-		if (ball.isCollidingAABB(p2))
-			ball.collisionResponse(p2, 0.5, dt);
+		CollisionResult cp1 = ball.collideAABB(p1);
+		if (cp1 != null)
+			ball.collisionResponse(p1, 0.6, dt, cp1);
+		else {
+			CollisionResult cp2 = ball.collideAABB(p2);
+			if (cp2 != null)
+				ball.collisionResponse(p2, 0.6, dt, cp2);
+		}
 	}
 	
 	// MAYBE PHYSICS IS NOT THE BEST THING FOR PONG
