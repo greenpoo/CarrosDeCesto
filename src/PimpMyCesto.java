@@ -1,7 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class PimpMyCesto extends World
 {
-    private static String CarImages[] = new String[6];
     private Color CarColors[] = {Color.YELLOW,Color.RED,Color.GREEN,Color.BLUE,Color.PINK,Color.GRAY};
     private static GreenfootImage SelectedCarP1;
     private static GreenfootImage SelectedCarP2;
@@ -24,24 +23,20 @@ public class PimpMyCesto extends World
     public void prepare()
     {
         setBackground("pimpmycesto.png");
-        Car.setImage("images/carrocesto1_normal.png");
-        Car.getImage().scale(150,112);
+        spawnMenuCar();
+        spawnArrows();
+        addObject(MainMenu.getMuteButton(),35,365);
+        CurrentImage = 1;
         PixelsGray = new double[Car.getImage().getWidth()][Car.getImage().getHeight()];
         PixelsAlpha = new double[Car.getImage().getWidth()][Car.getImage().getHeight()];
         Car_image = Car.getImage();
         getPixels();
-        Car.setImage(tint(Car_image,CarColors[0]));
-        CurrentImage = 1;       
-        spawnMenuCar();
-        spawnArrows();
-        addObject(MainMenu.getMuteButton(),35,365);
-    }
-    public static String[] getCarImages()
-    {
-        return CarImages;
     }
     private void spawnMenuCar()
     {
+        Car.setImage("images/carrocesto1_normal.png");
+        Car.getImage().scale(150,112);
+        Car.setImage(tint(Car_image,CarColors[0]));
         addObject(Car,300,250);
     }
     private void spawnArrows()
@@ -51,15 +46,6 @@ public class PimpMyCesto extends World
         ArrowL.getImage().setTransparency(0);        
         addObject(ArrowL,100,250);
         addObject(ArrowR,500,250);
-    }
-    public void setCarImages(String Image0,String Image1,String Image2,String Image3,String Image4,String Image5)
-    {
-        CarImages[0] = Image0;
-        CarImages[1] = Image1;
-        CarImages[2] = Image2;
-        CarImages[3] = Image3;
-        CarImages[4] = Image4;
-        CarImages[5] = Image5;
     }
     public void act()
     {
@@ -113,7 +99,6 @@ public class PimpMyCesto extends World
             if(CurrentImage < 6)
             {
                 CurrentImage++;
-                //replaceImage(CurrentImage);
                 Car.setImage(tint(Car_image,CarColors[CurrentImage - 1]));
                 MainMenu.getClickSound().play();            
             }            
