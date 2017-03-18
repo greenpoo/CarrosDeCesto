@@ -1,8 +1,8 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class MainMenu extends World
 {
-    private static GreenfootSound click = new GreenfootSound("sounds/se/click.mp3"); // som do click (quando é clicado em alguma opção)
-    private static GreenfootSound bailinho = new GreenfootSound("sounds/bgm/bailinho.mp3"); // música do bailinho (que é reproduzida no menu)
+    private static final GreenfootSound click = new GreenfootSound("sounds/se/click.mp3"); // som do click (quando é clicado em alguma opção)
+    private static final GreenfootSound bailinho = new GreenfootSound("sounds/bgm/bailinho.mp3"); // música do bailinho (que é reproduzida no menu)
     private static boolean bailinhoMuted = false; // booleano que determina se a música do menu (o bailinho) está silenciada ou não
     private static MuteButton MuteButton = new MuteButton();
     public MainMenu()
@@ -16,6 +16,14 @@ public class MainMenu extends World
         spawnPlayButton();
         spawnExitButton();
         spawnMuteButton();
+    }
+    public void started()
+    {
+        bailinho.playLoop();
+    }
+    public void stopped()
+    {
+        bailinho.pause();
     }
     /**
      * spawnPlayButton()

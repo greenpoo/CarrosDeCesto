@@ -3,14 +3,14 @@ public class GameModeMenu extends World
 {
     private static boolean P1Won; // booleano que indica 'true' se o Jogador1 ganhou o escolhido jogo e 'false' caso contrário
     
-    private static GreenfootSound crash = new GreenfootSound("sounds/se/crash.mp3"); // som usado em colisões
-    private static GreenfootSound explosion = new GreenfootSound("sounds/se/explosion.mp3"); // som usado em momentos em que há colisões com barris (no Derby)
-    private static GreenfootSound boost = new GreenfootSound("sounds/se/boost.mp3"); // som usado ao apanhar um boost (no Derby)
-    private static GreenfootSound fanfare = new GreenfootSound("sounds/se/fanfare.mp3"); // som usado no fim de cada jogo
+    private static final GreenfootSound crash = new GreenfootSound("sounds/se/crash.mp3"); // som usado em colisões
+    private static final GreenfootSound explosion = new GreenfootSound("sounds/se/explosion.mp3"); // som usado em momentos em que há colisões com barris (no Derby)
+    private static final GreenfootSound boost = new GreenfootSound("sounds/se/boost.mp3"); // som usado ao apanhar um boost (no Derby)
+    private static final GreenfootSound fanfare = new GreenfootSound("sounds/se/fanfare.mp3"); // som usado no fim de cada jogo
     
-    private static GreenfootSound race = new GreenfootSound("sounds/bgm/race.mp3"); // música de fundo usada no modo Race
-    private static GreenfootSound derby = new GreenfootSound("sounds/bgm/derby.mp3"); // música de fundo usada no modo Derby
-    private static GreenfootSound pong = new GreenfootSound("sounds/bgm/pong.mp3"); // música de fundo usada no modo Pong
+    private static final GreenfootSound race = new GreenfootSound("sounds/bgm/race.mp3"); // música de fundo usada no modo Race
+    private static final GreenfootSound derby = new GreenfootSound("sounds/bgm/derby.mp3"); // música de fundo usada no modo Derby
+    private static final GreenfootSound pong = new GreenfootSound("sounds/bgm/pong.mp3"); // música de fundo usada no modo Pong
     public GameModeMenu()
     {    
         super(600, 400, 1);
@@ -23,6 +23,10 @@ public class GameModeMenu extends World
         spawnDerbyButton();
         spawnPongButton();    
         addObject(MainMenu.getMuteButton(),35,365);
+    }
+    public void stopped()
+    {
+        MainMenu.getBailinho().pause();
     }
     /**
      * spawnRaceButton()

@@ -11,7 +11,15 @@ public class DerbyWorld extends World
     {   
         super(600, 400, 1);
         prepare();       
-    }    
+    }
+    public void started()
+    {
+        GameModeMenu.getDerbySong().playLoop();
+    }
+    public void stopped()
+    {
+        GameModeMenu.getDerbySong().pause();
+    }
     public void act()
     {
         playBGM();

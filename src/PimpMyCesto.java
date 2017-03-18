@@ -42,6 +42,10 @@ public class PimpMyCesto extends World
         addObject(MainMenu.getMuteButton(),35,365);
         CurrentImage = 1;
     }
+    public void stopped()
+    {
+        MainMenu.getBailinho().pause();
+    }
     /**
      * prepareCar()
      * 
