@@ -72,8 +72,21 @@ public class Vector2D {
 	}
 
 	// www.metanetsoftware.com/technique/tutorialA.html
+	public Vector2D project(Vector2D unitVectorB) {
+		double dp = dot(unitVectorB);
+		return project(dp, unitVectorB);
+	}
+
 	public Vector2D project(double dp, Vector2D unitVectorB) {
 		return new Vector2D(dp * unitVectorB.x, dp * unitVectorB.y);
+	}
+
+	public Vector2D leftHand() {
+		return new Vector2D(-y, x);
+	}
+
+	public Vector2D rightHand() {
+		return new Vector2D(y, -x);
 	}
 
 	public String toString() {

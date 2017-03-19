@@ -19,7 +19,7 @@ public class Camera extends MoveableObject {
 	private void update() {
 		s = new Vector2D(
 				Math.tan(hFov.getX()),
-				Math.tan(hFov.getX()))
+				Math.tan(hFov.getY()))
 			.scale(d);
 	}
 

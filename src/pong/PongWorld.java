@@ -20,7 +20,7 @@ public class PongWorld extends PhysicsWorld {
 
 	private static Vector2D randVelocity() {
 		double theta = (rand.nextDouble() - 1) * Math.PI/3;
-		double v = 4;
+		double v = 15;
 		if (rand.nextDouble()<0.5) theta = -theta;
 		if (rand.nextDouble()<0.5) v = -v;
 		return new Vector2D(v * Math.cos(theta), v * Math.sin(theta));
@@ -33,7 +33,7 @@ public class PongWorld extends PhysicsWorld {
 	}
 
 	public PongWorld() {
-		super(img, new Camera(new Vector2D(Math.PI/6, Math.PI/8), 40));
+		super(img, new Camera(new Vector2D(Math.PI/4, Math.PI/6), 40));
 
 		add(p1);
 		add(p2);
@@ -55,11 +55,11 @@ public class PongWorld extends PhysicsWorld {
 
 		CollisionResult cp1 = ball.collideAABB(p1);
 		if (cp1 != null)
-			ball.collisionResponse(p1, 0.6, dt, cp1);
+			ball.collisionResponse(p1, 1, dt, cp1);
 		else {
 			CollisionResult cp2 = ball.collideAABB(p2);
 			if (cp2 != null)
-				ball.collisionResponse(p2, 0.6, dt, cp2);
+				ball.collisionResponse(p2, 1, dt, cp2);
 		}
 	}
 	
