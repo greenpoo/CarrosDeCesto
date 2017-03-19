@@ -59,18 +59,18 @@ public abstract class PhysicsActor extends Billboard {
 		}
 	}
 
-	Set<Vector2D> getEdges() {
+	Set<Vector2D> getEdges(double m) {
 		Set<Vector2D> edges = new HashSet<Vector2D>();
-		edges.add(new Vector2D(1, 0));
-		edges.add(new Vector2D(0, 1));
+		edges.add(new Vector2D(m, 0));
+		edges.add(new Vector2D(0, m));
 		return edges;
 	}
 
 	public CollisionResult collideAABB(PhysicsActor b) {
-		Set<Vector2D> edges = getEdges();
-		edges.addAll(b.getEdges());
+		Set<Vector2D> edges = getEdges(1);
+		edges.addAll(b.getEdges(1));
 
-		// System.out.println("CHECK");
+		System.out.println("CHECK");
 		double disp = getHalfSize().length() + b.getHalfSize().length(),
 					 adisp = Math.abs(disp);;
 
@@ -79,35 +79,27 @@ public abstract class PhysicsActor extends Billboard {
 			double ra = getPosition().dot(e),
 						 rb = b.getPosition().dot(e),
 						 hsa = getHalfSize().dot(e),
-						 hsb = b.getHalfSize().dot(e);
-
-			double m;
-			double d;
-			if (rb > ra) {
-				m = 1;
-				d = rb - hsb - (ra + hsa);
-			} else {
-				m = -1;
-				d = ra - hsa - rb - hsb;
-			}
-
-			// System.out.println("ra: " + ra + ", rb: " + rb + ", hsa: " + hsa + ", hsb: " + hsb + ", d: " + d);
-
-			double ad = Math.abs(d),
+						 hsb = b.getHalfSize().dot(e),
 						 hs = hsa + hsb;
 
-			if (d > 0) return null; // no collision
+			double d = ra - rb,
+						 rd = Math.abs(d) - hs;
 
-			if (ad < adisp) {
-				disp = d;
-				adisp = ad;
-				leftHand = e.scale(m);
+			if (rd > 0) return null; // no collision
+
+			System.out.println("ra: " + ra + ", rb: " + rb + ", hsa: " + hsa + ", hsb: " + hsb + ", rd: " + rd);
+
+			if (rd > -adisp) {
+				adisp = -rd;
+				leftHand = e.scale(ra < rb ? 1 : -1);
+				System.out.println("CHOSE: " +leftHand);
 			}
+
 		}
 
 		if (leftHand == null) return null; // no collision
 
-		return new CollisionResult(disp, leftHand.rightHand());
+		return new CollisionResult(adisp, leftHand.rightHand());
 	}
 
 	private static double[] collisionResponse(double cr, double ma, double ua, double mb, double ub) {
@@ -120,60 +112,36 @@ public abstract class PhysicsActor extends Billboard {
 		return result;
 	}
 
-	private double[] timeOfCollision(double r, double v, double a) {
-		double solution[] = MathHelper.resolve(0.5 * a, v, r);
-		return solution;
-	}
-
-	private double obtain_best_t(double[] ts, double dt) {
-		double mint = 0;
-		for (int i = 0; i < ts.length; i++) {
-			double t = ts[i];
-			System.out.print("R" + t + " ");
-
-			if (t > mint) mint = t;
-		}
-		return mint;
-	}
-
-	protected Vector2D walkBack() {
-		return getPosition().subtract(dr);
-	}
-
 	public void collisionResponse(PhysicsActor b, double cr, double dt, CollisionResult c) {
 		Vector2D projection = c.getProjection();
 		double penetration = c.getPenetration();
 
-		System.out.println("COLLISION (" + penetration + ", " + projection + ")");
+		// System.out.println("COLLISION (" + penetration + ", " + projection + ")");
 
 		Vector2D ln = projection.leftHand(),
 						 rn = projection.rightHand();
 
-		System.out.println("ln: " + ln + ", rn: " + rn);
+		// System.out.println("ln: " + ln + ", rn: " + rn);
 
-		Vector2D pln = ln.scale(penetration/2),
-						 prn = rn.scale(penetration/2);
+		// Vector2D pln = ln.scale(penetration/2),
+		// 				 prn = rn.scale(penetration/2);
 
-		System.out.println("PLN: " + pln + ", PRN: " + prn);
+		// System.out.println("PLN: " + pln + ", PRN: " + prn);
 
-		Vector2D rra = getPosition().add(pln),
-						 rrb = b.getPosition().add(prn);
+		// Vector2D rra = getPosition().add(pln),
+		// 				 rrb = b.getPosition().add(prn);
 
 		// System.out.println("POS: " + getPosition() + " " + b.getPosition());
 		// System.out.println("RR: " + rra + " " + rrb);
 
-		setPosition(rra);
-		b.setPosition(rrb);
-
-
-		// now we have correct initial position
-		// we can now go forward again and check for time of collision
+		// setPosition(rra);
+		// b.setPosition(rrb);
 
 		Vector2D va = getVelocity(), vb = b.getVelocity();
 		double pva = va.dot(ln),
-					 pvb = vb.dot(rn);
+					 pvb = vb.dot(ln);
 
-		// System.out.println("PVA: " + pva + " PVB" + pvb);
+		// System.out.println("PVA: " + pva + " PVB: " + pvb);
 
 		double ma = getMass(), mb = b.getMass();
 		double results[] = collisionResponse(cr, ma, pva, mb, pvb);
@@ -182,17 +150,19 @@ public abstract class PhysicsActor extends Billboard {
 		// for (int i = 0; i <  results.length; i++) System.out.print(" " + results[i]);
 		// System.out.println("");
 
-		Vector2D dva = ln.scale(results[0]),
-						 dvb = rn.scale(results[1]);
+		Vector2D dva = ln.scale(results[0] - pva),
+						 dvb = ln.scale(results[1] - pvb);
 
-		System.out.println("DVA: " + dva + " DVB: " + dvb);
+		// System.out.println("DVA: " + dva + " DVB: " + dvb);
 		// System.out.println("va: " + getVelocity() + " vb: " + b.getVelocity());
 
-		setVelocity(getVelocity().project(projection).add(dva.project(ln)));
-		b.setVelocity(b.getVelocity().project(projection).subtract(dvb.project(rn)));
+		setVelocity(getVelocity().add(dva));
+		b.setVelocity(b.getVelocity().add(dvb));
 
 		// System.out.println("va: " + getVelocity() + " vb: " + b.getVelocity());
 
+		// Scanner s = new Scanner(System.in);
+		// s.next();
 	}
 
 	public void drag(double u) {

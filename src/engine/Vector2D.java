@@ -82,11 +82,13 @@ public class Vector2D {
 	}
 
 	public Vector2D leftHand() {
-		return new Vector2D(-y, x);
+		return new Vector2D(-y, -x);
+		// return new Vector2D(y, -x);
 	}
 
 	public Vector2D rightHand() {
-		return new Vector2D(y, -x);
+		return new Vector2D(y, x);
+		// return new Vector2D(-y, x);
 	}
 
 	public String toString() {

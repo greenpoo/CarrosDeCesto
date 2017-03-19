@@ -20,7 +20,7 @@ public class PongWorld extends PhysicsWorld {
 
 	private static Vector2D randVelocity() {
 		double theta = (rand.nextDouble() - 1) * Math.PI/3;
-		double v = 15;
+		double v = 7;
 		if (rand.nextDouble()<0.5) theta = -theta;
 		if (rand.nextDouble()<0.5) v = -v;
 		return new Vector2D(v * Math.cos(theta), v * Math.sin(theta));

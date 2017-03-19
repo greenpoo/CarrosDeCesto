@@ -15,14 +15,14 @@ public class PongPlayer extends PhysicsActor {
 	private String upkey, downkey;
 
 	public PongPlayer(String upkey, String downkey, boolean flip) {
-		super(flip ? PongPlayer.mirrorImg : PongPlayer.img, new Vector2D(3, 2), 500.0);
+		super(flip ? PongPlayer.mirrorImg : PongPlayer.img, new Vector2D(3, 2), 20.0);
 
 		this.upkey = upkey;
 		this.downkey = downkey;
 	}
 
 	public void physicsAct(double dt) {
-		double fy = 10000, u = .5;
+		double fy = 1000, u = .5;
 
 		if (Greenfoot.isKeyDown(upkey)) fy = -fy;
 		else if (!Greenfoot.isKeyDown(downkey)) fy = 0;
