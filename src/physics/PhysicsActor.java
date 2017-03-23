@@ -24,6 +24,7 @@ public abstract class PhysicsActor extends Billboard {
 	}
 
 	public double getMass() { return mass; }
+	
 
 	public Vector2D getAcceleration() { return a; }
 	public void setAcceleration(Vector2D a) { this.a = a; }

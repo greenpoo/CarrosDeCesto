@@ -31,4 +31,7 @@ public class PongPlayer extends PhysicsActor {
 		drag(0.5);
 
 	}
+	
+	public static GreenfootImage getImg(){return img;}
+
 }
