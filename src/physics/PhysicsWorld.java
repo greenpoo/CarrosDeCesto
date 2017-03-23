@@ -33,14 +33,14 @@ public class PhysicsWorld extends World {
 	}
 
 	public Camera getCamera() { return cam; }
+	
+	public GreenfootImage getCanvas() { return dc; }
 
-	private void draw() {
+	public void draw() {
 		dc.drawImage(background, 0, 0);
 		for (Map.Entry<Integer, PhysicsActor> entry : actors.entrySet())
 			entry.getValue().draw(dc, cam);
 		dc.drawString("info", 10, 15);
-		// dc.drawLine(10, 10, 60, 10);
-		// dc.drawString(cam.getS(), 10, 25);
 	}
 
 	private void updateActors(double dt) {
@@ -63,7 +63,6 @@ public class PhysicsWorld extends World {
 
 	private Instant before = null;
 	public void started() { before = null; }
-	// public void stopped() { }
 
 	public void physicsAct(double dt) {
 	}
@@ -101,6 +100,7 @@ public class PhysicsWorld extends World {
 
 		draw();
 	}
+
 
 	public void add(PhysicsActor actor) {
 		actors.put(actorIds, actor);

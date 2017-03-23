@@ -9,10 +9,10 @@ import engine.*;
 import util.ImageProcessing;
 
 public class PongPlayer extends PhysicsActor {
-	private static GreenfootImage img = new GreenfootImage("luchador.png");
-	private static GreenfootImage mirrorImg = ImageProcessing.flip(PongPlayer.img);
+	private static GreenfootImage img = others.PimpMyCesto.getP1Car(); // imagem do jogador 1
+	private static GreenfootImage mirrorImg = ImageProcessing.flip(others.PimpMyCesto.getP2Car()); // imagem do jogador 2
 
-	private String upkey, downkey;
+	private String upkey, downkey; // variáveis que guardam as teclas de movimento de cada jogador
 
 	public PongPlayer(String upkey, String downkey, boolean flip) {
 		super(flip ? PongPlayer.mirrorImg : PongPlayer.img, new Vector2D(3, 2), 20.0);
