@@ -34,11 +34,12 @@ public class PhysicsWorld extends World {
 
 	public Camera getCamera() { return cam; }
 
-	private void draw() {
+	public GreenfootImage getCanvas() { return dc; }
+	public void draw() {
 		dc.drawImage(background, 0, 0);
 		for (Map.Entry<Integer, PhysicsActor> entry : actors.entrySet())
 			entry.getValue().draw(dc, cam);
-		dc.drawString("info", 10, 15);
+		// dc.drawString("info", 10, 15);
 		// dc.drawLine(10, 10, 60, 10);
 		// dc.drawString(cam.getS(), 10, 25);
 	}

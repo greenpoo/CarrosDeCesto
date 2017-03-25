@@ -55,11 +55,11 @@ public class PongWorld extends PhysicsWorld {
 
 		CollisionResult cp1 = ball.collideAABB(p1);
 		if (cp1 != null)
-			ball.collisionResponse(p1, 1, dt, cp1);
+			ball.collisionResponse(p1, cp1, 1, 1);
 		else {
 			CollisionResult cp2 = ball.collideAABB(p2);
 			if (cp2 != null)
-				ball.collisionResponse(p2, 1, dt, cp2);
+				ball.collisionResponse(p2, cp2, 1, 1);
 		}
 	}
 	

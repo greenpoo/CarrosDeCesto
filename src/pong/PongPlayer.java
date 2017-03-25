@@ -10,19 +10,19 @@ import util.ImageProcessing;
 
 public class PongPlayer extends PhysicsActor {
 	private static GreenfootImage img = new GreenfootImage("luchador.png");
-	private static GreenfootImage mirrorImg = ImageProcessing.flip(PongPlayer.img);
+	private static GreenfootImage mirrorImg = ImageProcessing.mirrorHorizontally(PongPlayer.img);
 
 	private String upkey, downkey;
 
 	public PongPlayer(String upkey, String downkey, boolean flip) {
-		super(flip ? PongPlayer.mirrorImg : PongPlayer.img, new Vector2D(3, 2), 20.0);
+		super(flip ? PongPlayer.mirrorImg : PongPlayer.img, new Vector2D(3, 2), 200.0);
 
 		this.upkey = upkey;
 		this.downkey = downkey;
 	}
 
 	public void physicsAct(double dt) {
-		double fy = 1000, u = .5;
+		double fy = 8000, u = .5;
 
 		if (Greenfoot.isKeyDown(upkey)) fy = -fy;
 		else if (!Greenfoot.isKeyDown(downkey)) fy = 0;
