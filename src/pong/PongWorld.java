@@ -37,8 +37,6 @@ public class PongWorld extends PhysicsWorld {
 		ball.setPosition(a.add(b.subtract(a).scale(0.5)));
 		ball.setVelocity(PongWorld.randVelocity());
 	}
-	public static PongPlayer getPongP1(){return p1;}
-	public static PongPlayer getPongP2(){return p2;}
 	
 	public PongWorld() {
 		super(img, new Camera(new Vector2D(Math.PI/4, Math.PI/6), 40));
@@ -53,11 +51,11 @@ public class PongWorld extends PhysicsWorld {
 
 		CollisionResult cp1 = ball.collideAABB(p1);
 		if (cp1 != null)
-			ball.collisionResponse(p1, 1, dt, cp1);
+			ball.collisionResponse(p1, cp1, 1, 1);
 		else {
 			CollisionResult cp2 = ball.collideAABB(p2);
 			if (cp2 != null)
-				ball.collisionResponse(p2, 1, dt, cp2);
+				ball.collisionResponse(p2, cp2, 1, 1);
 		}
 		
 		checkIfGoal();

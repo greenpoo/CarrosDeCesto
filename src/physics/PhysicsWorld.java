@@ -40,7 +40,6 @@ public class PhysicsWorld extends World {
 		dc.drawImage(background, 0, 0);
 		for (Map.Entry<Integer, PhysicsActor> entry : actors.entrySet())
 			entry.getValue().draw(dc, cam);
-		dc.drawString("info", 10, 15);
 	}
 
 	private void updateActors(double dt) {

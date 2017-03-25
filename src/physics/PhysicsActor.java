@@ -87,12 +87,10 @@ public abstract class PhysicsActor extends Billboard {
 
 			if (rd > 0) return null; // no collision
 
-
 			if (rd > -adisp) {
 				adisp = -rd;
 				leftHand = e.scale(ra < rb ? 1 : -1);
 			}
-
 		}
 
 		if (leftHand == null) return null; // no collision
@@ -110,30 +108,38 @@ public abstract class PhysicsActor extends Billboard {
 		return result;
 	}
 
-	public void collisionResponse(PhysicsActor b, double cr, double dt, CollisionResult c) {
+	public void collisionResponse(PhysicsActor b, CollisionResult c, double bcr, double fcr) {
 		Vector2D projection = c.getProjection();
 		double penetration = c.getPenetration();
 
-
+		// move the objects so that they no longer intersect
 		Vector2D ln = projection.leftHand(),
-						 rn = projection.rightHand();
+						 pln = ln.scale(penetration/2);
 
+		move(pln);
+		b.move(pln.scale(-1));
 
+		// obtain object velocities and masses
 		Vector2D va = getVelocity(), vb = b.getVelocity();
-		double pva = va.dot(ln),
-					 pvb = vb.dot(ln);
 
 		double ma = getMass(), mb = b.getMass();
-		double results[] = collisionResponse(cr, ma, pva, mb, pvb);
 
+		// calculate velocities after collision,
+		// 	perpendicular and parallel to the projection of the collision
+		double results[] = collisionResponse(bcr, ma, va.dot(ln), mb, vb.dot(ln));
+					 // resultsf[] = collisionResponse(fcr, ma, va.dot(projection), mb, vb.dot(projection));
 
-		Vector2D dva = ln.scale(results[0] - pva),
-						 dvb = ln.scale(results[1] - pvb);
+		// System.out.println(projection.scale(-resultsf[0]));
+		// System.out.println(projection.scale(-resultsf[1]));
+		setVelocity(getVelocity()
+				.project(projection)
+				// .add(projection.scale(-results[0]*resultsf[0]))
+				.add(ln.scale(results[0])));
 
-
-		setVelocity(getVelocity().add(dva));
-		b.setVelocity(b.getVelocity().add(dvb));
-
+		b.setVelocity(b.getVelocity()
+				.project(projection)
+				// .add(projection.scale(results[1]*resultsf[1]))
+				.add(ln.scale(results[1])));
 	}
 
 	public void drag(double u) {
@@ -143,14 +149,14 @@ public abstract class PhysicsActor extends Billboard {
 	}
 
 	private static double MIN_VELOCITY = 0.0001;
-	private static double MAX_VELOCITY = 100;
+	private static double MAX_VELOCITY = 50;
 	protected final void simulateMovement(double dt, double dtDtO2) {
 		// A ORDEM É IMPORTANTE
 		a = frameForce.scale(imass); // Actualiza a aceleração
 		v = v.add(a.scale(dt)); // Atualiza a velosidade
 
-		double vx = v.getX(), vy = v.getY(),
-					 avx = Math.abs(vx), avy = Math.abs(vy);
+		// double vx = v.getX(), vy = v.getY(),
+		// 			 avx = Math.abs(vx), avy = Math.abs(vy);
 
 		dr = v.scale(dt).add(a.scale(dtDtO2));
 		move(dr); // Atualiza a posição

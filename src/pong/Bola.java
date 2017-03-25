@@ -16,7 +16,7 @@ public class Bola extends PhysicsActor {
 		super(Bola.img, new Vector2D(0.3, 0.3), 1.0);
 		setPosition(0, 0);
 	}
-	public void act(){
+	/*public void act(){
 		isAtCesto();
 	}
 	//&& getPosition().getY() >= posP1.getY()-sizeH.getY() &&getPosition().getY()<= posP1.getY()+sizeH.getY() 
@@ -27,7 +27,7 @@ public class Bola extends PhysicsActor {
 		if(getPosition().getX()<=posP1.getX()+getPongP1().getHalfSize().getX()&&getPosition().getX()>=posP1.getX()-getHalfSize().getX())
 			setVelocity(-5*getVelocity().getX(),getVelocity().getY());
 			
-		}
+		}*/
 }
 			
 
