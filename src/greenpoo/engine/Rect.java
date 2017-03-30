@@ -1,3 +1,7 @@
+/**
+ * A rectangle in the world
+ * @author quirinpa@gmail.com
+ */
 package greenpoo.engine;
 
 public class Rect extends MoveableObject {

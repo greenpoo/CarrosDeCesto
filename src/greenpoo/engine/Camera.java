@@ -1,3 +1,7 @@
+/**
+ * a camera that helps project world coordinates to pixels
+ */
+
 package greenpoo.engine;
 
 public class Camera extends MoveableObject {

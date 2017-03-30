@@ -1,3 +1,10 @@
+/**
+ * an object that is comprised of a quad always facing the camera that
+ * streches its "texture" to its dimensions
+ *
+ * @author quirinpa@gmail.com
+ */
+
 package greenpoo.engine;
 
 import greenfoot.GreenfootImage;

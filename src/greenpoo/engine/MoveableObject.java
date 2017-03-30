@@ -1,3 +1,8 @@
+/**
+ * an object with a position in the world
+ * @author quirinpa@gmail.com
+ */
+
 package greenpoo.engine;
 
 public class MoveableObject {

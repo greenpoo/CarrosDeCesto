@@ -1,3 +1,8 @@
+/**
+ * this class represents a world in which there are objects that react to physics
+ * @author quirinpa@gmail.com
+ */
+ 
 package greenpoo.physics;
 
 import greenpoo.engine.Camera;
