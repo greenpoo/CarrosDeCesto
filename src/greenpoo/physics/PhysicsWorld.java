@@ -40,7 +40,6 @@ public class PhysicsWorld extends GenericWorld {
 		dc = new GreenfootImage(getWidth(), getHeight());
 		setBackground(dc);
 		dc.drawImage(background, 0, 0);
-		rescaleActors();
 	}
 
 	public Camera getCamera() { return cam; }
@@ -49,7 +48,7 @@ public class PhysicsWorld extends GenericWorld {
 
 	public void draw() {
 		dc.drawImage(background, 0, 0);
-		actors.forEach((k, v) -> v.draw(dc));
+		actors.forEach((k, v) -> v.draw(dc, cam));
 	}
 
 	private Instant before = null;
@@ -57,10 +56,6 @@ public class PhysicsWorld extends GenericWorld {
 	public void started() {
 		super.started();
 		before = null;
-	}
-
-	public void rescaleActors() {
-		actors.forEach((k, v) -> v.scale());
 	}
 
 	public final void act() {
@@ -71,7 +66,7 @@ public class PhysicsWorld extends GenericWorld {
 						 dtDtO2 = dt*dt/2;
 
 			physicsAct(dt);
-			actors.forEach((k, v) -> v.step(dt, dtDtO2));
+			actors.forEach((k, v) -> v.step(dt, dtDtO2, cam));
 
 			// some quirks with the camera
 
@@ -80,13 +75,10 @@ public class PhysicsWorld extends GenericWorld {
 			if (Greenfoot.isKeyDown("j")) cam.move(0, 1);
 			if (Greenfoot.isKeyDown("k")) cam.move(0, -1);
 
-			if (Greenfoot.isKeyDown("i")) {
+			if (Greenfoot.isKeyDown("i"))
 				cam.moveZ(- .7);
-				rescaleActors();
-			} else if (Greenfoot.isKeyDown("o")) {
+			else if (Greenfoot.isKeyDown("o"))
 				cam.moveZ(.7);
-				rescaleActors();
-			}
 		}
 
 		before = now;

@@ -31,7 +31,7 @@ public class PhysicsActor extends Billboard {
 	public PhysicsActor(
 			GreenfootImage image, Vector2D size, Camera cam, double mass)
 	{
-		super(image, size, cam);
+		super(image, size);
 		this.mass = mass;
 		this.imass = 1.0 / mass;
 		v = a = frameForce = Vector2D.NULL;
@@ -210,8 +210,8 @@ public class PhysicsActor extends Billboard {
 	 * @param dt number of milliseconds since last step (of PhysicsWorld)
 	 * @param dtDtO2 dt*dt/2
 	 */
-	protected void step(double dt, double dtDtO2) {
-		collideWithWalls(getCamera());
+	protected void step(double dt, double dtDtO2, Camera cam) {
+		collideWithWalls(cam);
 
 		a = frameForce.scale(imass);
 		v = v.add(a.scale(dt));
