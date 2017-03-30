@@ -1,5 +1,11 @@
 /**
  * this class represents a world in which there are objects that react to physics
+ * It handles updating and rendering PhysicsActors.
+ * It contains a Map of all the actors that are present.
+ * A map was used in case we wanted to remove items by id later.
+ * This renders PhysicsActors in the background, and calls their update function
+ * physicsAct(double dt) instead of greenfoot's act(). Aditional actors may be possible.
+
  * @author quirinpa@gmail.com
  */
  

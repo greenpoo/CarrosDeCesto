@@ -11,8 +11,8 @@ public class Bola extends PhysicsActor {
 	private static GreenfootImage img = new GreenfootImage("ball.png");
 	private Vector2D imageSizeH = new Vector2D((double)img.getWidth()/2, img.getHeight()/2);
 
-	public Bola(Camera cam) {
-		super(Bola.img, new Vector2D(0.3, 0.3), cam, 1.0);
+	public Bola() {
+		super(Bola.img, new Vector2D(0.3, 0.3), 1.0);
 		setPosition(0, 0);
 	}
 }

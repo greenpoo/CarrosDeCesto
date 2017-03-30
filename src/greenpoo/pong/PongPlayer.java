@@ -17,8 +17,8 @@ public class PongPlayer extends PhysicsActor {
 
 	private String upkey, downkey;
 
-	public PongPlayer(String upkey, String downkey, boolean flip, Camera cam) {
-		super(upImg, new Vector2D(2, 3), cam, 100.0);
+	public PongPlayer(String upkey, String downkey, boolean flip) {
+		super(upImg, new Vector2D(2, 3), 100.0);
 
 		this.upkey = upkey;
 		this.downkey = downkey;

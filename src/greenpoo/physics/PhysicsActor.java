@@ -1,5 +1,9 @@
 /**
  * this class represents an object that reacts to physics
+ * this does not inherit Greenfoot.Actor.
+ * It also uses a slightly different update function. Instead of
+ * act() it uses physicsAct(dt). See more below.
+ *
  * @author quirinpa@gmail.com
  */
 
@@ -29,7 +33,7 @@ public class PhysicsActor extends Billboard {
 	 * @param mass Mass of the PhysicsActor
 	 */
 	public PhysicsActor(
-			GreenfootImage image, Vector2D size, Camera cam, double mass)
+			GreenfootImage image, Vector2D size, double mass)
 	{
 		super(image, size);
 		this.mass = mass;
@@ -160,9 +164,6 @@ public class PhysicsActor extends Billboard {
 						 // to half the collision depth
 						 pln = ln.scale(c.getDepth());
 
-		// we need to move each object that distance apart
-		// along the projection of the collision
-
 		move(pln);
 		b.move(pln.scale(-1));
 
@@ -171,6 +172,10 @@ public class PhysicsActor extends Billboard {
 		double ma = getMass(), mb = b.getMass(),
 					 // and calculate collision reponse
 					 results[] = collisionResponse(cr, ma, va.dot(ln), mb, vb.dot(ln));
+
+		// the velocities parallel to the collision plane don't change
+		// the ones that do are a projection of the velocities using
+		// the function above along the left-hand normal of the collision
 
 		setVelocity(getVelocity()
 				.project(planeOfCollision)
@@ -183,7 +188,7 @@ public class PhysicsActor extends Billboard {
 
 
 	/**
-	 * collision with walls projected by camera
+	 * Collision with walls projected by camera
 	 * @param c camera that projects the walls
 	 */
 	protected final void collideWithWalls(Camera c) {
@@ -205,7 +210,7 @@ public class PhysicsActor extends Billboard {
 	}
 
 	/**
-	 * Step PhysicsActor physics simulation
+	 * Step this PhysicsActor's simulation
 	 * @param dt number of milliseconds since last step (of PhysicsWorld)
 	 * @param dtDtO2 dt*dt/2
 	 */
@@ -220,6 +225,5 @@ public class PhysicsActor extends Billboard {
 		physicsAct(dt);
 	}
 
-	// this is what the user should use
 	public void physicsAct(double dt) {}
 }

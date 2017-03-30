@@ -25,11 +25,11 @@ public class PongWorld extends PhysicsWorld {
 		new Camera(new Vector2D(Math.PI/4, Math.PI/5), 40);
 
 	private PongPlayer players[] = {
-		new PongPlayer("w", "s", false, PongWorld.cam),
-		new PongPlayer("up", "down", true, PongWorld.cam)
+		new PongPlayer("w", "s", false),
+		new PongPlayer("up", "down", true)
 	};
 
-	private Bola ball = new Bola(PongWorld.cam);
+	private Bola ball = new Bola();
 	
 	private int goals[] = new int[2];
 	
