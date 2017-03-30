@@ -82,31 +82,38 @@ public class PhysicsActor extends Billboard {
 		Set<Vector2D> edges = getEdges();
 		edges.addAll(b.getEdges());
 
-		// cache needed vectors
+		// cache
 		Vector2D raV = getPosition(), rbV = b.getPosition(),
 						 minV = getHalfSize().add(b.getHalfSize());
 
 		double mind = Math.max(minV.getX(), minV.getY());
-		Vector2D selP = null; // selected projection
+		Vector2D planeOfCollision = null;
 
 		for (Vector2D e : edges) {
+			// the projection we are testing is perpendicular to the edge
 			Vector2D p = e.leftHand();
 
+			// project position along the projection,
 			double ra = raV.dot(p), rb = rbV.dot(p),
+						 // if the following value is positive,
+						 // there is a collision, it corresponds
+						 // to intersection depth.
 						 rd = Math.abs(minV.dot(p)) - Math.abs(ra - rb);
 
 			// a collision must occur in each projection
 			if (rd < 0) return null; // no collision
 
+			// obtain intersection with less depth
+			// (in this case planeOfCollision is always along the edge of the aabb)
 			if (rd < mind) {
 				mind = rd;
-				selP = e.scale(ra < rb ? -1 : 1);
+				planeOfCollision = e.scale(ra < rb ? -1 : 1);
 			}
 		}
 
-		if (selP == null) return null; // no collision
+		if (planeOfCollision == null) return null; // no collision
 
-		return new CollisionResult(mind, selP);
+		return new CollisionResult(mind, planeOfCollision);
 	}
 
 	/**
