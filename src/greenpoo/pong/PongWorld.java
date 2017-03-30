@@ -55,9 +55,10 @@ public class PongWorld extends PhysicsWorld {
 	}
 
 	public PongWorld(Settings settings) {
-		super(img, PongWorld.cam, "pong", settings, PongWorld.pongBgm);
+		super("pong", settings, PongWorld.pongBgm, img, PongWorld.cam);
 
 		for (int i = 0; i < players.length; i++) add(players[i]);
+
 		add(ball);
 		rematch();
 	}
@@ -67,17 +68,24 @@ public class PongWorld extends PhysicsWorld {
 			CollisionResult col = ball.collideAABB(p);
 
 			if (col != null) {
-				ball.collisionResponse(p, col, 1, 1);
-				ball.setVelocity(ball.getVelocity().scale(1.1));
+				ball.collisionResponse(p, col, 1);
+				Vector2D v = ball.getVelocity();
+
+				double vx = v.getX() * 1.1,
+							 vy = v.getY();
+
+				if (col.getPlaneOfCollision().getY() != 0)
+					vy += (0.5 - rand.nextDouble()) * p.getVelocity().getY();
+
+				ball.setVelocity(vx, vy);
 			}
 		}
-		
+
 		double bx = ball.getPosition().getX();
 		if (bx < players[0].getPosition().getX() - 1 ||
 				bx > players[1].getPosition().getX() + 1)
 			rematch();
 
-		Vector2D a = players[0].getPosition(), b = players[1].getPosition();
-		PongWorld.cam.setPosition(a.add(b.subtract(a).scale(0.5)));
+		PongWorld.cam.center(players[0].getPosition(), players[1].getPosition());
 	}
 }

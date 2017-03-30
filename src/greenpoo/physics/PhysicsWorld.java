@@ -1,18 +1,19 @@
 package greenpoo.physics;
 
-import java.util.TreeMap;
-import java.util.Map;
-import java.time.Instant;
-import java.time.Duration;
-
-import greenpoo.Settings;
-import greenpoo.GenericWorld;
 import greenpoo.engine.Camera;
+import greenpoo.GenericWorld;
+import greenpoo.Settings;
 
 import greenfoot.Greenfoot;
-import greenfoot.GreenfootSound;
 import greenfoot.GreenfootImage;
+import greenfoot.GreenfootSound;
 import greenfoot.World;
+
+import java.util.TreeMap;
+import java.util.Map;
+
+import java.time.Instant;
+import java.time.Duration;
 
 public class PhysicsWorld extends GenericWorld {
 	private Map<Integer, PhysicsActor> actors = new TreeMap<Integer, PhysicsActor>();
@@ -22,7 +23,10 @@ public class PhysicsWorld extends GenericWorld {
 
 	private GreenfootImage background = null, dc;
 
-	public PhysicsWorld(GreenfootImage background, Camera cam, String label, Settings settings, GreenfootSound bgm) {
+	public PhysicsWorld(
+			String label, Settings settings, GreenfootSound bgm,
+			GreenfootImage background, Camera cam)
+	{
 		super(label, settings, bgm);
 		this.cam = cam;
 
@@ -35,77 +39,59 @@ public class PhysicsWorld extends GenericWorld {
 	}
 
 	public Camera getCamera() { return cam; }
-	
+
 	public GreenfootImage getCanvas() { return dc; }
 
 	public void draw() {
 		dc.drawImage(background, 0, 0);
-		for (Map.Entry<Integer, PhysicsActor> entry : actors.entrySet())
-			entry.getValue().draw(dc);
-	}
-
-	private void updateActors(double dt) {
-		double dtDtO2 = dt*dt/2;
-
-		for (Map.Entry<Integer, PhysicsActor> entry : actors.entrySet()) {
-			PhysicsActor actor = entry.getValue();
-
-			actor.collideWithWalls(cam);
-			actor.simulateMovement(dt, dtDtO2);
-
-			actor.physicsAct(dt);
-		}
-	}
-
-	public void rescaleActors() {
-		for (Map.Entry<Integer, PhysicsActor> entry : actors.entrySet())
-			entry.getValue().scale();
+		actors.forEach((k, v) -> v.draw(dc));
 	}
 
 	private Instant before = null;
-	public void started() { before = null; }
 
-	public void physicsAct(double dt) {
+	public void started() {
+		super.started();
+		before = null;
 	}
 
-	public void act() {
+	public void rescaleActors() {
+		actors.forEach((k, v) -> v.scale());
+	}
+
+	public final void act() {
 		Instant now = Instant.now();
 
 		if (before != null) {
-			double dt = ((double) Duration.between(before, now).toMillis()) / 1000;
-			before = now;
+			double dt = ((double) Duration.between(before, now).toMillis()) / 1000,
+						 dtDtO2 = dt*dt/2;
 
 			physicsAct(dt);
+			actors.forEach((k, v) -> v.step(dt, dtDtO2));
 
-			updateActors(dt);
+			// some quirks with the camera
 
 			if (Greenfoot.isKeyDown("h")) cam.move(-1, 0);
 			if (Greenfoot.isKeyDown("l")) cam.move(1, 0);
 			if (Greenfoot.isKeyDown("j")) cam.move(0, 1);
 			if (Greenfoot.isKeyDown("k")) cam.move(0, -1);
 
-
 			if (Greenfoot.isKeyDown("i")) {
 				cam.moveZ(- .7);
 				rescaleActors();
-			}
-
-			if (Greenfoot.isKeyDown("o")) {
+			} else if (Greenfoot.isKeyDown("o")) {
 				cam.moveZ(.7);
 				rescaleActors();
 			}
+		}
 
-			rescaleActors();
-
-		} else before = now;
-
+		before = now;
 		draw();
 	}
 
+	public void physicsAct(double dt) {}
 
 	public void add(PhysicsActor actor) {
 		actors.put(actorIds, actor);
-		actor.scale();
 		actorIds += 1;
 	}
 }

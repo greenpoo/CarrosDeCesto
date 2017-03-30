@@ -1,3 +1,8 @@
+/**
+ * this class represents an object that reacts to physics
+ * @author quirinpa@gmail.com
+ */
+
 package greenpoo.physics;
 
 import java.time.Instant;
@@ -12,39 +17,170 @@ import greenpoo.engine.Camera;
 
 import greenfoot.GreenfootImage;
 
-public abstract class PhysicsActor extends Billboard {
-	Vector2D v, a, frameForce, dr = Vector2D.NULL;
+public class PhysicsActor extends Billboard {
+	Vector2D v, a, frameForce;
 	double mass, imass;
-	boolean isMoving;
 
-	public PhysicsActor(GreenfootImage image, Vector2D size, double mass, Camera cam) {
+	/**
+	 * Constructor for PhysicsActor
+	 * @param image GreefootImage of the billboard
+	 * @param size Size of the billboard
+	 * @param cam Camera to use for rendering billboard
+	 * @param mass Mass of the PhysicsActor
+	 */
+	public PhysicsActor(
+			GreenfootImage image, Vector2D size, Camera cam, double mass)
+	{
 		super(image, size, cam);
 		this.mass = mass;
 		this.imass = 1.0 / mass;
 		v = a = frameForce = Vector2D.NULL;
-		isMoving = false;
 	}
 
 	public double getMass() { return mass; }
-	
 
-	public Vector2D getAcceleration() { return a; }
-	public void setAcceleration(Vector2D a) { this.a = a; }
-	public void setAcceleration(double x, double y) {
+	public final Vector2D getAcceleration() { return a; }
+	public final void setAcceleration(Vector2D a) { this.a = a; }
+	public final void setAcceleration(double x, double y) {
 		setAcceleration(new Vector2D(x, y));
 	}
 
-	public Vector2D getVelocity() { return v; }
-	public void setVelocity(Vector2D v) { this.v = v; }
-	public void setVelocity(double x, double y) {
+	public final Vector2D getVelocity() { return v; }
+	public final void setVelocity(Vector2D v) { this.v = v; }
+	public final void setVelocity(double x, double y) {
 		setVelocity(new Vector2D(x, y));
 	}
 
-	public void applyFrameForce(Vector2D f) {
+	/**
+	 * apply a force to the physicsactor that exists until
+	 * next PhysicsWorld act().
+	 * @param f force to be added to the frameForce
+	 */
+	public final void applyFrameForce(Vector2D f) {
 		frameForce = frameForce.add(f);
 	}
 
-	protected void collideWithWalls(Camera c) {
+	/**
+	 * obtain object edges (only orientation matters)
+	 * @return object edges
+	 */
+	protected Set<Vector2D> getEdges() {
+		Set<Vector2D> edges = new HashSet<Vector2D>();
+		edges.add(new Vector2D(1, 0));
+		edges.add(new Vector2D(0, 1));
+		return edges;
+	}
+
+	/**
+	 * Test collision with another PhysicsActor's bounding box
+	 * @param b the other PhysicsActor
+	 * @return null or the CollisionResult
+	 */
+	public final CollisionResult collideAABB(PhysicsActor b) {
+		// obtain list of vectors which are
+		// perpendicular to a projection we need to test
+		Set<Vector2D> edges = getEdges();
+		edges.addAll(b.getEdges());
+
+		// cache needed vectors
+		Vector2D raV = getPosition(), rbV = b.getPosition(),
+						 minV = getHalfSize().add(b.getHalfSize());
+
+		double mind = Math.max(minV.getX(), minV.getY());
+		Vector2D selP = null; // selected projection
+
+		for (Vector2D e : edges) {
+			Vector2D p = e.leftHand();
+
+			double ra = raV.dot(p), rb = rbV.dot(p),
+						 rd = Math.abs(minV.dot(p)) - Math.abs(ra - rb);
+
+			// a collision must occur in each projection
+			if (rd < 0) return null; // no collision
+
+			if (rd < mind) {
+				mind = rd;
+				selP = e.scale(ra < rb ? -1 : 1);
+			}
+		}
+
+		if (selP == null) return null; // no collision
+
+		return new CollisionResult(mind, selP);
+	}
+
+	/**
+	 * Calculate collision response
+	 * <p>First equation of https://en.wikipedia.org/wiki/Inelastic_collision</p>
+	 * <p>This assumes a collision HAS OCCURED</p>
+	 * @param cr coefficient of restitution
+	 * @param ma mass of first object
+	 * @param ua initial velocity of first object
+	 * @param mb mass of second object
+	 * @param ub initial velocity of second object
+	 * @return a two-dimensional array of the final velocities for a and b resp.
+	 */
+	private static double[]
+		collisionResponse(double cr, double ma, double ua, double mb, double ub)
+	{
+		double aux2 = ma*ua + mb*ub,
+					 aux3 = ma + mb;
+
+		double result[] = {
+			(cr * mb * (ub - ua) + aux2) / aux3,
+			(cr * ma * (ua - ub) + aux2) / aux3 };
+
+		return result;
+	}
+
+	/**
+	 * bounce collision response
+	 * <p>Makes objects bounce off each other</p>
+	 * @param b the other object
+	 * @param c the (previously calculated) CollisionResponse
+	 * @param cr coefficient of restitution
+	 */
+	public void collisionResponse(
+			PhysicsActor b, CollisionResult c, double cr)
+	{
+		Vector2D planeOfCollision = c.getPlaneOfCollision();
+		double penetration = c.getPenetration();
+
+		// a collision has happened, we need to move the objects
+		// to a position so that they no longer intersect.
+
+		Vector2D ln = planeOfCollision.leftHand(),
+						 // the following represents a vector of length equal
+						 // to half the collision penetration distance
+						 pln = ln.scale(penetration/2);
+
+		// we need to move each object that distance apart
+		// along the projection of the collision
+
+		move(pln);
+		b.move(pln.scale(-1));
+
+		// obtain object velocities and masses
+		Vector2D va = getVelocity(), vb = b.getVelocity();
+		double ma = getMass(), mb = b.getMass(),
+					 // and calculate collision reponse
+					 results[] = collisionResponse(cr, ma, va.dot(ln), mb, vb.dot(ln));
+
+		setVelocity(getVelocity()
+				.project(planeOfCollision)
+				.add(ln.scale(results[0])));
+
+		b.setVelocity(b.getVelocity()
+				.project(planeOfCollision)
+				.add(ln.scale(results[1])));
+	}
+
+
+	/**
+	 * collision with walls projected by camera
+	 * @param c camera that projects the walls
+	 */
+	protected final void collideWithWalls(Camera c) {
 		Vector2D camMin = c.getMin(), camMax = c.getMax();
 		Vector2D myMin = getMin(), myMax = getMax();
 		double dr;
@@ -62,102 +198,22 @@ public abstract class PhysicsActor extends Billboard {
 		}
 	}
 
-	Set<Vector2D> getEdges(double m) {
-		Set<Vector2D> edges = new HashSet<Vector2D>();
-		edges.add(new Vector2D(m, 0));
-		edges.add(new Vector2D(0, m));
-		return edges;
+	/**
+	 * Step PhysicsActor physics simulation
+	 * @param dt number of milliseconds since last step (of PhysicsWorld)
+	 * @param dtDtO2 dt*dt/2
+	 */
+	protected void step(double dt, double dtDtO2) {
+		collideWithWalls(getCamera());
+
+		a = frameForce.scale(imass);
+		v = v.add(a.scale(dt));
+		move(v.scale(dt).add(a.scale(dtDtO2)));
+		frameForce = Vector2D.NULL; // reset frame force to zero vector
+
+		physicsAct(dt);
 	}
 
-	public CollisionResult collideAABB(PhysicsActor b) {
-		Set<Vector2D> edges = getEdges(1);
-		edges.addAll(b.getEdges(1));
-
-		double disp = getHalfSize().length() + b.getHalfSize().length(),
-					 adisp = Math.abs(disp);;
-
-		Vector2D leftHand = null;
-		for (Vector2D e : edges) {
-			double ra = getPosition().dot(e),
-						 rb = b.getPosition().dot(e),
-						 hsa = getHalfSize().dot(e),
-						 hsb = b.getHalfSize().dot(e),
-						 hs = hsa + hsb;
-
-			double d = ra - rb,
-						 rd = Math.abs(d) - hs;
-
-			if (rd > 0) return null; // no collision
-
-			if (rd > -adisp) {
-				adisp = -rd;
-				leftHand = e.scale(ra < rb ? 1 : -1);
-			}
-		}
-
-		if (leftHand == null) return null; // no collision
-
-		return new CollisionResult(adisp, leftHand.rightHand());
-	}
-
-	private static double[] collisionResponse(double cr, double ma, double ua, double mb, double ub) {
-		double aux2 = ma*ua + mb*ub,
-					 aux3 = ma + mb;
-
-		double result[] = {
-			(cr * mb * (ub - ua) + aux2) / aux3,
-			(cr * ma * (ua - ub) + aux2) / aux3 };
-		return result;
-	}
-
-	public void collisionResponse(PhysicsActor b, CollisionResult c, double bcr, double fcr) {
-		Vector2D projection = c.getProjection();
-		double penetration = c.getPenetration();
-
-		// move the objects so that they no longer intersect
-		Vector2D ln = projection.leftHand(),
-						 pln = ln.scale(penetration/2);
-
-		move(pln);
-		b.move(pln.scale(-1));
-
-		// obtain object velocities and masses
-		Vector2D va = getVelocity(), vb = b.getVelocity();
-
-		double ma = getMass(), mb = b.getMass();
-
-		// calculate velocities after collision,
-		// 	perpendicular and parallel to the projection of the collision
-		double results[] = collisionResponse(bcr, ma, va.dot(ln), mb, vb.dot(ln));
-					 // resultsf[] = collisionResponse(fcr, ma, va.dot(projection), mb, vb.dot(projection));
-
-		// System.out.println(projection.scale(-resultsf[0]));
-		// System.out.println(projection.scale(-resultsf[1]));
-		setVelocity(getVelocity()
-				.project(projection)
-				// .add(projection.scale(-results[0]*resultsf[0]))
-				.add(ln.scale(results[0])));
-
-		b.setVelocity(b.getVelocity()
-				.project(projection)
-				// .add(projection.scale(results[1]*resultsf[1]))
-				.add(ln.scale(results[1])));
-	}
-
-	// private static double MIN_VELOCITY = 0.0001;
-	// private static double MAX_VELOCITY = 50;
-	protected final void simulateMovement(double dt, double dtDtO2) {
-		// A ORDEM É IMPORTANTE
-		a = frameForce.scale(imass); // Actualiza a aceleração
-		v = v.add(a.scale(dt)); // Atualiza a velosidade
-
-		// double vx = v.getX(), vy = v.getY(),
-		// 			 avx = Math.abs(vx), avy = Math.abs(vy);
-
-		dr = v.scale(dt).add(a.scale(dtDtO2));
-		move(dr); // Atualiza a posição
-		frameForce = Vector2D.NULL; // faz reset á força que é aplicada por frame
-	}
-
+	// this is what the user should use
 	public void physicsAct(double dt) {}
 }

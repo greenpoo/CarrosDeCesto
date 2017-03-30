@@ -5,9 +5,9 @@ import greenfoot.Greenfoot;
 import greenfoot.GreenfootSound;
 
 public class GenericWorld extends World {
-	private String name;
-	private Settings settings;
 	private GreenfootSound bgm = null;
+	private Settings settings;
+	private String name;
 
 	public GenericWorld(String name, Settings settings, GreenfootSound bgm) {
 		this(name, settings);
@@ -25,19 +25,21 @@ public class GenericWorld extends World {
 		if (this.bgm != null) settings.setBgm(this.bgm);
 	}
 
-	public String getName() {
+	public final String getName() {
 		return this.name;
 	}
 
+	@Override
 	public void started() {
 		settings.unpauseGame();
 	}
 
+	@Override
 	public void stopped() {
 		settings.pauseGame();
 	}
 
-	public Settings getSettings() {
+	public final Settings getSettings() {
 		return this.settings;
 	}
 }

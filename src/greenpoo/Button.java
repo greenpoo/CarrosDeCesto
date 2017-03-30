@@ -7,23 +7,41 @@ import greenfoot.GreenfootImage;
 import greenfoot.Color;
 import greenfoot.GreenfootSound;
 
-public class Button extends Actor {
-	private static int padding = 10;
+public abstract class Button extends Actor {
+	static int padding = 10;
 
-	private static Color B = Color.BLACK, BACTIVE = Color.BLUE,
-					F = Color.GRAY, FHOVER = Color.WHITE;
+	static Color
+		B = Color.BLACK, // background color
+		BACTIVE = Color.BLUE, // background color when clicked
+		F = Color.GRAY, // foreground color
+		FHOVER = Color.WHITE; // foreground color when hovering
 
-	private static final GreenfootSound click =
+	static GreenfootSound click =
 		new GreenfootSound("sounds/se/click.mp3");
 
-	private int x, y, minx, maxx, miny, maxy;
-	private int labelx, labely;
+	private boolean pressed = false, hovering = false;
+	private int x, y, minx, maxx, miny, maxy, labelx, labely;
 	private GreenfootImage dc;
 	private String label;
-	private boolean pressed = false, hovering = false;
 
-	public void setLabel(String label) {
-		GreenfootImage textAuxImg = new GreenfootImage(label, 13, Color.WHITE, Color.BLACK, Color.WHITE);
+	Button(String label, int x, int y, GenericWorld world) {
+		super();
+
+		this.x = x;
+		this.y = y;
+		world.addObject(this, x, y);
+		setLabel(label);
+		setImage(dc);
+	}
+
+	/**
+	 * set label for the button
+	 * <p>It might change size</p>
+	 * @param label a string of text displayed by the button
+	 */
+	public final void setLabel(String label) {
+		GreenfootImage textAuxImg =
+			new GreenfootImage(label, 13, Color.WHITE, Color.BLACK, Color.WHITE);
 
 		int w = textAuxImg.getWidth(),
 				h = textAuxImg.getHeight(),
@@ -47,16 +65,9 @@ public class Button extends Actor {
 		setImage(dc);
 	}
 
-	Button(String label, int x, int y, GenericWorld world) {
-		super();
-
-		this.x = x;
-		this.y = y;
-		world.addObject(this, x, y);
-		setLabel(label);
-		setImage(dc);
-	}
-
+	/**
+	 * redraws the GreenfootImage that represents the button
+	 */
 	private void redraw() {
 		dc.setColor(this.pressed ? Color.BLUE : Color.BLACK);
 		dc.fill();
@@ -65,9 +76,8 @@ public class Button extends Actor {
 		dc.drawString(this.label, this.labelx, this.labely);
 	}
 
-	public void buttonAction() {}
-
-	public void act() {
+	@Override
+	public final void act() {
 		MouseInfo mouse = Greenfoot.getMouseInfo();
 
 		if (mouse != null) {
@@ -96,4 +106,6 @@ public class Button extends Actor {
 			}
 		}
 	}
+
+	public abstract void buttonAction();
 }

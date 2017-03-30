@@ -6,21 +6,23 @@ public class Camera extends MoveableObject {
 
 	double d;
 
-	Vector2D fov, hFov, s;
+	Vector2D fov, hFov, s, tan;
 
 	public Camera(Vector2D fov, double distance) {
 		super();
 		this.fov = fov;
 		hFov = fov.scale(0.5);
+
+		tan = new Vector2D(
+				Math.tan(hFov.getX()),
+				Math.tan(hFov.getY()));
+
 		d = distance;
 		update();
 	}
 
 	private void update() {
-		s = new Vector2D(
-				Math.tan(hFov.getX()),
-				Math.tan(hFov.getY()))
-			.scale(d);
+		s = tan.scale(d);
 	}
 
 	public void move(Vector2D dr) {
@@ -52,6 +54,10 @@ public class Camera extends MoveableObject {
 		return new Vector2D(
 				size.getX() * screenSize.getX() / (2 * s.getX()),
 				size.getY() * screenSize.getY() / (2 * s.getY()));
+	}
+
+	public void center(Vector2D a, Vector2D b) {
+		setPosition(b.add(a).scale(0.5));
 	}
 
 	public Vector2D getMin() {

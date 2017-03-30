@@ -13,6 +13,7 @@ public class Billboard extends Rect {
 		this.image = image;
 		this.cam = cam;
 		imageSize = new Vector2D(image.getWidth(), image.getHeight());
+		scale();
 	}
 
 	public void scale() {
@@ -40,4 +41,6 @@ public class Billboard extends Rect {
 		this.image = img;
 		scale();
 	}
+
+	public Camera getCamera() { return cam; }
 }

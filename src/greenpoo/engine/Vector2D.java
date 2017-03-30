@@ -1,13 +1,16 @@
+/**
+ * an immutable 2D vector
+ * @author quirinpa@gmail.com
+ */
+
 package greenpoo.engine;
 
 import java.util.Random;
 
-// IMUTABLE
 public class Vector2D {
 	public static Vector2D NULL = new Vector2D(0.0, 0.0);
 
-	private static Random rand = new Random();
-	public static Vector2D random() {
+	public static Vector2D random(Random rand) {
 		return new Vector2D(rand.nextDouble(), rand.nextDouble());
 	}
 
@@ -42,29 +45,9 @@ public class Vector2D {
 	public Vector2D subtract(Vector2D other) {
 		return subtract(other.getX(), other.getY());
 	}
+
 	public Vector2D subtract(double x, double y) {
 		return add(-x, -y);
-	}
-
-	public boolean canNormalize() {
-		return x != 0 || y != 0;
-	}
-
-	public Vector2D normalize() { return normalize(length()); }
-	public Vector2D normalize(double len) { return scale(1/len); }
-
-	public double toAngle() {
-		return Math.atan(y/x);
-	}
-
-	public double length() {
-		return Math.sqrt(x * x + y * y);
-	}
-
-	public Vector2D rotate(double angle) {
-		angle += toAngle();
-		double len = length();
-		return new Vector2D(len * Math.cos(angle), len * Math.sin(angle));
 	}
 
 	public double dot(Vector2D other) {
@@ -74,10 +57,6 @@ public class Vector2D {
 	// www.metanetsoftware.com/technique/tutorialA.html
 	public Vector2D project(Vector2D unitVectorB) {
 		double dp = dot(unitVectorB);
-		return project(dp, unitVectorB);
-	}
-
-	public Vector2D project(double dp, Vector2D unitVectorB) {
 		return new Vector2D(dp * unitVectorB.x, dp * unitVectorB.y);
 	}
 

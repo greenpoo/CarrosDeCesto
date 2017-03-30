@@ -1,7 +1,8 @@
 package greenpoo.pong;
 
-import greenpoo.physics.*;
-import greenpoo.engine.*;
+import greenpoo.physics.PhysicsActor;
+import greenpoo.engine.Vector2D;
+import greenpoo.engine.Camera;
 import greenpoo.util.ImageProcessing;
 
 import greenfoot.Greenfoot;
@@ -17,7 +18,7 @@ public class PongPlayer extends PhysicsActor {
 	private String upkey, downkey;
 
 	public PongPlayer(String upkey, String downkey, boolean flip, Camera cam) {
-		super(upImg, new Vector2D(2, 3), 100.0, cam);
+		super(upImg, new Vector2D(2, 3), cam, 100.0);
 
 		this.upkey = upkey;
 		this.downkey = downkey;
@@ -33,7 +34,6 @@ public class PongPlayer extends PhysicsActor {
 			setImage(upImg);
 		else {
 			double vy = getVelocity().getY();
-			// double u = 0.2, aux = u * getMass() * 9.8,
 
 			fy = 0;
 			applyFrameForce(new Vector2D(0,

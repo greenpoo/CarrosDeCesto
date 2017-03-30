@@ -2,19 +2,21 @@ package greenpoo;
 
 import greenfoot.GreenfootSound;
 
-public class Settings {
+public final class Settings {
 	private static final GreenfootSound bailinhoBgm =
 		new GreenfootSound("sounds/bgm/bailinho.mp3");
 
-	private GreenfootSound bgm = bailinhoBgm;
+	private GreenfootSound bgm = bailinhoBgm; // default bgm
 	private boolean bgmOn = true, justStarted = true;
 
 	public void setBgm(GreenfootSound bgm) {
-		if (bgmOn) {
-			this.bgm.stop();
-			bgm.playLoop();
+		if (this.bgm != bgm) {
+			if (bgmOn) {
+				this.bgm.stop();
+				bgm.playLoop();
+			}
+			this.bgm = bgm;
 		}
-		this.bgm = bgm;
 	}
 
 	public boolean isBgmOn() { return bgmOn; }

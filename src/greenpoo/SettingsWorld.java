@@ -17,10 +17,7 @@ public class SettingsWorld extends GUIWorld {
 			this.settings = settings;
 		}
 
-		public void act() {
-			super.act();
-		}
-
+		@Override
 		public void buttonAction() {
 			settings.toggleBgm();
 			setLabel(SettingsWorld.getMuteButtonLabel(settings));
