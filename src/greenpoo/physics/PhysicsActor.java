@@ -150,16 +150,15 @@ public class PhysicsActor extends Billboard {
 	public void collisionResponse(
 			PhysicsActor b, CollisionResult c, double cr)
 	{
-		Vector2D planeOfCollision = c.getPlaneOfCollision();
-		double penetration = c.getPenetration();
-
 		// a collision has happened, we need to move the objects
 		// to a position so that they no longer intersect.
 
-		Vector2D ln = planeOfCollision.leftHand(),
+		Vector2D planeOfCollision = c.getPlaneOfCollision(),
+						 // left hand tells us the direction in which to move object a
+						 ln = planeOfCollision.leftHand(),
 						 // the following represents a vector of length equal
-						 // to half the collision penetration distance
-						 pln = ln.scale(penetration/2);
+						 // to half the collision depth
+						 pln = ln.scale(c.getDepth());
 
 		// we need to move each object that distance apart
 		// along the projection of the collision
