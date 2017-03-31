@@ -1,10 +1,11 @@
 /**
- * this class represents an object that reacts to physics
- * this does not inherit Greenfoot.Actor.
- * It also uses a slightly different update function. Instead of
- * act() it uses physicsAct(dt). See more below.
- *
- * @author quirinpa@gmail.com
+ * This class represents an object that reacts to physics.
+ * It does not inherit greenfoot.Actor and uses a slightly different update
+ * function. Instead of act() it uses physicsAct(dt). It has a simple collision
+ * detection routine for use against other PhysicsActors using axis-aligned
+ * bounding boxes (AABB) and collision response routines that implement simple
+ * inelastic or elastic collisions (perpendicular to the plane of collision -
+ * friction wasn't implemented).
  */
 
 package greenpoo.physics;

@@ -1,8 +1,6 @@
 /**
  * an object that is comprised of a rectangle always facing the camera that
- * streches its "texture" to its dimensions.
- *
- * @author quirinpa@gmail.com
+ * streches its "texture" to its world dimensions.
  */
 
 package greenpoo.engine;
@@ -25,17 +23,6 @@ public class Billboard extends Rect {
 		this.image = image;
 		imageSize = new Vector2D(image.getWidth(), image.getHeight());
 	}
-
-	// private void drawBoundingBox(Camera cam, GreenfootImage dc, double px, double py) {
-	// 	Vector2D p2 = cam.project(r.add(halfSize));
-	// 	double p2x = p2.getX(), p2y = p2.getY();
-
-	// 	dc.setColor(Color.GREEN);
-	// 	dc.drawLine((int) px, (int) py, (int) p2x, (int) py);
-	// 	dc.drawLine((int) px, (int) py, (int) px, (int) p2y);
-	// 	dc.drawLine((int) p2x, (int) py, (int) p2x, (int) p2y);
-	// 	dc.drawLine((int) px, (int) p2y, (int) p2x, (int) p2y);
-	// }
 
 	/**
 	 * get the object's representation acoording to camera settings
@@ -66,5 +53,18 @@ public class Billboard extends Rect {
 
 	public void setImage(GreenfootImage img) {
 		this.image = img;
+	}
+
+	private void drawBoundingBox(
+			Camera cam, GreenfootImage dc, double px, double py)
+	{
+		Vector2D p2 = cam.project(r.add(halfSize));
+		double p2x = p2.getX(), p2y = p2.getY();
+
+		dc.setColor(Color.GREEN);
+		dc.drawLine((int) px, (int) py, (int) p2x, (int) py);
+		dc.drawLine((int) px, (int) py, (int) px, (int) p2y);
+		dc.drawLine((int) p2x, (int) py, (int) p2x, (int) p2y);
+		dc.drawLine((int) px, (int) p2y, (int) p2x, (int) p2y);
 	}
 }

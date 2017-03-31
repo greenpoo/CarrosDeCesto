@@ -1,16 +1,12 @@
 /**
- * A rectangle in the world
+ * A rectangle in world coordinates.
+ * @see MoveableObject
  * @author quirinpa@gmail.com
  */
 package greenpoo.engine;
 
 public class Rect extends MoveableObject {
 	Vector2D size, halfSize;
-
-	public Rect() {
-		super();
-		setSize(2, 2);
-	}
 
 	public Rect(Vector2D size) {
 		super();

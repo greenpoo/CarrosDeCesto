@@ -5,6 +5,8 @@ import greenfoot.Greenfoot;
 import greenfoot.GreenfootSound;
 
 public class GenericWorld extends World {
+	public static int WIDTH = 600, HEIGHT = 400;
+
 	private GreenfootSound bgm = null;
 	private Settings settings;
 	private String name;
@@ -15,7 +17,7 @@ public class GenericWorld extends World {
 	}
 
 	public GenericWorld(String name, Settings settings) {
-		super(600, 400, 1);
+		super(GenericWorld.WIDTH, GenericWorld.HEIGHT, 1);
 		this.settings = settings;
 		this.name = name;
 	}

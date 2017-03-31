@@ -16,13 +16,19 @@ public class PongWorld extends PhysicsWorld {
 	private static final GreenfootSound pongBgm =
 		new GreenfootSound("sounds/bgm/pong.mp3");
 
+	private static final GreenfootSound pongCollisionSFX =
+		new GreenfootSound("sounds/se/pongCollision.mp3");
+
+	private static final GreenfootSound pongScoreSFX =
+		new GreenfootSound("sounds/se/pongScore.mp3");
+
 	private static GreenfootImage img =
 		new GreenfootImage("pong_background.png");
 		
 	private static Random rand = new Random();
 
 	private static Camera cam =
-		new Camera(new Vector2D(Math.PI/4, Math.PI/5), 40);
+		new Camera(new Vector2D(Math.PI/4, Math.PI/5), 33);
 
 	private PongPlayer players[] = {
 		new PongPlayer("w", "s", false),
@@ -71,6 +77,8 @@ public class PongWorld extends PhysicsWorld {
 				ball.collisionResponse(p, col, 1);
 				Vector2D v = ball.getVelocity();
 
+				pongCollisionSFX.play();
+
 				double vx = v.getX() * 1.1,
 							 vy = v.getY();
 
@@ -84,7 +92,10 @@ public class PongWorld extends PhysicsWorld {
 		double bx = ball.getPosition().getX();
 		if (bx < players[0].getPosition().getX() - 1 ||
 				bx > players[1].getPosition().getX() + 1)
+		{
+			pongScoreSFX.play();
 			rematch();
+		}
 
 		PongWorld.cam.center(players[0].getPosition(), players[1].getPosition());
 	}

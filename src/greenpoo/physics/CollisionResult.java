@@ -1,5 +1,6 @@
 /**
- * collision information for calculating collision response
+ * collision information for calculating collision response.
+ * @see PhysicsActor
  */
 
 package greenpoo.physics;
@@ -7,7 +8,7 @@ package greenpoo.physics;
 import greenpoo.engine.Vector2D;
 
 public class CollisionResult {
-	private double depth;
+	private double depth; // 
 	private Vector2D planeOfCollision;
 
 	/**
