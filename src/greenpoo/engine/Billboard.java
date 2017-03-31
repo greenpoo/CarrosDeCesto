@@ -24,6 +24,8 @@ public class Billboard extends Rect {
 		imageSize = new Vector2D(image.getWidth(), image.getHeight());
 	}
 
+	public GreenfootImage getImage() { return image; }
+
 	/**
 	 * get the object's representation acoording to camera settings
 	 * @param cam camera to obtain settings from

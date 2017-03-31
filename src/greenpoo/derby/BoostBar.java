@@ -1,9 +1,13 @@
-package greenpoo.others;
+package greenpoo.derby;
 
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-public class BoostBar extends DerbyMode
+import greenfoot.Actor;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.GreenfootImage;
+import greenfoot.Color;
+
+public class BoostBar extends Actor
 {
     private DerbyPlayer Player;
+
     public BoostBar(DerbyPlayer Player)
     {
          this.Player = Player;

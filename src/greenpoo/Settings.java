@@ -4,10 +4,14 @@ import greenfoot.GreenfootSound;
 
 public final class Settings {
 	private static final GreenfootSound bailinhoBgm =
-		new GreenfootSound("sounds/bgm/bailinho.mp3");
+		new GreenfootSound("sounds/bgm/bailinho.mp3"); // default bgm
 
-	private GreenfootSound bgm = bailinhoBgm; // default bgm
+	private GreenfootSound bgm = bailinhoBgm;
 	private boolean bgmOn = true, justStarted = true;
+
+	public void playDefaultBgm() {
+		setBgm(bailinhoBgm);
+	}
 
 	public void setBgm(GreenfootSound bgm) {
 		if (this.bgm != bgm) {

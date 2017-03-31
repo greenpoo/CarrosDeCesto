@@ -1,7 +1,10 @@
-package greenpoo.others;
+package greenpoo.derby;
 
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-public class HealthBar extends DerbyMode
+import greenfoot.Actor;
+import greenfoot.Color;
+import greenfoot.GreenfootImage;
+
+public class HealthBar extends Actor
 {
     private DerbyPlayer Player;
     public HealthBar(DerbyPlayer Player)

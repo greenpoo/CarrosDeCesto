@@ -10,16 +10,13 @@ import greenfoot.GreenfootImage;
 import greenfoot.Color;
 
 public class PongPlayer extends PhysicsActor {
-	private static GreenfootImage upImg =
-		ImageProcessing.rotate(new GreenfootImage("carrocesto1_normal.png"), 90);
-
-	private static GreenfootImage downImg = ImageProcessing.rotate(upImg, -180);
-
 	private String upkey, downkey;
+	private GreenfootImage upImg, downImg;
 
-	public PongPlayer(String upkey, String downkey, boolean flip) {
-		super(upImg, new Vector2D(2, 3), 100.0);
-
+	public PongPlayer(String upkey, String downkey, GreenfootImage myImg) {
+		super(ImageProcessing.rotate(myImg, 90), new Vector2D(2, 3), 100.0);
+		upImg = getImage();
+		downImg = ImageProcessing.rotate(upImg, 180);
 		this.upkey = upkey;
 		this.downkey = downkey;
 	}
