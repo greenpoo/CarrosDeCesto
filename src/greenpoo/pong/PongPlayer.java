@@ -1,5 +1,6 @@
 package greenpoo.pong;
 
+import greenpoo.PlayerInfo;
 import greenpoo.physics.PhysicsActor;
 import greenpoo.engine.Vector2D;
 import greenpoo.engine.Camera;
@@ -12,13 +13,21 @@ import greenfoot.Color;
 public class PongPlayer extends PhysicsActor {
 	private String upkey, downkey;
 	private GreenfootImage upImg, downImg;
+	private PlayerInfo pi;
 
-	public PongPlayer(String upkey, String downkey, GreenfootImage myImg) {
-		super(ImageProcessing.rotate(myImg, 90), new Vector2D(2, 3), 100.0);
-		upImg = getImage();
-		downImg = ImageProcessing.rotate(upImg, 180);
+	public PongPlayer(String upkey, String downkey, PlayerInfo pi) {
+		super(ImageProcessing.rotate(pi.getImage(), 90), new Vector2D(2, 3), 100.0);
 		this.upkey = upkey;
 		this.downkey = downkey;
+		this.pi = pi;
+		initImage();
+	}
+
+	public void initImage() {
+		GreenfootImage original = pi.getImage();
+		upImg = ImageProcessing.rotate(original, 90);
+		downImg = ImageProcessing.rotate(original, -90);
+		setImage(upImg);
 	}
 
 	public void physicsAct(double dt) {

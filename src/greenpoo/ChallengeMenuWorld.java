@@ -24,7 +24,7 @@ public class ChallengeMenuWorld extends GUIWorld {
 	}
 
 	private class ChangeColorButton extends Button {
-		private int colorIndex;
+		private int colorIndex = 1;
 		private PlayerInfo pi;
 		private PlayerPreview prev;
 

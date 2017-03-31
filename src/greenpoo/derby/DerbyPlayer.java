@@ -39,14 +39,13 @@ public class DerbyPlayer extends Actor
 		this.RightKey = RightKey;
 		this.pi = pi;
 		this.gameOverWorld = gameOverWorld;
-		setImage(pi.getImage());
-		init(rotation);
 	}
 
 	public void init(int rotation) {
 		this.CanCrash = true;
 		this.CarHealth = 100;
 		this.CarBoost = 0;
+		setImage(pi.getImage());
 		setRotation(rotation);
 	}
 

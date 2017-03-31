@@ -46,8 +46,9 @@ public class PongWorld extends PhysicsWorld {
 	public PongWorld(Settings settings, PlayerInfo pi1, PlayerInfo pi2, GameOverWorld gameOverWorld) {
 		super("pong", settings, pongBgm, img, PongWorld.cam);
 
-		player1 = new PongPlayer("w", "s", pi1.getImage());
-		player2 = new PongPlayer("up", "down", pi2.getImage());
+		player1 = new PongPlayer("w", "s", pi1);
+		player2 = new PongPlayer("up", "down", pi2);
+
 		add(player1);
 		add(player2);
 		add(ball);
@@ -77,8 +78,9 @@ public class PongWorld extends PhysicsWorld {
 		score2 = 0;
 
 		rematch();
+		player1.initImage();
+		player2.initImage();
 	}
-
 
 	public void draw() {
 		super.draw();
