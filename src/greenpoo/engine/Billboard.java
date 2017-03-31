@@ -1,6 +1,6 @@
 /**
  * an object that is comprised of a rectangle always facing the camera that
- * streches its "texture" to its dimensions
+ * streches its "texture" to its dimensions.
  *
  * @author quirinpa@gmail.com
  */
