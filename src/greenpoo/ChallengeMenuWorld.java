@@ -8,7 +8,9 @@ import javax.swing.JOptionPane;
 import greenfoot.Color;
 
 public class ChallengeMenuWorld extends GUIWorld {
-	private static Color colors[] = { Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.WHITE };
+	private static Color colors[] = {
+		Color.RED, Color.BLUE, Color.GREEN, Color.ORANGE, Color.YELLOW,
+		Color.CYAN, Color.MAGENTA, Color.GRAY, Color.WHITE, Color.BLACK };
 
 	private class PlayerPreview extends greenfoot.Actor {
 		PlayerInfo pi;
