@@ -4,20 +4,39 @@ import greenfoot.World;
 import greenfoot.Greenfoot;
 
 public class NavButton extends Button {
-	private GenericWorld toWorld;
 
-	NavButton(int x, int y, GenericWorld thisWorld, GenericWorld toWorld) {
-		this(toWorld.getName(), x, y, thisWorld, toWorld);
+	private static class LabeledNavButton extends NavButton {
+		private String label;
+
+		LabeledNavButton(GenericWorld toWorld, String label) {
+			super(toWorld);
+			this.label = label;
+		}
+
+		public String getLabel() { return label; }
 	}
 
-	NavButton(String label, int x, int y, GenericWorld thisWorld, GenericWorld toWorld)
-	{
-		super(label, x, y, thisWorld);
+	public static NavButton
+		labeled(GenericWorld toWorld, String label) {
+			return new LabeledNavButton(toWorld, label);
+		}
+
+	private GenericWorld toWorld;
+
+	NavButton(GenericWorld toWorld) {
+		super();
 		this.toWorld = toWorld;
 	}
 
-	@Override
+	public String getLabel() {
+		return toWorld.getName();
+	}
+
 	public void buttonAction() {
 		this.toWorld.enter();
 	}
+
+	// public void setToWorld(GenericWorld toWorld) {
+	// 	this.toWorld = toWorld;
+	// }
 }

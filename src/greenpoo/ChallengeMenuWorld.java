@@ -8,7 +8,9 @@ import javax.swing.JOptionPane;
 import greenfoot.Color;
 
 public class ChallengeMenuWorld extends GUIWorld {
-	private static Color colors[] = { Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.WHITE };
+	private static Color colors[] = {
+		Color.RED, Color.BLUE, Color.GREEN, Color.ORANGE, Color.YELLOW,
+		Color.CYAN, Color.MAGENTA, Color.GRAY, Color.WHITE, Color.BLACK };
 
 	private class PlayerPreview extends greenfoot.Actor {
 		PlayerInfo pi;
@@ -28,11 +30,14 @@ public class ChallengeMenuWorld extends GUIWorld {
 		private PlayerInfo pi;
 		private PlayerPreview prev;
 
-		ChangeColorButton(int x, int y, GenericWorld thisWorld, PlayerInfo pi, PlayerPreview prev) {
-			super("mudar cor", x, y, thisWorld);
+		ChangeColorButton(PlayerInfo pi, PlayerPreview prev) {
+			super();
+
 			this.pi = pi;
 			this.prev = prev;
 		}
+
+		public String getLabel() { return "mudar cor"; }
 
 		public void buttonAction() {
 			colorIndex += 1;
@@ -45,25 +50,49 @@ public class ChallengeMenuWorld extends GUIWorld {
 		}
 	}
 
+	private class ChangeNameButton extends Button {
+		private PlayerInfo pi;
+		private Label label;
+
+		ChangeNameButton(PlayerInfo pi, Label label) {
+			super();
+
+			this.label = label;
+			this.pi = pi;
+		}
+
+		public String getLabel() { return "mudar nome"; }
+
+		public void buttonAction() {
+			pi.setName(JOptionPane.showInputDialog("Novo nome para " + pi.getName()));
+			label.setText(pi.getName());
+		}
+	}
+
+	private void addPimpMyCesto(PlayerInfo pi, int x) {
+		Label l = new Label(pi.getName());
+		PlayerPreview prev = new PlayerPreview(pi);
+		ChangeColorButton cc = new ChangeColorButton(pi, prev);
+
+		addObject(l, x, 60);
+		addObject(prev, x, 110);
+		addObject(new ChangeColorButton(pi, prev), x, 160);
+		addObject(new ChangeNameButton(pi, l), x, 210);
+	}
+
 	ChallengeMenuWorld(GenericWorld previous, Settings settings) {
 		super("Escolher desafio", settings);
 
-		PlayerInfo p1 = new PlayerInfo(JOptionPane.showInputDialog("Nome do player 1"), Color.RED),
-							 p2 = new PlayerInfo(JOptionPane.showInputDialog("Nome do player 2"), Color.BLUE);
+		PlayerInfo p1 = new PlayerInfo("player 1", Color.RED),
+							 p2 = new PlayerInfo("player 2", Color.BLUE);
 
-		PlayerPreview prev1 = new PlayerPreview(p1),
-									prev2 = new PlayerPreview(p2);
-
-		new ChangeColorButton(200, 150, this, p1, prev1);
-		new ChangeColorButton(400, 150, this, p2, prev2);
-
-		addObject(prev1, 200, 100);
-		addObject(prev2, 400, 100);
+		addPimpMyCesto(p1, 200);
+		addPimpMyCesto(p2, 400);
 
 		GameOverWorld go = new GameOverWorld(settings, this);
 
-		new NavButton(300, 270, this, new DerbyWorld(settings, p1, p2, go));
-		new NavButton(300, 320, this, new PongWorld(settings, p1, p2, go));
-		new NavButton(300, 370, this, previous);
+		addObject(new NavButton(new DerbyWorld(settings, p1, p2, go)), 300, 270);
+		addObject(new NavButton(new PongWorld(settings, p1, p2, go)), 300, 320);
+		addObject(new NavButton(previous), 300, 370);
 	}
 }

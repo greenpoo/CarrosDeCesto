@@ -1,111 +1,88 @@
 package greenpoo;
 
-import greenfoot.MouseInfo;
-import greenfoot.Greenfoot;
+import greenfoot.World;
 import greenfoot.Actor;
+import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
-import greenfoot.Color;
 import greenfoot.GreenfootSound;
+import greenfoot.Color;
+
+import java.awt.Font;
+import java.awt.Canvas;
+import java.awt.FontMetrics;
 
 public abstract class Button extends Actor {
-	static int padding = 10;
+	private static Font fixedFont = new Font("fixed", 0, 13);
+	private static FontMetrics metrics = (new Canvas()).getFontMetrics(fixedFont);
 
-	static Color
-		B = Color.BLACK, // background color
-		BACTIVE = Color.BLUE, // background color when clicked
-		F = Color.GRAY, // foreground color
-		FHOVER = Color.WHITE; // foreground color when hovering
+	static GreenfootSound click = new GreenfootSound("sounds/se/click.mp3");
+	static int padding = 10, doublePadding = 2*padding;
 
-	static GreenfootSound click =
-		new GreenfootSound("sounds/se/click.mp3");
-
-	private boolean pressed = false, hovering = false;
-	private int x, y, minx, maxx, miny, maxy, labelx, labely;
-	private GreenfootImage dc;
-	private String label;
-
-	Button(String label, int x, int y, GenericWorld world) {
-		super();
-
-		this.x = x;
-		this.y = y;
-		world.addObject(this, x, y);
-		setLabel(label);
-		setImage(dc);
+	@Override
+	protected void addedToWorld(World world) {
+		updateLabel();
 	}
 
 	/**
-	 * set label for the button
+	 * update button label.
 	 * <p>It might change size</p>
 	 * @param label a string of text displayed by the button
 	 */
-	public final void setLabel(String label) {
-		GreenfootImage textAuxImg =
-			new GreenfootImage(label, 13, Color.WHITE, Color.BLACK, Color.WHITE);
-
-		int w = textAuxImg.getWidth(),
-				h = textAuxImg.getHeight(),
-				hw = w / 2,
-				hh = h / 2;
-
-		w = w + 2*padding; h = h + 2*padding;
-		this.dc = new GreenfootImage(w, h);
-
-		this.labelx = w/2 - hw;
-		this.labely = (h + hh)/2; // wtf greenfoot
-
-		this.minx = x - w/2;
-		this.maxx = this.minx + w;
-		this.miny = y - h/2;
-		this.maxy = this.miny + h;
-
-		this.label = label;
+	public final void updateLabel() {
+		setImage(new GreenfootImage(
+					metrics.stringWidth(getLabel()) + doublePadding,
+					metrics.getAscent() + metrics.getDescent() + doublePadding));
 
 		redraw();
-		setImage(dc);
 	}
+
+
+	private boolean pressed = false, hovering = false;
 
 	/**
 	 * redraws the GreenfootImage that represents the button
 	 */
 	private void redraw() {
-		dc.setColor(this.pressed ? Color.BLUE : Color.BLACK);
+		GreenfootImage dc = getImage();
+
+		dc.setColor(pressed ? Color.BLUE : Color.BLACK);
 		dc.fill();
 
-		dc.setColor(this.hovering ? Color.WHITE : Color.GRAY);
-		dc.drawString(this.label, this.labelx, this.labely);
+		dc.setColor(hovering ? Color.WHITE : Color.GRAY);
+		dc.drawString(getLabel(), padding, padding + metrics.getAscent());
 	}
 
 	@Override
 	public final void act() {
-		MouseInfo mouse = Greenfoot.getMouseInfo();
+		boolean movedOver = Greenfoot.mouseMoved(this),
 
-		if (mouse != null) {
-			int mx = mouse.getX(), my = mouse.getY();
+						hoverStateChanged =
+							!hovering && movedOver ||
+							hovering && !movedOver &&
+							Greenfoot.mouseMoved(null),
 
-			if (mx > this.minx && mx <= this.maxx &&
-					my > this.miny && my <= this.maxy) {
+						mousePressed = Greenfoot.mousePressed(this),
 
-				if (!hovering) { hovering = true; redraw(); }
+						pressedStateChanged =
+							!pressed && mousePressed ||
+							pressed && !mousePressed &&
+							Greenfoot.mouseClicked(null);
 
-			} else if (hovering) { hovering = false; redraw(); }
-		}
+		if (hoverStateChanged) hovering = !hovering;
 
-		if (Greenfoot.mousePressed(this) && !this.pressed) {
-			this.pressed = true;
-			redraw();
-		}
+		if (pressedStateChanged) {
+			pressed = !pressed;
 
-		if (this.pressed && Greenfoot.mouseClicked(null)) {
-			this.pressed = false;
-			redraw();
-
-			if (this.hovering) {
+			if (hovering && !pressed) {
 				Button.click.play();
 				buttonAction();
 			}
-		}
+
+		} else if (!hoverStateChanged) return;
+
+		redraw();
 	}
 
+	public abstract String getLabel();
 	public abstract void buttonAction();
 }

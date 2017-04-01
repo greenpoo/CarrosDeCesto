@@ -19,6 +19,7 @@ public class PlayerInfo {
 	public void setColor(Color c) { this.color = c; }
 
 	public String getName() { return name; }
+	public void setName(String newName) { this.name = newName; }
 
 	public GreenfootImage getImage() {
 		return ImageProcessing.tint (cestoImg, color);
