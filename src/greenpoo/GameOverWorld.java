@@ -3,20 +3,16 @@ package greenpoo;
 import greenfoot.GreenfootSound;
 
 public class GameOverWorld extends GUIWorld {
-	Label whoWon = null;
+	Label whoWon = new Label();
+
 	public GameOverWorld(Settings settings, GenericWorld gotoWorld) {
 		super("game over", settings);
-
-		new NavButton("ok!", 300, 320, this, gotoWorld);
+		addObject(NavButton.labeled(gotoWorld, "ok!"), 300, 320);
+		addObject(whoWon, 300, 120);
 	}
 
 	public void gameOver(PlayerInfo pi) {
-		if (whoWon != null)
-			removeObject(whoWon);
-
-		whoWon = new Label(pi.getName() + " ganhou");
-		addObject(whoWon, 300, 120);
-
+		whoWon.setText(pi.getName() + "ganhou");
 		getSettings().playDefaultBgm();
 		this.enter();
 	}

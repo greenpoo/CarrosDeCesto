@@ -3,36 +3,29 @@ package greenpoo;
 public class MainMenuWorld extends GUIWorld {
 	private MainMenuWorld self = this;
 
-	private static String getMuteButtonLabel(Settings settings) {
-		return settings.isBgmOn() ?
-			"desactivar musica" :
-			"activar musica";
-	}
-
 	private class MuteButton extends Button {
 		private Settings settings;
 
-		MuteButton(int x, int y, GenericWorld parent, Settings settings) {
-			super(getMuteButtonLabel(settings), x, y, parent);
+		MuteButton(Settings settings) {
+			super();
 			this.settings = settings;
 		}
 
-		@Override
+		public String getLabel() {
+			return settings.isBgmOn() ?
+				"desactivar musica" :
+				"activar musica";
+		}
+
 		public void buttonAction() {
 			settings.toggleBgm();
-			setLabel(getMuteButtonLabel(settings));
+			updateLabel();
 		}
 	}
 
 	private class ExitButton extends Button {
-		ExitButton() {
-			super("sair", 300, 370, self);
-		}
-
-		@Override
-		public void buttonAction() {
-			System.exit(0);
-		}
+		public String getLabel() { return "sair"; }
+		public void buttonAction() { System.exit(0); }
 	}
 
 	public MainMenuWorld() {
@@ -40,8 +33,11 @@ public class MainMenuWorld extends GUIWorld {
 
 		Settings settings = getSettings();
 
-		new NavButton(300, 270, this, new ChallengeMenuWorld(this, settings));
-		new MuteButton(300, 320, this, settings);
+		ChallengeMenuWorld cmw = new ChallengeMenuWorld(this, settings);
+
+		addObject(new NavButton(cmw), 300, 270);
+		addObject(new MuteButton(settings), 300, 320);
+		addObject(new ExitButton(), 300, 370);
 		new ExitButton();
 	}
 }
