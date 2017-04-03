@@ -61,7 +61,7 @@ public class DerbyWorld extends GenericWorld
 	/**
 	 * generateBarrels()
 	 * 
-	 * Método que gera inconstante e aleatoriamente barris pelo mundo DerbyWorld
+	 * Metodo que gera inconstante e aleatoriamente barris pelo mundo DerbyWorld
 	 */
 	private void generateBarrels()
 	{
@@ -71,7 +71,7 @@ public class DerbyWorld extends GenericWorld
 	/**
 	 * generateBoostPickups()
 	 * 
-	 * Método que gera inconstante e aleatoriamente 'boosts' pelo mundo DerbyWorld
+	 * Metodo que gera inconstante e aleatoriamente 'boosts' pelo mundo DerbyWorld
 	 */
 	private void generateBoostPickups()
 	{

@@ -6,6 +6,6 @@ public class Barrel extends Actor
 {
 	public Barrel()
 	{
-		setImage("barrel.png"); // é atribuida a imagem respetiva
+		setImage("barrel.png"); // e atribuida a imagem respetiva
 	}
 }

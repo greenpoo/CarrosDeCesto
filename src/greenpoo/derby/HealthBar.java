@@ -18,7 +18,7 @@ public class HealthBar extends Actor
 	/**
 	 * updateHealthBar()
 	 *
-	 * Método que serve para atualizar a barra da vida de um determinado jogador
+	 * Metodo que serve para atualizar a barra da vida de um determinado jogador
 	 */
     public void updateHealthBar()
     {

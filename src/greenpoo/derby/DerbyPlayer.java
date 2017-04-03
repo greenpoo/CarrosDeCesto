@@ -17,9 +17,9 @@ public class DerbyPlayer extends Actor
 				boostSFX = new GreenfootSound("sounds/se/boost.mp3"),
 				fanfareSFX = new GreenfootSound("sounds/se/fanfare.mp3");
 
-	private boolean CanCrash; // variável usada para controlar as colisões
+	private boolean CanCrash; // variavel usada para controlar as colisoes
 
-	// variáveis que indicam as teclas de movimento
+	// variaveis que indicam as teclas de movimento
 	private String UpKey; 
 	private String DownKey;
 	private String LeftKey;
@@ -28,8 +28,8 @@ public class DerbyPlayer extends Actor
 	private PlayerInfo pi;
 	private GameOverWorld gameOverWorld;
 
-	private double CarHealth; // variável que guarda o valor da vida
-	private double CarBoost; // variável que guarda o valor do 'boost'
+	private double CarHealth; // variavel que guarda o valor da vida
+	private double CarBoost; // variavel que guarda o valor do 'boost'
 
 	public DerbyPlayer(String UpKey, String DownKey, String LeftKey, String RightKey, PlayerInfo pi, GameOverWorld gameOverWorld, int rotation)
 	{
@@ -71,7 +71,7 @@ public class DerbyPlayer extends Actor
 	/**
 	 * movePlayer
 	 * 
-	 * Método para andar com o carro para a frente ou para trás
+	 * Metodo para andar com o carro para a frente ou para tras
 	 */
 	private void movePlayer()
 	{
@@ -96,7 +96,7 @@ public class DerbyPlayer extends Actor
 	/**
 	 * rotatePlayer
 	 * 
-	 * Método para rodar para a esquerda ou para a direita
+	 * Metodo para rodar para a esquerda ou para a direita
 	 */
 	private void rotatePlayer()
 	{
@@ -109,7 +109,7 @@ public class DerbyPlayer extends Actor
 	/**
 	 * touchBarrel
 	 * 
-	 * Método que deteta a colisão de um carro com um barril (caso colida, o carro perde vida)
+	 * Metodo que deteta a colisao de um carro com um barril (caso colida, o carro perde vida)
 	 */
 	private void touchBarrel()
 	{
@@ -117,20 +117,20 @@ public class DerbyPlayer extends Actor
 		if(barrel != null) // Se tiver batido num barril
 		{
 			explosionSFX.play();
-			getWorld().removeObject(barrel); // O barril é removido do mundo
+			getWorld().removeObject(barrel); // O barril e removido do mundo
 			CarHealth-=6;
 		}
 	}
 	/**
 	 * checkCarCollision
 	 * 
-	 * Método que deteta a colisão entre carros
+	 * Metodo que deteta a colisao entre carros
 	 */
 	private void checkCarCollision()
 	{
-		if(getOneIntersectingObject(DerbyPlayer.class) != null && CanCrash) // Se houver colisão entre dois carros e puder bater outra vez
+		if(getOneIntersectingObject(DerbyPlayer.class) != null && CanCrash) // Se houver colisao entre dois carros e puder bater outra vez
 		{
-			CanCrash = false; // O carro já não pode bater outra vez
+			CanCrash = false; // O carro ja nao pode bater outra vez
 			crashSFX.play();
 			turn(180);
 			if(CarBoost > 0) // Se o carro tiver algum 'boost' 
@@ -138,28 +138,28 @@ public class DerbyPlayer extends Actor
 				move(20); 
 				CarHealth-=1;
 			}
-			else // Caso contrário
+			else // Caso contrario
 			{
 				move(5);
 				CarHealth-=4;
 			}
 		}
-		else // Caso não há colisão
+		else // Caso nao haja colisao
 		{
 			if(!CanCrash && !isAtEdge())
-				CanCrash = true; // Já pode bater outra vez
+				CanCrash = true; // Ja pode bater outra vez
 		}
 	}
 	/**
 	 * turnAtEdge
 	 * 
-	 * Método que deteta se um carro toca nos limites do mapa
+	 * Metodo que deteta se um carro toca nos limites do mapa
 	 */
 	private void turnAtEdge()
 	{
 		if(isAtEdge() && CanCrash) // Se um carro estiver nos limites do mundo
-		{          
-			CanCrash = false; // já não pode bater outra vez
+		{
+			CanCrash = false; // ja nao pode bater outra vez
 			crashSFX.play();
 			turn(180);
 			if(CarBoost > 0) // Se tiver algum boost no momento
@@ -167,22 +167,22 @@ public class DerbyPlayer extends Actor
 				move(20);
 				CarHealth -= 4;
 			}
-			else // Caso contrário
+			else // Caso contrario
 			{
 				move(5);
 				CarHealth -= 1;
 			}
 		}
-		else // Se não estiver nos limites do mundo
+		else // Se nao estiver nos limites do mundo
 		{
 			if(!isAtEdge() && !CanCrash)
-				CanCrash = true; // Já pode bater outra vez
+				CanCrash = true; // Ja pode bater outra vez
 		}
 	}
 	/**
 	 * regulateCarSpeed
 	 * 
-	 * Método que regula a velocidade do carro (diminuindo gradualmente o 'boost')
+	 * Metodo que regula a velocidade do carro (diminuindo gradualmente o 'boost')
 	 */
 	private void regulateCarSpeed()
 	{
@@ -192,7 +192,7 @@ public class DerbyPlayer extends Actor
 	/**
 	 * getCarHealth()
 	 * 
-	 * Getter que retorna a referência à variável de instância que armazena a vida do Jogador
+	 * Getter que retorna a referencia a variavel de instancia que armazena a vida do Jogador
 	 */
 	public double getCarHealth()
 	{
@@ -201,7 +201,7 @@ public class DerbyPlayer extends Actor
 	/**
 	 * getCarBoost()
 	 * 
-	 * Getter que retorna a referência à variável de instância que armazena o 'boost' do Jogador
+	 * Getter que retorna a referencia a variavel de instancia que armazena o 'boost' do Jogador
 	 */
 	public double getCarBoost()
 	{
@@ -210,15 +210,15 @@ public class DerbyPlayer extends Actor
 	/**
 	 * pickBoost
 	 * 
-	 * Método que deteta se é apanhado algum 'boost'
+	 * Metodo que deteta se e apanhado algum 'boost'
 	 */
 	private void pickBoost()
 	{
 		BoostPickup PickedBoost = (BoostPickup)getOneIntersectingObject(BoostPickup.class);
-		if(PickedBoost != null && CarBoost <= 0) // Se for apanhado algum 'boost' e já não tiver de momento algum 'boost'
+		if(PickedBoost != null && CarBoost <= 0) // Se for apanhado algum 'boost' e ja nao tiver de momento algum 'boost'
 		{
 			boostSFX.play();
-			getWorld().removeObject(PickedBoost); // é removido do mundo o 'boost'
+			getWorld().removeObject(PickedBoost); // e removido do mundo o 'boost'
 			CarBoost = 100;
 		}
 	}

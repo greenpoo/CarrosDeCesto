@@ -19,7 +19,7 @@ public class BoostBar extends Actor
 	/**
 	 * updateBoostBar()
 	 *
-	 * Método que serve para atualizar a barra do boost de um determinado jogador
+	 * Metodo que serve para atualizar a barra do boost de um determinado jogador
 	 */
     public void updateBoostBar()
     {
